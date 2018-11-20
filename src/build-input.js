@@ -12,13 +12,15 @@ const buildInputHTMLElement = ({ ref, excludeProps, ...wrapperProps }) => (props
         { ...wrapperProps }
     />
 );
+
 const buildInput = (InputComponent) => {
     return class InputState extends React.Component {
         constructor(props) {
             super(props);
             this.ref = React.createRef();
             this.state = {
-                isFocused: false,
+                focused: false,
+                changed: false, 
             }
         }
         get domElements() {
@@ -29,14 +31,21 @@ const buildInput = (InputComponent) => {
                         excludeProps: Object.keys(this.state),
                         onFocus: this.onFocus,
                         onBlur: this.onBlur,
+                        onChange: this.onChange,
                     }) 
                 };
             }
             return this._domElements;            
         }
 
-        onFocus = () => this.setState((state) => ({ ...state, isFocused: true }));
-        onBlur = () => this.setState((state) => ({ ...state, isFocused: false }));
+        handleEvent = (evt, eventName, stateFn) => {
+            if (this.props.disabled) { return; }
+            this.setState(stateFn, () => this.props[eventName] && this.props[eventName](evt));   
+        }
+
+        onFocus = (evt) => this.handleEvent(evt, 'onFocus',  (state) => ({ ...state, focused: true }));
+        onBlur = (evt) => this.handleEvent(evt, 'onBlur',  (state) => ({ ...state, focused: false }));
+        onChange = (evt) => this.handleEvent(evt, 'onChange', (state) => ({ ...state, changed: true }));
         
         render() {
             return (
