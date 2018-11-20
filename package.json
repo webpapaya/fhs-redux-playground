@@ -11,6 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "hamjest": "^3.2.1",
     "react": "^16.6.3",
     "react-dom": "^16.6.3"
   },
