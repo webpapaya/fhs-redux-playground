@@ -105,18 +105,18 @@ describe('focused', () => {
     });
 });
 
-describe('changed', () => {
+describe('touched', () => {
     test('false, initially', () => {
         const MyInput = buildInput(({ Input }) => <Input />);
         const wrapper = mount(<MyInput />);
-        assertThat(wrapper.children().props(), hasProperties({ changed: false }));    
+        assertThat(wrapper.children().props(), hasProperties({ touched: false }));    
     });
 
     test('true, when changed', () => {
         const MyInput = buildInput(({ Input }) => <Input />);
         const wrapper = mount(<MyInput />);
         wrapper.find('input').simulate("change", { target: { value: "Changed" }});
-        assertThat(wrapper.children().props(), hasProperties({ changed: true }));    
+        assertThat(wrapper.children().props(), hasProperties({ touched: true }));    
     });
 
     test('onChange can be passed to input (this test times out when something broke)', (done) => {
@@ -127,6 +127,12 @@ describe('changed', () => {
 });
 
 describe('WHEN disabled', () => {
+    test('property is passed to input', () => {
+        const MyInput = buildInput(({ Input, ...props }) => <Input { ...props }/>);
+        const wrapper = mount(<MyInput disabled />);
+        assertThat(wrapper.find('input').instance(), hasProperties({ disabled: true }))
+    });
+
     test('onChange is NOT triggered', () => {
         const MyInput = buildInput(({ Input }) => <Input />);
         const wrapper = mount(<MyInput onChange={ () => { throw new Error('should NOT be triggered') }} disabled />);

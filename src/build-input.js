@@ -20,7 +20,7 @@ const buildInput = (InputComponent) => {
             this.ref = React.createRef();
             this.state = {
                 focused: false,
-                changed: false, 
+                touched: false, 
             }
         }
         get domElements() {
@@ -45,8 +45,8 @@ const buildInput = (InputComponent) => {
 
         onFocus = (evt) => this.handleEvent(evt, 'onFocus',  (state) => ({ ...state, focused: true }));
         onBlur = (evt) => this.handleEvent(evt, 'onBlur',  (state) => ({ ...state, focused: false }));
-        onChange = (evt) => this.handleEvent(evt, 'onChange', (state) => ({ ...state, changed: true }));
-        
+        onChange = (evt) => this.handleEvent(evt, 'onChange', (state) => ({ ...state, touched: true }));
+
         render() {
             return (
                 <InputComponent
