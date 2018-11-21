@@ -20,6 +20,11 @@ const buildLabelHTMLElement = ({ excludeProps, getWrapperProp, ...wrapperProps }
     />
 );
 
+const HTMLElements = {
+    TextInput: buildInputHTMLElement,
+    Label: buildLabelHTMLElement,
+};
+
 const buildInput = (InputComponent) => {
     return class InputState extends React.Component {
         constructor(props) {
@@ -32,7 +37,11 @@ const buildInput = (InputComponent) => {
 
         createDomElements() {
             const args = {
-                excludeProps: [...Object.keys(this.state), 'getWrapperProp', 'Label', 'TextInput'],
+                excludeProps: [
+                    ...Object.keys(this.state), 
+                    ...Object.keys(HTMLElements), 
+                    'getWrapperProp'
+                ],
                 getWrapperProp: this.getWrapperProp,
 
                 onFocus: this.onFocus,
@@ -40,10 +49,10 @@ const buildInput = (InputComponent) => {
                 onChange: this.onChange,
             };
 
-            this._domElements = {
-                TextInput: buildInputHTMLElement(args),
-                Label: buildLabelHTMLElement(args),
-            };
+            this._domElements = Object.keys(HTMLElements).reduce((acc, key) => {
+                acc[key] = HTMLElements[key](args)
+                return acc;
+            }, {});
         }
 
         get domElements() {
