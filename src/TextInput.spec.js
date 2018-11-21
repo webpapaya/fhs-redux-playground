@@ -151,3 +151,23 @@ describe('WHEN disabled', () => {
         wrapper.find('input').simulate('blur');
     });
 });
+
+
+describe('when name prop given', () => {
+    const MyInput = buildInput(({ TextInput, Label }) => (
+        <div>
+            <Label>A Label</Label>
+            <TextInput />
+        </div>
+    ));
+
+    test('automatically adds for attribute to Label', () => {
+        const wrapper = mount(<MyInput name="irrelevant" />);
+        assertThat(wrapper.find('label').props(), hasProperties({ htmlFor: 'irrelevant' }))
+    });
+
+    test('automatically adds name attribute to input', () => {
+        const wrapper = mount(<MyInput name="irrelevant" />);
+        assertThat(wrapper.find('input').props(), hasProperties({ name: 'irrelevant' }))
+    });
+});

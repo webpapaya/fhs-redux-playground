@@ -5,10 +5,18 @@ const omit = (attributes, obj) => Object.keys(obj).reduce((acc, key) => {
     return acc;
 }, {});
 
-const buildInputHTMLElement = ({ excludeProps, ...wrapperProps }) => (props) => (
+const buildInputHTMLElement = ({ excludeProps, getWrapperProp, ...wrapperProps }) => (props) => (
     <input 
         { ...(omit(excludeProps, props)) }
         { ...wrapperProps }
+        { ...(getWrapperProp('name') ? { name: getWrapperProp('name') } : {} )}
+    />
+);
+
+const buildLabelHTMLElement = ({ excludeProps, getWrapperProp, ...wrapperProps }) => (props) => (
+    <label 
+        { ...(omit(excludeProps, props)) }
+        { ...(getWrapperProp('name') ? { htmlFor: getWrapperProp('name') } : {} )}
     />
 );
 
@@ -23,13 +31,18 @@ const buildInput = (InputComponent) => {
         }
 
         createDomElements() {
+            const args = {
+                excludeProps: [...Object.keys(this.state), 'getWrapperProp', 'Label', 'TextInput'],
+                getWrapperProp: this.getWrapperProp,
+
+                onFocus: this.onFocus,
+                onBlur: this.onBlur,
+                onChange: this.onChange,
+            };
+
             this._domElements = {
-                TextInput: buildInputHTMLElement({
-                    excludeProps: Object.keys(this.state),
-                    onFocus: this.onFocus,
-                    onBlur: this.onBlur,
-                    onChange: this.onChange,
-                }) 
+                TextInput: buildInputHTMLElement(args),
+                Label: buildLabelHTMLElement(args),
             };
         }
 
@@ -42,6 +55,9 @@ const buildInput = (InputComponent) => {
             if (this.props.disabled) { return; }
             this.setState(stateFn, () => this.props[eventName] && this.props[eventName](evt));   
         }
+        getWrapperProp = (name) => this.props[name];
+
+
         onFocus = (evt) => this.handleEvent(evt, 'onFocus',  (state) => ({ ...state, focused: true }));
         onBlur = (evt) => this.handleEvent(evt, 'onBlur',  (state) => ({ ...state, focused: false }));
         onChange = (evt) => this.handleEvent(evt, 'onChange', (state) => ({ ...state, touched: true }));
