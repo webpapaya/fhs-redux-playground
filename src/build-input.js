@@ -5,10 +5,11 @@ const omit = (attributes, obj) => Object.keys(obj).reduce((acc, key) => {
     return acc;
 }, {});
 
-const buildInputHTMLElement = ({ excludeProps, getWrapperProp, ...wrapperProps }) => (props) => (
+const buildInputHTMLElement = ({ excludeProps, getValue, getWrapperProp, ...wrapperProps }) => (props) => (
     <input 
         { ...(omit(excludeProps, props)) }
         { ...wrapperProps }
+        { ...getValue() }
         { ...(getWrapperProp('name') ? { name: getWrapperProp('name') } : {} )}
     />
 );
@@ -40,9 +41,11 @@ const buildInput = (InputComponent) => {
                 excludeProps: [
                     ...Object.keys(this.state), 
                     ...Object.keys(HTMLElements), 
-                    'getWrapperProp'
+                    'getWrapperProp',
+                    'getValue',
                 ],
                 getWrapperProp: this.getWrapperProp,
+                getValue: this.getValue,
 
                 onFocus: this.onFocus,
                 onBlur: this.onBlur,
@@ -65,7 +68,11 @@ const buildInput = (InputComponent) => {
             this.setState(stateFn, () => this.props[eventName] && this.props[eventName](evt));   
         }
         getWrapperProp = (name) => this.props[name];
-
+        getValue = () => {
+            if (('values' in this.props && 'name' in this.props)) { return { value: this.props.values[this.props.name] }; }
+            if (('value' in this.props)) { return { value: this.props.value }; }
+            return {};
+        }
 
         onFocus = (evt) => this.handleEvent(evt, 'onFocus',  (state) => ({ ...state, focused: true }));
         onBlur = (evt) => this.handleEvent(evt, 'onBlur',  (state) => ({ ...state, focused: false }));

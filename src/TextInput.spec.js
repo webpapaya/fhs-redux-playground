@@ -15,6 +15,17 @@ test('passes props to input', () => {
     assertThat(input.props(), hasProperties({ autoComplete: 'true' }));
 });
 
+describe('when errors/values and name given', () => {
+    const ERRORS = { firstName: ['Can\'t be blank'] };
+    const VALUES = { firstName: 'Sepp' };
+
+    test('uses name attribute to  the value of the input', () => {
+        const MyInput = buildInput(({ TextInput, ...props }) => <TextInput { ...props } />);
+        const input = mount(<MyInput name="firstName" values={ VALUES } errors={ ERRORS } />).find('input');
+        assertThat(input.instance(), hasProperties({ value: VALUES.firstName }));  
+    });
+});
+
 describe('when component is uncontrolled (no value prop given)', () => {
     describe('WHEN default value is given', () => {
         it('has defaultValue as value of the input field', () => {
@@ -161,12 +172,12 @@ describe('when name prop given', () => {
         </div>
     ));
 
-    test('automatically adds for attribute to Label', () => {
+    test('automatically adds "for" attribute to Label', () => {
         const wrapper = mount(<MyInput name="irrelevant" />);
         assertThat(wrapper.find('label').props(), hasProperties({ htmlFor: 'irrelevant' }))
     });
 
-    test('automatically adds name attribute to input', () => {
+    test('automatically adds "name" attribute to input', () => {
         const wrapper = mount(<MyInput name="irrelevant" />);
         assertThat(wrapper.find('input').props(), hasProperties({ name: 'irrelevant' }))
     });
