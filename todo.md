@@ -14,4 +14,11 @@ TODOs:
 - isSubmitting status (via promises)
 - field (prevent values from beeing added)
 - form validation
-- 
+
+
+
+
+
+- memoize
+- selectByProps
+- findByProps

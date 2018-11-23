@@ -1,6 +1,5 @@
 import React from 'react';
 export default ({ users, sideEffect }) => {
-    console.log(sideEffect)
     return (
         <ul>
             { users.map((user) => (
