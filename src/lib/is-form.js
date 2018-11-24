@@ -1,4 +1,6 @@
 import React from 'react';
+import { ignoreReturnFor } from 'promise-frites';
+
 const EMPTY_OBJECT = {};
 export class TextInput extends React.Component {
     _safeCallProp(name, ...args) {
@@ -44,6 +46,12 @@ export class TextInput extends React.Component {
     }
 }
 
+export const Form = ({ onSubmit, children }) => (
+    <form onSubmit={onSubmit}>
+        {children}
+    </form>
+);
+
 const omit = (key, obj) => {
     const copy = { ...obj };
     delete copy[key]
@@ -55,7 +63,23 @@ const isForm = (render) => {
         state = {
             values: {},
             errors: {},
+            isSubmitting: false,
+            wasSubmitted: false,
         };
+
+        safeSetState = (...args) => 
+            new Promise((resolve) => this.setState(...args, resolve));
+
+        onSubmit = (evt) => {
+            evt.preventDefault();
+            if (!this.props.onSubmit) { return; }
+            return Promise.resolve()
+                .then(ignoreReturnFor(() => this.safeSetState({ isSubmitting: true })))
+                .then(() => this.props.onSubmit(this.state.values))
+                .then(ignoreReturnFor(() => this.safeSetState({ isSubmitting: false, wasSubmitted: true })))
+                .catch(ignoreReturnFor(() =>  this.safeSetState({ isSubmitting: false, wasSubmitted: false })))
+        }
+
         setFormValue = (name, value) => {
             this.setState((state => ({ values: { ...state.values, [name]: value } }))); 
         }
@@ -63,7 +87,14 @@ const isForm = (render) => {
             this.setState((() => ({ values: { ...omit(name, this.state.values) } }))); 
         }
         render() {
-            return render({ ...this.props, ...this.state, setFormValue: this.setFormValue });
+            return render({ 
+                ...this.props, 
+                form: {
+                    ...this.state,
+                    setFormValue: this.setFormValue, 
+                    onSubmit: this.onSubmit
+                }
+            });
         }
     }
 };

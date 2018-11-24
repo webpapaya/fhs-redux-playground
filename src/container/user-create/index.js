@@ -12,5 +12,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default pipe(
     connect(mapStateToProps, mapDispatchToProps),
-    hasSideEffect()
 )(Organism);

@@ -8,7 +8,6 @@ const uniqueId = (list) => {
 }
 
 export default (state = initialState, action) => {
-    console.log(state, action)
     switch(action.type) {
         case '@USERS:fetched': return uniqueId([...state, ...action.payload]);
         default: return state
