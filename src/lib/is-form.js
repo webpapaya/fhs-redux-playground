@@ -1,7 +1,13 @@
 import React from 'react';
 import { ignoreReturnFor } from 'promise-frites';
+import { setValue, removeValue, getValue } from './is-form.utils'
 
 const EMPTY_OBJECT = {};
+
+const buildName = (props) =>  'index' in props
+    ? `${props.name}[${props.index}]`
+    : props.name;
+
 export class TextInput extends React.Component {
     _safeCallProp(name, ...args) {
         this.props[name] && this.props[name](...args)
@@ -21,17 +27,10 @@ export class TextInput extends React.Component {
         }
     }
     get name() {
-        return 'index' in this.props
-            ? `${this.props.name}[${this.props.index}]`
-            : this.props.name;
+        return this.props.name;
     }
     get value() {
-        const inputWasRegistred = this.name in this.props.values;
-        const value = inputWasRegistred
-            ? (this.props.values || EMPTY_OBJECT)[this.name]
-            : this.props.initialValue;
-            
-        return value || '';
+        return getValue(this.name, this.props.initialValue || '', this.props.values);     
     }
     render() {
         return (
@@ -81,17 +80,17 @@ const isForm = (render) => {
         }
 
         setFormValue = (name, value) => {
-            this.setState((state => ({ values: { ...state.values, [name]: value } }))); 
-        }
-        removeFormValue = (name) => {
-            this.setState((() => ({ values: { ...omit(name, this.state.values) } }))); 
-        }
+            this.setState((state => ({ values: setValue(name, value, state.values) })))
+        }; 
+        removeFormField = (name) => this.setState((state => removeValue(name, value, state.values)));
         render() {
             return render({ 
                 ...this.props, 
                 form: {
                     ...this.state,
                     setFormValue: this.setFormValue, 
+                    addFormField: this.setFormValue,
+                    removeFormField: this.removeFormField,
                     onSubmit: this.onSubmit
                 }
             });
