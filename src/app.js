@@ -1,3 +1,10 @@
-import App from './container/user-list';
+import React from 'react';
+import UserCreate from './container/user-create';
+import UserList from './container/user-list';
 
-export default App;
+export default () => (
+    <div>
+        <UserCreate />
+        <UserList />
+    </div>
+);

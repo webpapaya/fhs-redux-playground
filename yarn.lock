@@ -2822,6 +2822,19 @@ camel-case@3.0.x:
     no-case "^2.2.0"
     upper-case "^1.1.1"
 
+camelcase-keys-deep@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/camelcase-keys-deep/-/camelcase-keys-deep-0.1.0.tgz#2e0dd61739c99f068efd8de606a629ed808bbba3"
+  integrity sha1-Lg3WFznJnwaO/Y3mBqYp7YCLu6M=
+  dependencies:
+    camelcase "^2.1.1"
+    map-obj "^1.0.1"
+
+camelcase@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-2.1.1.tgz#7c1d16d679a1bbe59ca02cacecfb011e201f5a1f"
+  integrity sha1-fB0W1nmhu+WcoCys7PsBHiAfWh8=
+
 camelcase@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-4.1.0.tgz#d545635be1e33c542649c69173e5de6acfae34dd"
@@ -3404,6 +3417,14 @@ debug@^4.1.0:
   integrity sha512-heNPJUJIqC+xB6ayLAMHaIrmN9HKa7aQO8MGqKpvCA+uJYVcvR6l5kgdrhRuwPFHU7P5/A1w0BjByPHwpfTDKg==
   dependencies:
     ms "^2.1.1"
+
+decamelize-keys-deep@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/decamelize-keys-deep/-/decamelize-keys-deep-0.1.1.tgz#22e004a08b37452e665048bf8e66bada661d948e"
+  integrity sha1-IuAEoIs3RS5mUEi/jma62mYdlI4=
+  dependencies:
+    decamelize "^1.2.0"
+    map-obj "^1.0.1"
 
 decamelize@^1.1.1, decamelize@^1.2.0:
   version "1.2.0"
@@ -6407,6 +6428,11 @@ map-cache@^0.2.2:
   version "0.2.2"
   resolved "https://registry.yarnpkg.com/map-cache/-/map-cache-0.2.2.tgz#c32abd0bd6525d9b051645bb4f26ac5dc98a0dbf"
   integrity sha1-wyq9C9ZSXZsFFkW7TyasXcmKDb8=
+
+map-obj@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/map-obj/-/map-obj-1.0.1.tgz#d933ceb9205d82bdcf4886f6742bdc2b4dea146d"
+  integrity sha1-2TPOuSBdgr3PSIb2dCvcK03qFG0=
 
 map-visit@^1.0.0:
   version "1.0.0"
