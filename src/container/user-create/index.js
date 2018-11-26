@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import Organism from './organism';
 import { createUser } from '../../domain/users/actions';
 import pipe from '../../lib/pipe';
-import hasSideEffect from '../../lib/has-side-effect'
 
 const mapStateToProps = (state) => ({})
 

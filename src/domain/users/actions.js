@@ -1,4 +1,4 @@
-import { fetchGet, fetchPost } from '../../lib/fetch'
+import { fetchGet, fetchPost } from '../fetch'
 
 const wait = (ms) => (args) => new Promise(resolve => {
     setTimeout(() =>  resolve(args), ms)

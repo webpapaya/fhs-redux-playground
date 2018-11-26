@@ -1,4 +1,5 @@
 import React from 'react';
+import { ignoreReturnFor } from 'promise-frites'
 
 const omit = (attributes, obj) => Object.keys(obj).reduce((acc, key) => {
     if (!attributes.includes(key)) { acc[key] = obj[key]; }
@@ -14,7 +15,7 @@ const buildInputHTMLElement = ({ excludeProps, getValue, getWrapperProp, ...wrap
     />
 );
 
-const buildLabelHTMLElement = ({ excludeProps, getWrapperProp, ...wrapperProps }) => (props) => (
+const buildLabelHTMLElement = ({ excludeProps, getWrapperProp }) => (props) => (
     <label 
         { ...(omit(excludeProps, props)) }
         { ...(getWrapperProp('name') ? { htmlFor: getWrapperProp('name') } : {} )}
@@ -22,20 +23,43 @@ const buildLabelHTMLElement = ({ excludeProps, getWrapperProp, ...wrapperProps }
 );
 
 const HTMLElements = {
-    TextInput: buildInputHTMLElement,
+    Input: buildInputHTMLElement,
     Label: buildLabelHTMLElement,
 };
 
-const buildInput = (InputComponent) => {
+const defaultReducer = (v) => v;
+const buildInput = ({ reducer = defaultReducer }, InputComponent) => {
     return class InputState extends React.Component {
-        constructor(props) {
-            super(props);
-            this.state = {
-                focused: false,
-                touched: false, 
-            }
-        }
+        state = {
+            focused: false,
+            touched: false, 
+        };
 
+        _safeCallProp(name, ...args) {
+            this.props[name] && this.props[name](...args)
+        }
+        _setState(stateFn) {
+            return new Promise((resolve) => this.setState(stateFn, resolve));
+        }
+        _handleEvent = (evt, eventName, stateFn) => {
+            if (this.props.disabled) { return; }
+            return this._setState(stateFn)
+                .then(ignoreReturnFor(() => this.props[eventName] && this.props[eventName](evt)));   
+        }
+        componentWillUnmount() {
+            this._safeCallProp('removeFormValue', this.name);
+        }
+        componentDidMount() {
+            this._safeCallProp('setFormValue', this.name, this.props.initialValue);
+        }
+        handleChange = (evt) => {
+            if (this.props.disabled) { return; }
+            
+            evt.persist(); // TODO: remove
+            evt.target.value = reducer(evt.target.value);
+            this._safeCallProp('setFormValue', this.name, evt.target.value);
+            this._handleEvent(evt, 'onChange', (state) => ({ ...state, touched: true }))
+        }
         createDomElements() {
             const args = {
                 excludeProps: [
@@ -43,13 +67,15 @@ const buildInput = (InputComponent) => {
                     ...Object.keys(HTMLElements), 
                     'getWrapperProp',
                     'getValue',
+                    'reducer',
+                    'validator',
                 ],
                 getWrapperProp: this.getWrapperProp,
                 getValue: this.getValue,
 
                 onFocus: this.onFocus,
                 onBlur: this.onBlur,
-                onChange: this.onChange,
+                onChange: this.handleChange,
             };
 
             this._domElements = Object.keys(HTMLElements).reduce((acc, key) => {
@@ -57,15 +83,9 @@ const buildInput = (InputComponent) => {
                 return acc;
             }, {});
         }
-
         get domElements() {
             if (!this._domElements) { this.createDomElements(); }
             return this._domElements;            
-        }
-
-        handleEvent = (evt, eventName, stateFn) => {
-            if (this.props.disabled) { return; }
-            this.setState(stateFn, () => this.props[eventName] && this.props[eventName](evt));   
         }
         getWrapperProp = (name) => this.props[name];
         getValue = () => {
@@ -73,10 +93,8 @@ const buildInput = (InputComponent) => {
             if (('value' in this.props)) { return { value: this.props.value }; }
             return {};
         }
-
-        onFocus = (evt) => this.handleEvent(evt, 'onFocus',  (state) => ({ ...state, focused: true }));
-        onBlur = (evt) => this.handleEvent(evt, 'onBlur',  (state) => ({ ...state, focused: false }));
-        onChange = (evt) => this.handleEvent(evt, 'onChange', (state) => ({ ...state, touched: true }));
+        onFocus = (evt) => this._handleEvent(evt, 'onFocus',  (state) => ({ ...state, focused: true }));
+        onBlur = (evt) => this._handleEvent(evt, 'onBlur',  (state) => ({ ...state, focused: false }));
         render() {
             return (
                 <InputComponent

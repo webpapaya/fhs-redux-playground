@@ -2,12 +2,6 @@ import React from 'react';
 import { ignoreReturnFor } from 'promise-frites';
 import { setValue, removeValue, getValue } from './is-form.utils'
 
-const EMPTY_OBJECT = {};
-
-const buildName = (props) =>  'index' in props
-    ? `${props.name}[${props.index}]`
-    : props.name;
-
 export class TextInput extends React.Component {
     _safeCallProp(name, ...args) {
         this.props[name] && this.props[name](...args)
@@ -80,9 +74,11 @@ const isForm = (render) => {
         }
 
         setFormValue = (name, value) => {
-            this.setState((state => ({ values: setValue(name, value, state.values) })))
+            this.setState((state => ({ values: setValue(name, value, state.values) })));
         }; 
-        removeFormField = (name) => this.setState((state => removeValue(name, value, state.values)));
+        removeFormField = (name) => {
+             this.setState((state => ({ values: removeValue(name, state.values) })));
+        }
         render() {
             return render({ 
                 ...this.props, 

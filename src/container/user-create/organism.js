@@ -10,13 +10,19 @@ export default isForm(({ form }) => {
             <TextInput name="lastName" { ...form }  />
 
             { hobbies.map((_, index) => (
-                <div>
-                    <TextInput key={`hobbies[${index}].name`} name={ `hobbies[${index}].name` } { ...form }  />    
-                    <TextInput key={`hobbies[${index}].level`} name={ `hobbies[${index}].level` } { ...form }  /> 
+                <div key={index}>
+                    <TextInput name={ `hobbies[${index}].name` } { ...form }  />    
+                    <TextInput name={ `hobbies[${index}].level` } { ...form }  /> 
+                    <button type="button" onClick={ () => form.removeFormField(`hobbies[${index}]`) }>
+                        remove
+                    </button>
                 </div>
             )) }
 
-            <button type="button" onClick={ () => form.addFormField(`hobbies[${hobbies.length}]`, '') }>
+            <button 
+                type="button" 
+                onClick={ () => form.addFormField(`hobbies[${hobbies.length}]`, '') }
+            >
                 Add hobby
             </button>
 
