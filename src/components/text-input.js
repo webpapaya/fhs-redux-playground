@@ -1,5 +1,4 @@
-import React from 'react';
 import isInput from '../lib/is-input';
+import Molecule from './molecule';
 
-export default isInput({}, ({ Input, Label, label }) => (
-    <Label>{ label }<Input /></Label>));
+export default isInput({}, Molecule);
