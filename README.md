@@ -7,13 +7,22 @@ docker-compose restart server
 
 
 # What I personally want:
-- Unified form fields API
-    - DateInput with Picker behaves exactly the same as a TextInput
-- Split UI logic from data fetching logic (makes it possible to develop in storybook)
-    - Prevent this by the API (eg. use HOCs)
-- Create forms with minimal boilerplate
-    - Automatically handle server errors (eg. username already exists, API needs to change here)
+- Form itself
+    - Validations-server
+        - Right now server only returns the first error not all of them
+    - Validations-client
+        - define schema (I like formiks validations)
+        - (should be unit testable -> NO react-test-renderer)
+    - Submission (isSubmitting state, ...)
+    - Must be able to develop in storybook (logic must move to somewhere else)
     - Automatically prevent double submission (automatically disable form while submitting)
+    - Ability to reuse Form Component for Create and Update
+    - Notifications???? (part of form itself or part of react/redux)
+- Form fields
+    - Easy to add new types of form fields (eg. IBAN Input, no god component)
+        - e.g. via reducers (should be unit testable -> NO react-test-renderer)
+    - Unified API across ALL input fields (DateInput needs to behave exactly like a TextInput)
+    - Unified look and feel/by project (should be easy to customize between projects)
     - Only minimal client validation (eg. field is required/format/etc.)
 
 eg.:
