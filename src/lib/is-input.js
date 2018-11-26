@@ -47,17 +47,17 @@ const buildInput = ({ reducer = defaultReducer }, InputComponent) => {
                 .then(ignoreReturnFor(() => this.props[eventName] && this.props[eventName](evt)));   
         }
         componentWillUnmount() {
-            this._safeCallProp('removeFormValue', this.name);
+            this._safeCallProp('removeFormValue', this.props.name);
         }
         componentDidMount() {
-            this._safeCallProp('setFormValue', this.name, this.props.initialValue);
+            this._safeCallProp('setFormValue', this.props.name, this.props.initialValue);
         }
         handleChange = (evt) => {
             if (this.props.disabled) { return; }
-            
+
             evt.persist(); // TODO: remove
             evt.target.value = reducer(evt.target.value);
-            this._safeCallProp('setFormValue', this.name, evt.target.value);
+            this._safeCallProp('setFormValue', this.props.name, evt.target.value);
             this._handleEvent(evt, 'onChange', (state) => ({ ...state, touched: true }))
         }
         createDomElements() {

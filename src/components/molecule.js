@@ -12,11 +12,11 @@ const inputStyles = {
     borderBottom: '2px solid orange'
 };
 
-const Molecule = ({ Input, Label, label, icon, ...props }) => (
+const Molecule = ({ Input, Label, label, icon, showProps, ...props }) => (
     <div>
         <Label style={labelStyles}>{ label } { icon }</Label>
         <Input style={inputStyles} { ...props }  />
-        <div>{ JSON.stringify(props)}</div>
+        { showProps && <div>{ JSON.stringify(props)}</div> }
     </div>
 );
 

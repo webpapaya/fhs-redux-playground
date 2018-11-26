@@ -1,55 +1,6 @@
 import React from 'react';
 import { ignoreReturnFor } from 'promise-frites';
-import { setValue, removeValue, getValue } from './is-form.utils'
-
-export class TextInput extends React.Component {
-    _safeCallProp(name, ...args) {
-        this.props[name] && this.props[name](...args)
-    }
-    componentWillUnmount() {
-        this._safeCallProp('removeFormValue', this.name);
-    }
-    componentDidMount() {
-        this._safeCallProp('setFormValue', this.name, this.props.initialValue);
-    }
-    handleChange = (evt) => {
-        const value = evt.target.value;
-        const validator = this.props.validator || (() => true);
-        if (validator(value)) {
-            const reducer = this.props.reducer || ((v) => v);
-            this._safeCallProp('setFormValue', this.name, reducer(evt.target.value));
-        }
-    }
-    get name() {
-        return this.props.name;
-    }
-    get value() {
-        return getValue(this.name, this.props.initialValue || '', this.props.values);     
-    }
-    render() {
-        return (
-            <input 
-                type="text" 
-                name={ this.name } 
-                onChange={ this.handleChange }
-                placeholder={ this.name }
-                value={ this.value } 
-            />
-        )
-    }
-}
-
-export const Form = ({ onSubmit, children }) => (
-    <form onSubmit={onSubmit}>
-        {children}
-    </form>
-);
-
-const omit = (key, obj) => {
-    const copy = { ...obj };
-    delete copy[key]
-    return copy;
-}
+import { setValue, removeValue } from './is-form.utils'
 
 const isForm = (render) => {
     return class extends React.Component {

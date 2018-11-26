@@ -16,9 +16,6 @@ TODOs:
 - form validation
 
 
-
-
-
 - memoize
 - selectByProps
 - findByProps
