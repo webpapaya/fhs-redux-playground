@@ -1,5 +1,5 @@
 import React from 'react';
-import { ignoreReturnFor } from 'promise-frites';
+import { ignoreReturnFor, rethrowError } from 'promise-frites';
 import { setValue, removeValue } from './is-form.utils'
 
 const isForm = (render) => {
@@ -15,13 +15,15 @@ const isForm = (render) => {
             new Promise((resolve) => this.setState(...args, resolve));
 
         onSubmit = (evt) => {
+            console.log(this.props.onSubmit)
             evt.preventDefault();
             if (!this.props.onSubmit) { return; }
+            
             return Promise.resolve()
                 .then(ignoreReturnFor(() => this.safeSetState({ isSubmitting: true })))
                 .then(() => this.props.onSubmit(this.state.values))
                 .then(ignoreReturnFor(() => this.safeSetState({ isSubmitting: false, wasSubmitted: true })))
-                .catch(ignoreReturnFor(() =>  this.safeSetState({ isSubmitting: false, wasSubmitted: false })))
+                .catch(rethrowError(() =>  this.safeSetState({ isSubmitting: false, wasSubmitted: false })))
         }
 
         setFormValue = (name, value) => {

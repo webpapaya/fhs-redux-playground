@@ -8,6 +8,7 @@ import App from './app';
 
 const rootReducer = combineReducers({
     users: require('./domain/users/reducer').default,
+    events: require('./domain/events/reducer').default,
 });
 
 const store = createStore(

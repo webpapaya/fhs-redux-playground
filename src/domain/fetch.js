@@ -9,7 +9,16 @@ const buildFetch = (url, method, options = {}) => global.fetch(`http://localhost
     method: method,
 }));
 
-export const fetchGet = (url, options) => buildFetch(url, 'GET', options).then((res) => res.json()).then(camelCaseKeys);
+const wait = (ms) => (args) => new Promise(resolve => {
+    setTimeout(() =>  resolve(args), ms)
+});
+
+
+export const fetchGet = (url, options) => buildFetch(url, 'GET', options)
+                                            .then(wait(1000))
+                                            .then((res) => res.json())
+                                            .then(camelCaseKeys);
+                                            
 export const fetchPost = (url, options) => buildFetch(url, 'POST', options);
 export const fetchPatch = (url, options) => buildFetch(url, 'PATCH', options);
 export const fetchDelete = (url, options) => buildFetch(url, 'DELETE', options);
