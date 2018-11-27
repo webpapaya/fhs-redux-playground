@@ -15,6 +15,21 @@ const buildInputHTMLElement = ({ excludeProps, getValue, getWrapperProp, ...wrap
     />
 );
 
+const buildSelectHTMLElement = ({ excludeProps, getValue, getWrapperProp, ...wrapperProps }) => (props) => (
+    <select 
+        { ...(omit(excludeProps, props)) }
+        { ...wrapperProps }
+        { ...getValue() }
+        { ...(getWrapperProp('name') ? { name: getWrapperProp('name') } : {} )}
+    />
+);
+
+const buildOptionHTMLElement = ({ excludeProps }) => (props) => (
+    <option 
+        { ...(omit(excludeProps, props)) }
+    />
+);
+
 const buildLabelHTMLElement = ({ excludeProps, getWrapperProp }) => (props) => (
     <label 
         { ...(omit(excludeProps, props)) }
@@ -25,6 +40,8 @@ const buildLabelHTMLElement = ({ excludeProps, getWrapperProp }) => (props) => (
 const HTMLElements = {
     Input: buildInputHTMLElement,
     Label: buildLabelHTMLElement,
+    Select: buildSelectHTMLElement,
+    Option: buildOptionHTMLElement,
 };
 
 const defaultReducer = (v) => v;
