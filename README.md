@@ -5,56 +5,33 @@ docker-compose up
 docker-compose run flyway -url=jdbc:postgresql://db:5432/compup -user=dbuser -password=password migrate
 docker-compose restart server
 
+# Some ideas to play around with this architecture:
+- Add delete button next to each user in the user-list container (have a look on the event-list)
+- Add a new component which lists for each user the corresponding events he participates in (or the other way around)
+    - The component should automatically update whenever a event participation is added
+- Modify the user-create that it can also handle updates
+    - add update-user action/reducer
+        - swagger docs are on http://localhost:8080
+- Try to reducer boilerplate in actions/reducers
 
-# What I personally want:
-- Form itself
-    - Validations-server
-        - Right now server only returns the first error not all of them
-    - Validations-client
-        - define schema (I like formiks validations)
-        - (should be unit testable -> NO react-test-renderer)
-    - Submission (isSubmitting state, ...)
-    - Must be able to develop in storybook (logic must move to somewhere else)
-    - Automatically prevent double submission (automatically disable form while submitting)
-    - Ability to reuse Form Component for Create and Update
-    - Notifications???? (part of form itself or part of react/redux)
-- Form fields
-    - Easy to add new types of form fields (eg. IBAN Input, no god component)
-        - e.g. via reducers (should be unit testable -> NO react-test-renderer)
-    - Unified API across ALL input fields (DateInput needs to behave exactly like a TextInput)
-    - Unified look and feel/by project (should be easy to customize between projects)
-    - Only minimal client validation (eg. field is required/format/etc.)
+# TODOs:
+- Add some documentation and guides
+- Think about routing
+    - I didn't like react-router in the last project to much
+- Maybe move to formik/diskuss form handling
+    - where to draw the line between client validations and server validations?
+    - server needs to return all validations errors
+- Better Input controlls
+    - The IBAN input looses the cursor position
+    - Maybe there is already a package (eg. input-mask)
+- Error handling
+    - Error boundries vs "expected errors"
+- add tests to
+    - hasSideEffect
+    - when we don't move to formik add tests to the isForm HOC
 
-eg.:
-```
-import React from 'react';
-import { isForm } from '../../components/core/form';
-import TextInput from '../../components/core/text-input';
-import PasswordInput from '../../components/core/password-input';
-import Button from '../../components/core/button';
-import LogoWithHeading from '../../components/core/logo-with-heading';
-import AuthenticationLinks from '../../components/core/authentication-links';
-import t from './translate';
-
-export const SignIn = isForm(({ isSubmitting, errors }) => (
-  <div>
-    <LogoWithHeading>{ t('welcome') }<br />Crewmeister</LogoWithHeading>
-    <TextInput
-      placeholder={ t('emailOrUsername') }
-      name="identifier"
-      errors={ errors.username }
-      required
-    />
-    <PasswordInput
-      placeholder={ t('password') }
-      name="password"
-      errors={ errors.password }
-      required
-    />
-    <Button type="submit" loading={ isSubmitting } spacingBottom>{ t('submit') }</Button>
-    <AuthenticationLinks signUp resetPassword />
-  </div>
-));
-
-export default SignIn;
-```
+# Discussion for backend
+- API find a standardized way for crud oprations
+- Maybe use something like https://jsonapi.org/ or even use http://postgrest.org/en/v5.1/
+    - makes it easier to reduce boilerplate in action-creators/reducers
+- How to handle resource embedding - do we even need this?

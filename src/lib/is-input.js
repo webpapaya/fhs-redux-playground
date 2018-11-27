@@ -86,6 +86,11 @@ const buildInput = ({ reducer = defaultReducer }, InputComponent) => {
                     'getValue',
                     'reducer',
                     'validator',
+                    'isSubmitting',
+                    'wasSubmitted',
+                    'removeFormField',
+                    'addFormField',
+                    'setFormValue'
                 ],
                 getWrapperProp: this.getWrapperProp,
                 getValue: this.getValue,
