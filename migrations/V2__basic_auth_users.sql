@@ -46,6 +46,8 @@ create trigger encrypt_pass
   for each row
   execute procedure basic_auth.encrypt_pass();
 
+
+
 create or replace function
 basic_auth.user_role(email text, pass text) returns name
   language plpgsql
@@ -81,24 +83,30 @@ begin
       row_to_json(r), 'reallyreallyreallyreallyverysafe'
     ) as token
     from (
-      select _role as role, login.email as email,
-         extract(epoch from now())::integer + 60*60 as exp
+      select _role as role, sign_in.email as email,
+         extract(epoch from now())::integer + 60*60000 as exp
     ) r
     into result;
   return result;
 end;
 $$ language plpgsql;
 
-
-CREATE ROLE employee;
-
 create or replace function
 sign_up(email text, pass text) returns VOID as $$
 begin
   INSERT INTO basic_auth.users (email, pass, role)
-  VALUES (email, pass, 'employee');
+  VALUES (email, pass, 'member');
 end;
 $$ language plpgsql;
 
 
 
+create or replace function
+user_role() returns name
+  language plpgsql
+  as $$
+begin
+  return (
+  select current_user);
+end;
+$$;
