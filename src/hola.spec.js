@@ -1,17 +1,16 @@
-import fetch from 'node-fetch';
+import axios from 'axios';
 
 const BASE_URL = 'http://0.0.0.0:3000';
-
-const fetchPost = (url, payload, token) => {
-    return fetch(`${BASE_URL}/${url}`, { 
-       method: 'POST', 
-        headers: { 
-            'Content-Type': 'application/json',  
-            ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-        },
-        body: JSON.stringify(payload),
-    });
+const api = axios.create({
+    baseURL: BASE_URL,
+    headers: {
+        'Content-Type': 'application/json',
+    }
+});
+const setAuthorisationToken = (token) => {
+    api.defaults.headers['Authorization'] = `Bearer ${token}`;
 }
+
 
 
 const fetchGet = (url, token) => fetch(`${BASE_URL}/${url}`, { 
@@ -29,17 +28,17 @@ it('hallo', () => {
     };
 
     return Promise.resolve()
-        .then(() => fetchPost('rpc/sign_up', credentials))
-        .then(() => fetchPost('rpc/sign_in', credentials))
-        .then(res => res.json())
-        .then((response) => {
-            const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoidGhvbWFzQG1heXJob2Zlci5hdCIsInJvbGUiOiJtZW1iZXIifQ.ivxVe0VDhAs5Qm9BBw49ShgjiqAuKjeHH_cHS6PTrjI"
-            // response[0].token;
+        .then(() => api.post('events', { name: 'public event' }))
+        .then(() => api.get('events'))
+        .then((r) => console.log('p', r.data))
+        .then(() => api.post('rpc/sign_up', credentials))
+        .catch(() => "swallow error")
+        .then(() => api.post('rpc/sign_in', credentials))
 
-            return Promise.resolve()
-                .then(() => fetchGet('events', { name: 'dsfjkal' }, token))
-                .then((res) => res.text())
-                .then((res) => console.log(res))
-        });
+        .then((r) => setAuthorisationToken(r.data[0].token))
+        .then(() => api.post('events', { name: 'member event' }))
+        .then(() => api.get('events'))
+        .then((r) => console.log('m', r.data))
+        .catch((r) => console.log('m', r));;
 })
 
