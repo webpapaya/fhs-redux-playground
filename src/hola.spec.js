@@ -31,9 +31,9 @@ it('hallo', () => {
         .then(() => api.post('events', { name: 'public event' }))
         .then(() => api.get('events'))
         .then((r) => console.log('p', r.data))
-        .then(() => api.post('rpc/sign_up', credentials))
+        .then(() => api.post('rpc/user_sign_up', credentials))
         .then((r) => console.log('p', r.data))
-        .then(() => api.post('rpc/sign_in', credentials))
+        .then(() => api.post('rpc/user_sign_in', credentials))
 
         .then((r) => setAuthorisationToken(r.data[0].token))
         .then(() => api.post('events', { name: 'member event' }))
