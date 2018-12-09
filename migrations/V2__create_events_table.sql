@@ -5,7 +5,5 @@ create table public.events (
 );
 
 ALTER TABLE public.events ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.events FORCE ROW LEVEL SECURITY;
-
 CREATE POLICY events_policy ON public.events
   USING ((user_id = current_user) or (current_user = 'member'))
