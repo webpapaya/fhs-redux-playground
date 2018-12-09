@@ -10,7 +10,7 @@ services:
     environment:
       PGRST_DB_URI: postgres://dbuser:password@db:5432/compup
       PGRST_DB_SCHEMA: public
-      PGRST_DB_ANON_ROLE: dbuser #In production this role should not be the same as the one used for the connection
+      PGRST_DB_ANON_ROLE: anon #In production this role should not be the same as the one used for the connection
       PGRST_JWT_SECRET: "reallyreallyreallyreallyverysafe"
     depends_on:
       - db

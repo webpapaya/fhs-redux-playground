@@ -32,7 +32,7 @@ it('hallo', () => {
         .then(() => api.get('events'))
         .then((r) => console.log('p', r.data))
         .then(() => api.post('rpc/sign_up', credentials))
-        .catch(() => "swallow error")
+        .then((r) => console.log('p', r.data))
         .then(() => api.post('rpc/sign_in', credentials))
 
         .then((r) => setAuthorisationToken(r.data[0].token))

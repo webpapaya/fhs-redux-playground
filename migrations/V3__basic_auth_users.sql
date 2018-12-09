@@ -89,7 +89,7 @@ begin
     into result;
   return result;
 end;
-$$ language plpgsql;
+$$ language plpgsql SECURITY DEFINER;
 
 create or replace function
 sign_up(email text, pass text) returns VOID as $$
@@ -97,16 +97,4 @@ begin
   INSERT INTO basic_auth.users (email, pass, role)
   VALUES (email, pass, 'member');
 end;
-$$ language plpgsql;
-
-
-
-create or replace function
-user_role() returns name
-  language plpgsql
-  as $$
-begin
-  return (
-  select current_user);
-end;
-$$;
+$$ language plpgsql SECURITY DEFINER;
