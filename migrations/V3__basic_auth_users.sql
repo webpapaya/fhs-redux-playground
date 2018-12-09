@@ -54,9 +54,9 @@ basic_auth.user_role(email text, pass text) returns name
   as $$
 begin
   return (
-  select role from basic_auth.users
-   where users.email = user_role.email
-     and users.pass = basic_auth.crypt(user_role.pass, users.pass)
+    select role from basic_auth.users
+    where users.email = user_role.email
+      and users.pass = basic_auth.crypt(user_role.pass, users.pass)
   );
 end;
 $$;
