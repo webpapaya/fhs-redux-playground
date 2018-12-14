@@ -4,12 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start:dev": "docker-compose down -v && docker-compose up -d && sleep 1 && chokidar  \"**/*.sql\" -c \" docker-compose run flyway -url=jdbc:postgresql://db:5432/compup -user=dbuser -password=password migrate && docker-compose restart server\"",
     "test": "jest"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0"
+    "axios": "^0.18.0",
+    "chokidar-cli": "^1.2.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.6",
