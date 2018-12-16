@@ -13,6 +13,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "camelcase-keys-deep": "^0.1.0",
     "decamelize-keys-deep": "^0.1.1",
     "promise-frites": "^0.10.0",

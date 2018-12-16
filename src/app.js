@@ -1,10 +1,9 @@
 import React from 'react';
-import UserCreate from './container/user-create';
+import UserSignUp from './container/user-sign-up';
 import UserList from './container/user-list';
 
 export default () => (
     <div>
-        <UserCreate />
-        <UserList />
+        <UserSignUp />
     </div>
 );

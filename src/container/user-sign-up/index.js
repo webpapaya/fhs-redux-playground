@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
+import { signUpAndIn } from '../../domain/users/actions';
 import Organism from './organism';
-import { createUser } from '../../domain/users/actions';
 import pipe from '../../lib/pipe';
 
 const mapStateToProps = (state) => ({})
 
 const mapDispatchToProps = (dispatch) => ({
-    onSubmit: (props) => dispatch(createUser(props)),
+    onSubmit: (props) => dispatch(signUpAndIn(props)),
 });
 
 export default pipe(

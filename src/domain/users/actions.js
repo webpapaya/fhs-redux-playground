@@ -1,12 +1,20 @@
-import { fetchGet, fetchPost } from '../fetch'
+import { fetchPost, setAuthorizationToken, unsetAuthorizationToken } from '../fetch'
 
-const wait = (ms) => (args) => new Promise(resolve => {
-    setTimeout(() =>  resolve(args), ms)
-});
+export const signIn = ({ email, password }) => (dispatch) => 
+    fetchPost('rpc/user_sign_in', { email, pass: password }).then((data) => {
+        setAuthorizationToken(data[0].token);
+        return dispatch({ type: '@USER/signedIn' });
+    });
 
-export const whereUsers = () => (dispatch) => fetchGet('users')
-    .then(wait(1000))
-    .then((payload) => dispatch({ type: '@USERS:fetched', payload }));
+export const signOut = () => (dispatch) => Promise.resolve()
+    .then(() => unsetAuthorizationToken())
+    .then(() => dispatch({ type: '@USER/signedOut' }));
 
-export const createUser = (body) => (dispatch) => fetchPost('users', { body })
-    .then(() => dispatch(whereUsers({})));
+export const signUpAndIn = ({ email, password }) => (dispatch) => Promise.resolve()
+    .then(() => fetchPost('rpc/user_sign_up', { email, pass: password }))
+    .then(() => dispatch({ type: '@USER/signedUp'}))
+    .then(() => dispatch(signIn({ email, password })));
+
+export const where = () => (dispatch) => Promise.resolve()
+    .then(() => api.get('users'))
+    .then((payload) => dispatch({ type: '@USER/where', payload }));

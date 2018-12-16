@@ -5,8 +5,8 @@ import TextInput from '../../components/text-input';
 
 export default isForm(({ form }) => (
     <Form { ...form }>
-        <TextInput name="firstName" label="First Name" { ...form }  />
-        <TextInput name="lastName" label="Last Name" { ...form }  />
+        <TextInput name="email" label="Email" { ...form }  />
+        <TextInput name="password" label="Password" { ...form }  />
         <button disabled={ form.isSubmitting }>
             submit
         </button>
