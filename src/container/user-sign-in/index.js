@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { signIn } from '../../domain/users/actions';
+import UserActions from '../../domain/users/actions';
 import Organism from './organism';
-import pipe from '../../lib/pipe';
 import { redirect } from '../../lib/routing';
+import pipe from '../../lib/pipe';
 
 const mapDispatchToProps = (dispatch) => ({
     onSubmit: (props) => Promise.resolve()
-        .then(() => dispatch(signIn(props)))
+        .then(() => dispatch(UserActions.signIn(props)))
         .then(() => redirect('/money-transactions')),
 });
 

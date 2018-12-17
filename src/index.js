@@ -9,6 +9,7 @@ import App from './app';
 
 const rootReducer = combineReducers({
     users: require('./domain/users/reducer').default,
+    moneyTransactions: require('./domain/money-transactions/reducer').default,
 });
 
 const store = createStore(

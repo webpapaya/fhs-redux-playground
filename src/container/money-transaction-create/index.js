@@ -1,16 +1,17 @@
 import { connect } from 'react-redux';
-import { signUpAndIn, where as usersWhere } from '../../domain/users/actions';
+import MoneyTransactionActions from '../../domain/money-transactions/actions';
+import UserActions from '../../domain/users/actions';
 import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
 
 const mapStateToProps = (state, props) => ({
-
+    users: state.users,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onSubmit: (props) => dispatch(signUpAndIn(props)),
-    sideEffect: () => dispatch(usersWhere())
+    onSubmit: (props) => dispatch(MoneyTransactionActions.create(props)),
+    sideEffect: () => dispatch(UserActions.where())
 });
 
 export default pipe(
