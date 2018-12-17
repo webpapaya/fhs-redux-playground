@@ -1,3 +1,5 @@
+
+import { memoize } from 'redux-memoize';
 import { 
     fetchPost, 
     fetchPatch, 
@@ -14,14 +16,14 @@ const filterToParams = (resource, filter = {}) => {
 
         return `${string}&${queryParam}`;
     }, '?');
-    
+
     return `${resource}${queryString}`;
 } 
 
 const buildRestActions = ({ resource }) => {
-    const where = (filter) => (dispatch) => Promise.resolve()
+    const where = memoize({}, (filter) => (dispatch) => Promise.resolve()
         .then(() => fetchGet(filterToParams(resource, filter)))
-        .then((payload) => dispatch({ type: `${resource}/where/success`, payload }));
+        .then((payload) => dispatch({ type: `${resource}/where/success`, payload })));
 
     const create = (payload) => (dispatch) => Promise.resolve()
         .then(() => fetchPost(resource, payload))
