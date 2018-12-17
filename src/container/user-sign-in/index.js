@@ -2,13 +2,12 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import UserActions from '../../domain/users/actions';
 import Organism from './organism';
-import { redirect } from '../../lib/routing';
 import pipe from '../../lib/pipe';
 
-const mapDispatchToProps = (dispatch) => ({
-    onSubmit: (props) => Promise.resolve()
-        .then(() => dispatch(UserActions.signIn(props)))
-        .then(() => redirect('/money-transactions')),
+const mapDispatchToProps = (dispatch, props) => ({
+    onSubmit: (payload) => Promise.resolve()
+        .then(() => dispatch(UserActions.signIn(payload)))
+        .then(() => props.history.push('/money-transactions')),
 });
 
 export default pipe(

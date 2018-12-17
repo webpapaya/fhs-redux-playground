@@ -1,1 +1,0 @@
-export const redirect = (route) => global.history.pushState(null, null, route);

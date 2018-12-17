@@ -9,7 +9,7 @@ export default isForm(({ form }) => (
     <Form { ...form }>
         <TextInput name="email" label="Email" { ...form }  />
         <TextInput name="password" label="Password" { ...form }  />
-        <Button disabled={ form.isSubmitting }>
+        <Button type="submit" disabled={ form.isSubmitting }>
             submit
         </Button>
         <Link to="user-sign-up">Sign up</Link>
