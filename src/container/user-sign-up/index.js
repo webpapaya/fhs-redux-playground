@@ -1,14 +1,16 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import { signUpAndIn } from '../../domain/users/actions';
 import Organism from './organism';
 import pipe from '../../lib/pipe';
 
-const mapStateToProps = (state) => ({})
-
-const mapDispatchToProps = (dispatch) => ({
-    onSubmit: (props) => dispatch(signUpAndIn(props)),
+const mapDispatchToProps = (dispatch, props) => ({
+    onSubmit: (body) => Promise.resolve()
+        .then(() => dispatch(signUpAndIn(body))) 
+        .then(() => props.history.push('/money-transactions')),
 });
 
 export default pipe(
-    connect(mapStateToProps, mapDispatchToProps),
+    withRouter,
+    connect(null, mapDispatchToProps),
 )(Organism);
