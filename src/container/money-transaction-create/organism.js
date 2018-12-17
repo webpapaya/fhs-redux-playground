@@ -7,7 +7,6 @@ import Button from '../../components/button';
 
 export default isForm(({ form, users }) => (
     <Form { ...form }>
-        { console.log(users)}
         <NumberInput 
             name="amount" 
             label="Amount" { ...form } 
