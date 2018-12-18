@@ -7,20 +7,22 @@ import {
     fetchDelete, 
 } from './fetch';
 
+const queryParamForValue = (value) => {
+    if (value === null) { return 'is.null'; }
+    if (Array.isArray(value)) { return `in.(${value.join(',')})`; }
+    return `eq.${value}`;
+}
+
 const filterToParams = (resource, filter = {}) => {
     const queryString = Object.keys(filter).reduce((string, key) => {
         const value = filter[key];
-        const queryParam = Array.isArray(value)
-            ? `${key}=in.(${value.join(',')})`
-            : `${key}=eq.${filter[key]}`;
-
-        return `${string}&${queryParam}`;
+        return `${string}&${key}=${queryParamForValue(value)}`;
     }, '?');
 
     return `${resource}${queryString}`;
 } 
 
-const buildRestActions = ({ resource }) => {
+const buildRestActions = ({ resource, only }) => {
     const where = memoize({}, (filter) => (dispatch) => Promise.resolve()
         .then(() => fetchGet(filterToParams(resource, filter)))
         .then((payload) => dispatch({ type: `${resource}/where/success`, payload })));
@@ -37,7 +39,14 @@ const buildRestActions = ({ resource }) => {
         .then(() => fetchDelete(filterToParams(resource, filter), filter))
         .then((payload) => dispatch({ type: `${resource}/destroy/success`, payload }));
 
-    return { where, create, update, destroy };
+    const actions = { where, create, update, destroy };
+
+    if (!Array.isArray(only)) { return actions; }
+
+    return only.reduce((acc, fnName) => {
+        if (fnName in actions) { acc[fnName] = actions[fnName]; }
+        return acc;
+    }, {});
 };
 
 export default buildRestActions;

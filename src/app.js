@@ -4,6 +4,7 @@ import UserSignUp from './container/user-sign-up';
 import UserSignIn from './container/user-sign-in';
 import MoneyTransferCreate from './container/money-transaction-create';
 import MoneyTransactionList from './container/money-transaction-list';
+import MoneyTransactionReports from './container/money-transaction-reports';
 
 
 export default () => (
@@ -12,6 +13,7 @@ export default () => (
             <React.Fragment>
                 <MoneyTransferCreate />
                 <MoneyTransactionList />
+                <MoneyTransactionReports />
             </React.Fragment>
         ) } />
         <Route path='/user-sign-up' component={ UserSignUp } />
