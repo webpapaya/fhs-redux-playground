@@ -6,6 +6,7 @@ import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
 
 const mapStateToProps = (state, props) => ({
+    reloadMoneyTransactionReports: state.ui.reloadMoneyTransactionReports,
     moneyTransactionReports: state.moneyTransactionReports,
 });
 
@@ -15,5 +16,5 @@ const mapDispatchToProps = (dispatch) => ({
 
 export default pipe(
     connect(mapStateToProps, mapDispatchToProps),
-    hasSideEffect(),
+    hasSideEffect({ props: ['reloadMoneyTransactionReports'] }),
 )(Organism);

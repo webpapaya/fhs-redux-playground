@@ -16,7 +16,7 @@ class SideEffectLoader extends React.Component {
         }; 
     }
     shouldReload = (prevProps) => 
-        !!this.config.props.find((key) => this.props[key] !== prevProps[key]);
+        !!this.config.props.find((key) => this.props.parentProps[key] !== prevProps.parentProps[key]);
 
     safeSetState = (...args) => 
         new Promise((resolve) => this.setState(...args, resolve));
