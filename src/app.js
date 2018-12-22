@@ -6,6 +6,7 @@ import MoneyTransferCreate from './container/money-transaction-create';
 import MoneyTransactionList from './container/money-transaction-list';
 import MoneyTransactionReports from './container/money-transaction-reports';
 
+import Navigation from './container/navigation';
 import WhenUserAuthentication from './container/when-user-authenticated';
 
 export default () => (
@@ -14,6 +15,7 @@ export default () => (
             <Switch>
                 <Route path='/money-transactions' component={ () => (
                     <React.Fragment>
+                        <Navigation />       
                         <MoneyTransferCreate />
                         <MoneyTransactionList />
                         <MoneyTransactionReports />

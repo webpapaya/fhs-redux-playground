@@ -14,7 +14,8 @@ const signIn = ({ email, password }) => (dispatch) =>
 
 const signOut = () => (dispatch) => Promise.resolve()
     .then(() => unsetAuthorizationToken())
-    .then(() => dispatch({ type: '@USER/signedOut' }));
+    .then(() => global.localStorage.removeItem('jwtToken'))
+    .then(() => dispatch({ type: 'reset' }))
 
 const signUpAndIn = ({ name, email, password }) => (dispatch) => Promise.resolve()
     .then(() => fetchPost('rpc/user_sign_up', { email, pass: password }))
