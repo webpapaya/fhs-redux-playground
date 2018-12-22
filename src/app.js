@@ -9,24 +9,26 @@ import MoneyTransactionReports from './container/money-transaction-reports';
 import WhenUserAuthentication from './container/when-user-authenticated';
 
 export default () => (
-    <Switch>
+    <React.Fragment>
         <WhenUserAuthentication authenticated={true}>
-            <Route path='/money-transactions' component={ () => (
-                <React.Fragment>
-                    <MoneyTransferCreate />
-                    <MoneyTransactionList />
-                    <MoneyTransactionReports />
-                </React.Fragment>
-            ) } />
-            <Redirect to='/money-transactions' />
+            <Switch>
+                <Route path='/money-transactions' component={ () => (
+                    <React.Fragment>
+                        <MoneyTransferCreate />
+                        <MoneyTransactionList />
+                        <MoneyTransactionReports />
+                    </React.Fragment>
+                ) } />
+                <Redirect to='/money-transactions' />
+            </Switch>
         </WhenUserAuthentication>
 
-        <WhenUserAuthentication authenticated={ false }>
-            <Route path='/user-sign-up' component={ UserSignUp } />
-            <Route path='/user-sign-in' component={ UserSignIn } />
-            <Redirect to='/user-sign-in' />
+        <WhenUserAuthentication authenticated={false}>
+            <Switch>
+                <Route path='/user-sign-up' component={ UserSignUp } />
+                <Route path='/user-sign-in' component={ UserSignIn } />
+                <Redirect to='/user-sign-in' />
+            </Switch>
         </WhenUserAuthentication>
-
-        <Redirect to='/' />
-    </Switch>
+    </React.Fragment>
 );
