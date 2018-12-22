@@ -1,0 +1,8 @@
+:local(.wrapper) > li:nth-child(2n+1) {
+    background: #efefef;
+}
+
+:local(.row) {
+    padding: 10px;
+    font-family: 'Open Sans';
+}
