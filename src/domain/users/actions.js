@@ -6,7 +6,9 @@ const REST_ACTIONS = buildRestActions({ resource: 'users' });
 const signIn = ({ email, password }) => (dispatch) => 
     fetchPost('rpc/user_sign_in', { email, pass: password }).then((data) => {
         setAuthorizationToken(data[0].token);
-        return dispatch({ type: '@USER/signedIn' });
+        // For simplicity store jwtToken in localStorage for now (don't use this in prod)
+        global.localStorage.setItem('jwtToken', data[0].token); 
+        return dispatch({ type: '@USER/signedIn', payload: { token } });
     });
 
 const signOut = () => (dispatch) => Promise.resolve()
