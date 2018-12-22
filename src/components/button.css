@@ -21,10 +21,14 @@
 
   /* Corrects inability to style clickable `input` types in iOS */
   -webkit-appearance: none;
+  cursor: pointer;
 }
 
 :local(.outlined) {
-  text-decoration: underline;
+  background: #2268FF;
+  border-radius: 9999px;
+  padding: 5px 20px;
+
 }
 
 :local(.filled) {

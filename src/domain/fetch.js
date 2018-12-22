@@ -14,12 +14,13 @@ const api = axios.create({
 global.api = api;
 
 export const setAuthorizationToken = (token) => {
-    api.defaults.headers['Authorization'] = `Bearer ${token}`;
+    api.defaults.headers['Authorization'] = token
+        ? `Bearer ${token}`
+        : null;
 }
 
-export const unsetAuthorizationToken = () => {
-    api.defaults.headers['Authorization'] = null;
-}
+export const unsetAuthorizationToken = () => 
+    setAuthorizationToken(null);
 
 export const fetchGet = (url) => api.get(url).then(({ data }) => camelCaseKeys(data));
 export const fetchPost = (url, body) => api.post(url, decamelCaseKeys(body)).then(({ data = {}}) => camelCaseKeys(data));

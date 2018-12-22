@@ -9,8 +9,11 @@ import { createMemoizeMiddleware } from './lib/memoize-actions';
 import App from './app';
 
 const rootReducer = combineReducers({
+    authentication: require('./domain/users/users-reducer').default,
     ui: require('./domain/ui/reducer').default,
-    users: require('./domain/users/reducer').default,
+    users: require('./domain/users/users-reducer').default,
+
+    userAuthentication: require('./domain/users/authentication-reducer').default,
     moneyTransactions: require('./domain/money-transactions/reducer').default,
     moneyTransactionReports: require('./domain/money-transaction-reports/reducer').default,
   });

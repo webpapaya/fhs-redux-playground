@@ -1,12 +1,10 @@
-import jwtDecode from 'jwt-decode';
+import { connect } from 'react-redux';
 
-const isJWTValid = () => {
-    const jwt = global.localStorage.getItem('jwtToken');
-    if (!jwt) { return false }
-    const expiryDate = new Date(jwtDecode(jwt).exp * 1000)
-    return expiryDate >= new Date();   
-}
+const mapStateToProps = (state, props) => ({
+    shouldRenderChildren: (state.userAuthentication.expiryDate >= new Date()) === props.authenticated
+});
 
-export default ({ children, authenticated }) => isJWTValid() === authenticated 
-    ? children
-    : null;
+export default connect(mapStateToProps)(({ children, shouldRenderChildren }) => 
+    shouldRenderChildren 
+        ? children
+        : null);
