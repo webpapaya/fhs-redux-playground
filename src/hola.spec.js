@@ -1,14 +1,8 @@
 import { assertThat, hasProperties } from 'hamjest';
-import { fetchPost, setAuthorizationToken} from './domain/fetch';
+import { fetchPost, setAuthorizationToken, unsetAuthorizationToken, fetchGet} from './domain/fetch';
 
-const createEntity = (url, payload = {}) => fetchPost(url, payload)
-    .then((entities) => entities[0])
 
-const signUpAndIn = async ({ email, name, password }) => {
-    await fetchPost('rpc/user_sign_up', { email, pass: password });
-    await signIn({ email, password })
-    return createEntity('users', { name });
-}
+const createEntities = (url, payload = {}) => fetchPost(url, payload);
 
 const signIn = async ({ email, password }) => {
     const response = await fetchPost('rpc/user_sign_in', { email, pass: password });
@@ -16,28 +10,34 @@ const signIn = async ({ email, password }) => {
     setAuthorizationToken(firstUserToken);
 }
 
-it('returns ', async () => {
-        const debitorParams = {
-            email: `debitor-${+new Date()}@test.com`,
-            name: 'creditor',
-            password: '1234'
-        };
 
-        const creditorParams = {
-            email: `creditor-${+new Date()}@test.com`,
-            name: 'debitor',
-            password: '1234'
+const signUp = async ({ email, name, password }) => {
+    try {
+        await fetchPost('rpc/user_sign_up', { email, pass: password });
+        await signIn({ email, password });
+        const user = await createEntities('users', { name });
+        unsetAuthorizationToken();
+        return user
+    } catch (e) {}
+}
+
+it('returns ', async () => {
+    jest.setTimeout(100000000);
+    await signUp({ email: 'thomas@mayrhofer.at', name: 'Thomas Mayrhofer', password: 1234 });
+    await Promise.all(Array.from({ length: 100 }).map(() => signUp({ 
+        name: `sepp-${+new Date()}-${Math.random()}`,
+        email: `sepp-${+new Date()}-${Math.random()}@test.at`,
+        password: '1234',
+    })));
+
+    const users = await fetchGet('users');
+    return createEntities('money_transactions', Array.from({ length: 500000 }).map(() => {
+        return {
+            debitorId: users[Math.floor((Math.random() * users.length))].id,
+            creditorId: users[Math.floor((Math.random() * users.length))].id,
+            amount: (Math.random() * 200 - 100).toFixed(2),
+            createdAt: new Date(+new Date(Math.random() * 1000*60*60*24*365*5) + (+new Date('2015-01-01'))).toISOString(),
         };
-    
-        const debitor = await signUpAndIn(debitorParams);
-        const creditor = await signUpAndIn(creditorParams);
-        const moneyTransactionsParams = {
-            debitorId: debitor.id,
-            creditorId: creditor.id,
-            amount: 10
-        };
-        
-        const transaction = await createEntity('money_transactions', moneyTransactionsParams);
-        assertThat(transaction, hasProperties(moneyTransactionsParams))
-})
+    }));
+});
 

@@ -1,3 +1,50 @@
+
 :local(.wrapper) {
     font-family: 'Open Sans';
+    text-align: center;
+}
+
+:local(.amount) {
+    display: inline-flex;
+    font-size: 3rem;
+    align-items: center;
+}
+
+:local(.currency) {
+    position: relative;
+    display: inline-block;
+    padding-left: 0.2rem;
+    padding-bottom: 0.65rem;
+    font-size: 1.5rem;
+}
+
+:local(.positive) {
+    color: #4C85FF;
+    background-image: linear-gradient(45deg,#4C85FF,#0044d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+:local(.negative) {
+    color: #FF9638;
+    background-image: linear-gradient(45deg,#FF9638,#FF4E08);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+:local(.total) {
+    display: block;
+    color: #2b2b2b;
+}
+
+:local(.amount) {
+    padding-top: 40px;
+}
+
+:local(.debitLine) {
+    background: #4C85FF;
+}
+
+:local(.creditLine) {
+    background: #FF9638;
 }

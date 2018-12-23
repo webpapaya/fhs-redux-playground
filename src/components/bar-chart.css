@@ -1,0 +1,22 @@
+:local(.wrapper) {
+    display: flex;
+    text-align: left;
+}
+
+:local(.lineWrapper) {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+:local(.line) {
+    display: block;
+    height: 3px;
+}
+
+:local(.label) {
+    padding-top: 4px;
+    display: inline-block;
+    color: #2b2b2b;
+    font-size: 0.8rem;
+}

@@ -1,3 +1,5 @@
+import { cache } from '../../lib/memoize-actions';
+
 const INITIAL_STATE = {
     reloadMoneyTransactionReports: 0,
 };

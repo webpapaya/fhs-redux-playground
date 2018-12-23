@@ -16,9 +16,9 @@ export default () => (
                 <Route path='/money-transactions' component={ () => (
                     <React.Fragment>
                         <Navigation />       
+                        <MoneyTransactionReports />
                         <MoneyTransferCreate />
                         <MoneyTransactionList />
-                        <MoneyTransactionReports />
                     </React.Fragment>
                 ) } />
                 <Redirect to='/money-transactions' />

@@ -37,18 +37,18 @@ const buildRestActions = ({ resource, only }) => {
 
     const create = (payload) => (dispatch) => Promise.resolve()
         .then(() => fetchPost(resource, payload))
-        .then((payload) => dispatch({ type: `${resource}/create/success`, payload })
-        .catch(logAndRethrow));
+        .then((payload) => dispatch({ type: `${resource}/create/success`, payload }))
+        .catch(logAndRethrow);
 
     const update = (filter, payload) => (dispatch) => Promise.resolve()
         .then(() => fetchPatch(filterToParams(resource, filter), payload))
-        .then((payload) => dispatch({ type: `${resource}/update/success`, payload })
-        .catch(logAndRethrow));
+        .then((payload) => dispatch({ type: `${resource}/update/success`, payload }))
+        .catch(logAndRethrow);
 
     const destroy = (filter) => (dispatch) => Promise.resolve()
         .then(() => fetchDelete(filterToParams(resource, filter), filter))
-        .then((payload) => dispatch({ type: `${resource}/destroy/success`, payload })
-        .catch(logAndRethrow));
+        .then((payload) => dispatch({ type: `${resource}/destroy/success`, payload }))
+        .catch(logAndRethrow);
 
     const actions = { where, create, update, destroy };
 
