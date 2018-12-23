@@ -1,5 +1,6 @@
 
 import { memoize } from 'redux-memoize';
+import decamelCaseKeys from 'decamelize-keys-deep';
 import { 
     fetchPost, 
     fetchPatch, 
@@ -19,8 +20,9 @@ const queryParamForValue = (value) => {
 }
 
 const filterToParams = (resource, filter = {}) => {
-    const queryString = Object.keys(filter).reduce((string, key) => {
-        const value = filter[key];
+    const preparededFilter = decamelCaseKeys(filter);
+    const queryString = Object.keys(preparededFilter).reduce((string, key) => {
+        const value = preparededFilter[key];
         return `${string}&${key}=${queryParamForValue(value)}`;
     }, '?');
 

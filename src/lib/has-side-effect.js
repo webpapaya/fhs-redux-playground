@@ -25,7 +25,7 @@ class SideEffectLoader extends React.Component {
         if(!this.props.parentProps['sideEffect']) { return Promise.resolve(); }
         return Promise.resolve()
             .then(() => this.safeSetState(() => ({ isLoading: true })))
-            .then(() => this.props.parentProps['sideEffect']())
+            .then(() => this.props.parentProps['sideEffect'](this.props.parentProps))
             .then(() => this.safeSetState(() => ({ wasLoaded: true, isLoading: false })))
             .catch(() => this.safeSetState(() => ({ isLoading: false })))
     }

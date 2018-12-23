@@ -1,38 +1,19 @@
-import axios from 'axios';
 import { assertThat, hasProperties } from 'hamjest';
+import { fetchPost, setAuthorizationToken} from './domain/fetch';
 
-const BASE_URL = 'http://0.0.0.0:3000';
-const api = axios.create({
-    baseURL: BASE_URL,
-    headers: {
-        'Content-Type': 'application/json',
-        'Prefer': 'return=representation',
-    }
-});
-const setAuthorisationToken = (token) => {
-    api.defaults.headers['Authorization'] = `Bearer ${token}`;
-}
-
-const fetchGet = (url, token) => fetch(`${BASE_URL}/${url}`, { 
-    headers: { 
-        'Content-Type': 'application/json',  
-        ...(token ? { 'Authorization': `Bearer ${token}` } : {})
-    },
-}); 
-
-const createEntity = (url, payload = {}) => api.post(url, payload)
-    .then(({ data }) => data[0])
+const createEntity = (url, payload = {}) => fetchPost(url, payload)
+    .then((entities) => entities[0])
 
 const signUpAndIn = async ({ email, name, password }) => {
-    await api.post('rpc/user_sign_up', { email, pass: password });
+    await fetchPost('rpc/user_sign_up', { email, pass: password });
     await signIn({ email, password })
     return createEntity('users', { name });
 }
 
 const signIn = async ({ email, password }) => {
-    const response = await api.post('rpc/user_sign_in', { email, pass: password });
-    const firstUserToken = response.data[0].token; 
-    setAuthorisationToken(firstUserToken);
+    const response = await fetchPost('rpc/user_sign_in', { email, pass: password });
+    const firstUserToken = response[0].token; 
+    setAuthorizationToken(firstUserToken);
 }
 
 it('returns ', async () => {
@@ -51,8 +32,8 @@ it('returns ', async () => {
         const debitor = await signUpAndIn(debitorParams);
         const creditor = await signUpAndIn(creditorParams);
         const moneyTransactionsParams = {
-            debitor_id: debitor.id,
-            creditor_id: creditor.id,
+            debitorId: debitor.id,
+            creditorId: creditor.id,
             amount: 10
         };
         

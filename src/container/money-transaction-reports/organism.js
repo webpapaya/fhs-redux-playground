@@ -1,8 +1,11 @@
 import React from 'react';
-import Button from '../../components/button';
+import styles from './organism.css';
 
-export default ({ moneyTransactionReports }) => (
-    <ul>
-       { console.log(moneyTransactionReports) }
-    </ul>
+const formatEuro = (amount) => `${parseFloat(amount).toFixed(2)} €`;
+
+export default ({ totalBalance }) => (
+    <section className={styles.wrapper}>
+        { formatEuro(totalBalance) }
+    </section>
+    
 );
