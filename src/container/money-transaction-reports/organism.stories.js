@@ -6,14 +6,14 @@ storiesOf('MoneyTransactionReports', module)
   .add('positive', () => (
     <Organism 
       totalBalance={ Math.random() * 100 } 
-      debtAmount={ Math.random() * 100 }
+      debitAmount={ Math.random() * 100 }
       creditAmount={ Math.random() * 100 }
     />
   ))
   .add('negative', () => (
     <Organism 
       totalBalance={ Math.random() * -100 } 
-      debtAmount={ Math.random() * 100 }
+      debitAmount={ Math.random() * 100 }
       creditAmount={ Math.random() * 100 }
     />
   ));

@@ -35,7 +35,7 @@ it('returns ', async () => {
         return {
             debitorId: users[Math.floor((Math.random() * users.length))].id,
             creditorId: users[Math.floor((Math.random() * users.length))].id,
-            amount: (Math.random() * 200 - 100).toFixed(2),
+            amount: (Math.random() * 200).toFixed(2),
             createdAt: new Date(+new Date(Math.random() * 1000*60*60*24*365*5) + (+new Date('2015-01-01'))).toISOString(),
         };
     }));

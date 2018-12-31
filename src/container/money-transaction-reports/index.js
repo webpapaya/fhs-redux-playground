@@ -4,13 +4,15 @@ import UserActions from '../../domain/users/actions';
 import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
-import { find, where, isNil, propEq } from 'ramda';
+import { filter, find, where, whereEq, propEq } from 'ramda';
 
-const selectTotalBalanceForAuthenticatedUser = (state) => {
-    const transactionReport = find(where({
-        granularity: propEq('total'),
-        creditorId: propEq(state.userAuthentication.userId),
-        debitorId: isNil,
+
+
+const selectTotalBalanceForAuthenticatedUser = (state, { type }) => {
+    const transactionReport = find(whereEq({
+        granularity: 'total',
+        userId: state.userAuthentication.userId,
+        type
     }), state.moneyTransactionReports) || {};
 
     return transactionReport.amount || 0;
@@ -18,15 +20,16 @@ const selectTotalBalanceForAuthenticatedUser = (state) => {
 
 const mapStateToProps = (state, props) => ({
     reloadMoneyTransactionReports: state.ui.reloadMoneyTransactionReports,
-    totalBalance: selectTotalBalanceForAuthenticatedUser(state),
-    creditorId: state.userAuthentication.userId,
+    totalAmount: selectTotalBalanceForAuthenticatedUser(state, { type: 'sum' }),
+    debitAmount: selectTotalBalanceForAuthenticatedUser(state, { type: 'debit' }),
+    creditAmount: selectTotalBalanceForAuthenticatedUser(state, { type: 'credit' }),
+    userId: state.userAuthentication.userId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     sideEffect: (props) => dispatch(MoneyTransactionReportsActions.where({ 
         granularity: 'total', 
-        creditorId: props.creditorId, 
-        debitorId: null,
+        userId: props.userId
     })),
 });
 

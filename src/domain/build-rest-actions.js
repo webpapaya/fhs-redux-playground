@@ -1,6 +1,8 @@
 
 import { memoize } from 'redux-memoize';
 import decamelCaseKeys from 'decamelize-keys-deep';
+import decamelize from 'decamelize';
+
 import { 
     fetchPost, 
     fetchPatch, 
@@ -17,21 +19,26 @@ const queryParamForValue = (value) => {
     if (value === null) { return 'is.null'; }
     if (Array.isArray(value)) { return `in.(${value.join(',')})`; }
     return `eq.${value}`;
-}
+};
 
-const filterToParams = (resource, filter = {}) => {
+const orderToParams = (order) => order.length > 0
+    ? `order=${order.map((value) => decamelize(value)).join(',')}`
+    : '';
+
+const filterToParams = (resource, filter = {}, order = []) => {
     const preparededFilter = decamelCaseKeys(filter);
-    const queryString = Object.keys(preparededFilter).reduce((string, key) => {
+    const filterQueryString = Object.keys(preparededFilter).reduce((string, key) => {
         const value = preparededFilter[key];
         return `${string}&${key}=${queryParamForValue(value)}`;
-    }, '?');
-
-    return `${resource}${queryString}`;
+    }, ``);
+    const orderQueryString = orderToParams(order);
+    return `${resource}?${filterQueryString}&${orderQueryString}`;
 } 
 
+
 const buildRestActions = ({ resource, only }) => {
-    const where = memoize({}, (filter) => (dispatch) => Promise.resolve()
-        .then(() => fetchGet(filterToParams(resource, filter)))
+    const where = memoize({}, (filter, { order } = {}) => (dispatch) => Promise.resolve()
+        .then(() => fetchGet(filterToParams(resource, filter, order)))
         .then((payload) => dispatch({ type: `${resource}/where/success`, payload }))
         .catch(logAndRethrow));
 

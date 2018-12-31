@@ -1,7 +1,12 @@
-const merge = (state, newRecords) => {
-    const list = [...state, ...newRecords];
-    const obj = list.reduce((result, item) => {
-        result[item.id] = item;
+import { pick } from 'ramda';
+
+const merge = (uniqueKeys, records) => {
+    const obj = records.reduce((result, record) => {
+        if (uniqueKeys.length === 1) {
+            result[record.id] = record;
+        } else {
+            result[JSON.stringify(pick(uniqueKeys, record))] = record;
+        }
         return result;
     }, {});
     return Object.values(obj);
@@ -13,12 +18,12 @@ const remove = (state, except) => {
 };
 
 const INITIAL_STATE = [];
-const buildRestReducer = ({ resource }) => (state = INITIAL_STATE, action) => {
+const buildRestReducer = ({ resource, uniqueKeys = ['id'] }) => (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case `${resource}/update/success`:
         case `${resource}/create/success`:
         case `${resource}/where/success`:
-            return merge(state, action.payload);
+            return merge(uniqueKeys, [...state, ...action.payload]);
         case `${resource}/destroy/success`:
             return remove(state, action.payload);
         case `reset`:

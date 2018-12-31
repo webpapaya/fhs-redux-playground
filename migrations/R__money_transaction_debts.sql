@@ -1,8 +1,8 @@
 -- -- I know I'm ugly...
 
 
-drop VIEW IF EXISTS money_transaction_debts;
-CREATE VIEW money_transaction_debts as 
+drop VIEW IF EXISTS money_transaction_debits;
+CREATE VIEW money_transaction_debits as 
   select 
     sum(amount) as amount, 
     debitor_id as user_id,
