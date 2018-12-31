@@ -22,15 +22,57 @@
   /* Corrects inability to style clickable `input` types in iOS */
   -webkit-appearance: none;
   cursor: pointer;
-}
+  
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  transition: all 200ms;
 
-:local(.outlined) {
-  background: #2268FF;
   border-radius: 9999px;
   padding: 5px 20px;
-
 }
 
-:local(.filled) {
-  background: green;
+:local(.button:active), :local(.button:focus) {
+  outline: none;
+}
+
+/* primary color */ 
+:local(.color-primary) {
+  color: #ffffff;
+  background: #2268FF;
+}
+
+:local(.color-primary:hover) {
+  background: #4C85FF;
+}
+
+:local(.color-primary:focus), :local(.color-primary:active) {
+  background: #0A57FB;
+}
+
+/* success color */ 
+:local(.color-success) {
+  color: #ffffff;
+  background: #16D563;
+}
+
+:local(.color-success:hover) {
+  background: #3ADF7D;
+}
+
+:local(.color-success:focus), :local(.color-success:active) {
+  background: #00BF4D;
+}
+
+/* danger color */ 
+:local(.color-danger) {
+  color: #ffffff;
+  background: #FF7D09;
+}
+
+:local(.color-danger:hover) {
+  background: #FF9638;
+}
+
+:local(.color-danger:focus), :local(.color-danger:active) {
+  background: #FF7800;
 }
