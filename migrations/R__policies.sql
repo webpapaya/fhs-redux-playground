@@ -1,10 +1,12 @@
--- ALTER TABLE public.events ENABLE ROW LEVEL SECURITY;
--- DROP POLICY IF exists events_policy on public.events;
+ALTER TABLE public.money_transactions ENABLE ROW LEVEL SECURITY;
 
--- CREATE POLICY events_policy
--- ON public.events
--- FOR select
--- USING (id in (
---   select events_speakers.event_id from speakers
---   join events_speakers on speakers.id = events_speakers.speaker_id
---   where speakers.role_id = current_user))
+DROP POLICY IF EXISTS money_transactions_policy
+ON public.money_transactions;
+
+CREATE POLICY money_transactions_policy
+ON public.money_transactions
+FOR ALL
+USING (
+  debitor_id in (select id from users where role = current_user) OR
+  creditor_id in (select id from users where role = current_user));
+
