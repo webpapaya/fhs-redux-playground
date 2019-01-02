@@ -7,20 +7,23 @@ import hasSideEffect from '../../lib/has-side-effect';
 
 const mapStateToProps = (state, props) => ({
     users: state.users,
-    moneyTransactions: state.moneyTransactions,
+    items: state.moneyTransactions,
     userId: state.userAuthentication.userId,
 });
 
 const mapDispatchToProps = (dispatch) => ({
     onDestroy: (filter) => dispatch(MoneyTransactionActions.destroy(filter)),
-    sideEffect: (props) => Promise.all([
+    sideEffect: () =>
         dispatch(UserActions.where()),
-        dispatch(MoneyTransactionActions.where({ creditorId: props.userId }, { order: ['createdAt.desc'] })),
+
+    onItemsLoad: (props) =>
         dispatch(MoneyTransactionActions.where({ debitorId: props.userId }, { order: ['createdAt.desc'] })),
-    ]),
+    
 });
 
 export default pipe(
     connect(mapStateToProps, mapDispatchToProps),
     hasSideEffect(),
 )(Organism);
+
+

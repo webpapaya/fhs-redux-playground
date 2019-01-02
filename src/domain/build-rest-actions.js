@@ -2,6 +2,7 @@
 import { memoize } from 'redux-memoize';
 import decamelCaseKeys from 'decamelize-keys-deep';
 import decamelize from 'decamelize';
+import { cache } from '../lib/memoize-actions';
 
 import { 
     fetchPost, 
@@ -35,26 +36,39 @@ const filterToParams = (resource, filter = {}, order = []) => {
     return `${resource}?${filterQueryString}&${orderQueryString}`;
 } 
 
+const ignoreReturnFor = (fn) => (value) => Promise.resolve()
+    .then(() => fn())
+    .then(() => value);
 
 const buildRestActions = ({ resource, only }) => {
     const where = memoize({}, (filter, { order } = {}) => (dispatch) => Promise.resolve()
         .then(() => fetchGet(filterToParams(resource, filter, order)))
-        .then((payload) => dispatch({ type: `${resource}/where/success`, payload }))
+        .then(({ payload, contentRange }) => dispatch({ 
+            type: `${resource}/where/success`, 
+            payload: payload, 
+            meta: { contentRange } 
+        }))
         .catch(logAndRethrow));
+    
+    const invalidateCache = () =>
+        cache.delete(where.unmemoized);
 
     const create = (payload) => (dispatch) => Promise.resolve()
         .then(() => fetchPost(resource, payload))
-        .then((payload) => dispatch({ type: `${resource}/create/success`, payload }))
+        .then(ignoreReturnFor(invalidateCache))
+        .then(({ payload }) => dispatch({ type: `${resource}/create/success`, payload, meta: {} }))
         .catch(logAndRethrow);
 
     const update = (filter, payload) => (dispatch) => Promise.resolve()
         .then(() => fetchPatch(filterToParams(resource, filter), payload))
-        .then((payload) => dispatch({ type: `${resource}/update/success`, payload }))
+        .then(ignoreReturnFor(invalidateCache))
+        .then(({ payload }) => dispatch({ type: `${resource}/update/success`, payload, meta: {} }))
         .catch(logAndRethrow);
 
     const destroy = (filter) => (dispatch) => Promise.resolve()
         .then(() => fetchDelete(filterToParams(resource, filter), filter))
-        .then((payload) => dispatch({ type: `${resource}/destroy/success`, payload }))
+        .then(ignoreReturnFor(invalidateCache))
+        .then(({ payload }) => dispatch({ type: `${resource}/destroy/success`, payload, meta: {} }))
         .catch(logAndRethrow);
 
     const actions = { where, create, update, destroy };

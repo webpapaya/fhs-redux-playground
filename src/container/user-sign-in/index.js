@@ -7,6 +7,7 @@ import pipe from '../../lib/pipe';
 const mapDispatchToProps = (dispatch, props) => ({
     onSubmit: (payload) => Promise.resolve()
         .then(() => dispatch(UserActions.signIn(payload)))
+        // add history actions
         .then(() => props.history.push('/money-transactions')),
 });
 

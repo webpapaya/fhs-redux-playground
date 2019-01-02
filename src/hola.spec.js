@@ -10,6 +10,18 @@ const signIn = async ({ email, password }) => {
     setAuthorizationToken(firstUserToken);
 }
 
+function onlyUnique(value, index, self) { 
+    return self.indexOf(value) === index;
+}
+
+const fetchUniqueItems = (array, length) => {
+    const items = Array.from({ length }).map(() => {
+        return array[Math.floor((Math.random() * array.length))];
+    });
+    const uniqueItems = items.filter(onlyUnique);
+    if (uniqueItems.length !== length) { return fetchUniqueItems(array, length); }
+    return uniqueItems;
+}
 
 const signUp = async ({ email, name, password }) => {
     try {
@@ -21,6 +33,7 @@ const signUp = async ({ email, name, password }) => {
     } catch (e) {}
 }
 
+
 it('returns ', async () => {
     jest.setTimeout(100000000);
     await signUp({ email: 'thomas@mayrhofer.at', name: 'Thomas Mayrhofer', password: 1234 });
@@ -30,11 +43,23 @@ it('returns ', async () => {
         password: '1234',
     })));
 
-    const users = await fetchGet('users');
+    const { records: users } = await fetchGet('users');
+    await users.reduce((promise, user) => {
+        
+
+
+        return promise.then(() => {
+            
+        });
+    }, Promise.resolve());
+
+
     return createEntities('money_transactions', Array.from({ length: 500000 }).map(() => {
+        const [ creditor, debitor ] = fetchUniqueItems(users, 2);
+
         return {
-            debitorId: users[Math.floor((Math.random() * users.length))].id,
-            creditorId: users[Math.floor((Math.random() * users.length))].id,
+            debitorId: creditor.id,
+            creditorId: debitor.id,
             amount: (Math.random() * 200).toFixed(2),
             createdAt: new Date(+new Date(Math.random() * 1000*60*60*24*365*5) + (+new Date('2015-01-01'))).toISOString(),
         };

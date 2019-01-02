@@ -10,7 +10,7 @@ const reducer = (state = INITIAL_STATE, action) => {
         case `money_transactions/update/success`:
         case `money_transactions/create/success`:
         case `money_transactions/destroy/success`:
-            cache.delete(MoneyTransactionReportActions.where.unmemoized)
+            cache.delete(MoneyTransactionReportActions.where.unmemoized);
             return { ...state, reloadMoneyTransactionReports: state.reloadMoneyTransactionReports + 1 };
         case `reset`:
             cache.clear();
