@@ -22,6 +22,7 @@ import buildQueryParams, {
 
 describe('buildQueryParams', () => {
   [
+    { query: null, result: '' },
     { query: void 0, result: '' },
     { query: q(order(asc('property'))), result: '?order=property.asc' },
     { query: q(where({ property: eq(1) })), result: '?property=eq.1' },
@@ -86,6 +87,7 @@ describe('buildQueryParamsForOrder', () => {
 describe('buildQueryParamsForLimit', () => {
   [
     { limit: void 0, result: '' },
+    { limit: null, result: '' },
     { limit: 1, result: 'limit=1' },
   ].forEach(({ limit, result }) => {
     it(`${JSON.stringify(order)} results in ${result}`, () => {
@@ -97,6 +99,7 @@ describe('buildQueryParamsForLimit', () => {
 describe('buildQueryParamsForOffset', () => {
   [
     { offset: void 0, result: '' },
+    { offset: null, result: '' },
     { offset: 1, result: 'offset=1' },
   ].forEach(({ offset, result }) => {
     it(`${JSON.stringify(order)} results in ${result}`, () => {
