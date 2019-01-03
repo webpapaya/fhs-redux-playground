@@ -8,8 +8,7 @@ const OPERATOR_LIST = {
   lte: (value) => `lte.${value}`,
   not: (value) => `not.${toValue(value)}`,
   like: (value) => `like.${value.replace(/%/g, '*')}`,
-  oneOf: (values) => {
-    const parsedValues = values
+  oneOf: (values) => {    const parsedValues = values
       .map((value) => isString(value) ? `"${value}"` : value)
       .join(',');
 
@@ -43,7 +42,8 @@ export const buildQueryParamsForOrder = (order = []) => {
 
 export const buildQueryParamsForWhere = (where = {}) => Object.keys(where)
   .filter((key) => where[key].operator in OPERATOR_LIST)
-  .map((key) => `${key}=${toValue(where[key])}`) 
+  .map((key) => toQueryParam(key, toValue(where[key]))) 
+  .filter((queryParam) => queryParam)
   .join('&');
 
 export const buildQueryParamsForLimit = (limit) => 
@@ -65,5 +65,3 @@ export default (query) => {
     ? `?${queryParams.join('&')}` 
     : '';
 }
-  
-

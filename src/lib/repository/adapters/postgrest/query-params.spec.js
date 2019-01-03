@@ -48,6 +48,8 @@ describe('buildQueryParamsForWhere', () => {
     { where: { prop: eq(1)}, result: 'prop=eq.1' },
     { where: { prop: eq(null)}, result: 'prop=is.null' },
     { where: { prop: eq(null)}, result: 'prop=is.null' },
+
+    { where: { prop: oneOf()}, result: 'prop=in.()' },
     { where: { prop: oneOf(1, 2, 3)}, result: 'prop=in.(1,2,3)' },
     { where: { prop: oneOf('Sepp', 'Huber')}, result: 'prop=in.("Sepp","Huber")' },
     { where: { prop: gt(1)}, result: 'prop=gt.1' },
