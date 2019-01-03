@@ -1,80 +1,45 @@
 
 import { memoize } from 'redux-memoize';
-import decamelCaseKeys from 'decamelize-keys-deep';
-import decamelize from 'decamelize';
 import { cache } from '../lib/memoize-actions';
-
-import { 
-    fetchPost, 
-    fetchPatch, 
-    fetchGet,
-    fetchDelete, 
-} from './fetch';
-
-const logAndRethrow = (error) => {
-    console.error(error);
-    throw error;
-}
-
-const queryParamForValue = (value) => {
-    if (value === null) { return 'is.null'; }
-    if (Array.isArray(value)) { return `in.(${value.join(',')})`; }
-    return `eq.${value}`;
-};
-
-const orderToParams = (order) => order.length > 0
-    ? `order=${order.map((value) => decamelize(value)).join(',')}`
-    : '';
-
-const filterToParams = (resource, filter = {}, order = []) => {
-    const preparededFilter = decamelCaseKeys(filter);
-    const filterQueryString = Object.keys(preparededFilter).reduce((string, key) => {
-        const value = preparededFilter[key];
-        return `${string}&${key}=${queryParamForValue(value)}`;
-    }, ``);
-    const orderQueryString = orderToParams(order);
-    return `${resource}?${filterQueryString}&${orderQueryString}`;
-} 
+import { buildRepository } from '../lib/repository/adapters/postgrest';
+import { connection } from './server-connection';
 
 const ignoreReturnFor = (fn) => (value) => Promise.resolve()
     .then(() => fn())
     .then(() => value);
 
 const buildRestActions = ({ resource, only }) => {
-    const where = memoize({}, (filter, { order } = {}) => (dispatch) => Promise.resolve()
-        .then(() => fetchGet(filterToParams(resource, filter, order)))
-        .then(({ payload, contentRange }) => dispatch({ 
+    const repository = buildRepository({ baseURL: 'http://localhost:3000', path: resource });
+
+    const where = memoize({}, (filter) => (dispatch) => Promise.resolve()
+        .then(() => repository.where(connection, filter))
+        .then(({ payload, meta }) => dispatch({ 
             type: `${resource}/where/success`, 
-            payload: payload, 
-            meta: { contentRange } 
-        }))
-        .catch(logAndRethrow));
+            payload, 
+            meta, 
+        })));
     
     const invalidateCache = () =>
         cache.delete(where.unmemoized);
 
     const create = (payload) => (dispatch) => Promise.resolve()
-        .then(() => fetchPost(resource, payload))
+        .then(() => repository.create(connection, payload))
         .then(ignoreReturnFor(invalidateCache))
-        .then(({ payload }) => dispatch({ type: `${resource}/create/success`, payload, meta: {} }))
-        .catch(logAndRethrow);
+        .then(({ payload }) => dispatch({ type: `${resource}/create/success`, payload, meta: {} }));
 
     const update = (filter, payload) => (dispatch) => Promise.resolve()
-        .then(() => fetchPatch(filterToParams(resource, filter), payload))
+        .then(() => repository.update(connection, filter, payload))
         .then(ignoreReturnFor(invalidateCache))
-        .then(({ payload }) => dispatch({ type: `${resource}/update/success`, payload, meta: {} }))
-        .catch(logAndRethrow);
+        .then(({ payload }) => dispatch({ type: `${resource}/update/success`, payload, meta: {} }));
 
     const destroy = (filter) => (dispatch) => Promise.resolve()
-        .then(() => fetchDelete(filterToParams(resource, filter), filter))
+        .then(() => repository.destroy(connection, filter))
         .then(ignoreReturnFor(invalidateCache))
-        .then(({ payload }) => dispatch({ type: `${resource}/destroy/success`, payload, meta: {} }))
-        .catch(logAndRethrow);
+        .then(({ payload }) => dispatch({ type: `${resource}/destroy/success`, payload, meta: {} }));
 
     const actions = { where, create, update, destroy };
 
     if (!Array.isArray(only)) { return actions; }
-
     return only.reduce((acc, fnName) => {
         if (fnName in actions) { acc[fnName] = actions[fnName]; }
         return acc;

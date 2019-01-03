@@ -16,8 +16,8 @@ const mapDispatchToProps = (dispatch) => ({
     sideEffect: () =>
         dispatch(UserActions.where()),
 
-    onItemsLoad: (props) =>
-        dispatch(MoneyTransactionActions.where({ debitorId: props.userId }, { order: ['createdAt.desc'] })),
+    onItemsLoad: (filter, meta = {}) =>
+        dispatch(MoneyTransactionActions.where({ }, { order: ['createdAt.desc'], offset: meta.offset })),
     
 });
 

@@ -4,10 +4,8 @@ import styles from './index.css';
 
 class PaginationWrapper extends React.Component {
     state = {
-        offset: 0,
-        total: null,
-        from: null,
-        to: null,
+        currentPage: 0,
+        totalItems: null,
         itemOrder: [],
     }
 
@@ -21,11 +19,21 @@ class PaginationWrapper extends React.Component {
 
     reload() {
         Promise.resolve()
-            .then(() => this.props.otherProps.onItemsLoad(this.props.otherProps))
+            .then(() => this.props.otherProps.onItemsLoad(this.props.otherProps, { 
+                offset: this.state.currentPage,
+                limit: this.config.pageSize,  
+            }))
             .then(({ meta, payload }) => this.setState((state) => {
                 const itemOrder = payload.map((record) => record[this.config.recordProperty]);
-                return { ...state, ...meta.contentRange, itemOrder };
-            }));
+                return { 
+                    ...state, 
+                    totalItems: meta.contentRange.total,
+                    itemOrder, 
+                };
+            }))
+            .catch((x) => {
+                console.log(x);
+            });
     }
 
     componentDidMount() {
@@ -49,10 +57,17 @@ class PaginationWrapper extends React.Component {
         }, []);
     }
 
+    onPageChange = (currentPage) => {
+        this.setState((state) => ({ ...state, currentPage }), () => this.reload());
+    }
+
     render() {
        return (
             <this.props.Component 
-                { ...this.props.otherProps } 
+                { ...this.props.otherProps }
+                pageCount={ Math.ceil(this.state.totalItems / this.config.pageSize) }
+                currentPage={ this.state.currentPage } 
+                onPageChange={ this.onPageChange }
                 items={this.sliceItems(this.props.items)} 
             />
        ); 
@@ -68,20 +83,36 @@ const isPaginated = (config, Component) => ({ items, fetchData, ...props }) => (
     />
 );
 
-export default isPaginated({}, ({ items: moneyTransactions, users, onDestroy }) => (
-    <ul className={styles.wrapper}>
-        { moneyTransactions.map(({ id, creditorId, debitorId, amount }) => (
-            <li key={id} className={styles.row}>
-                <span>
-                    { (users.find((user) => user.id === creditorId ) || {}).name } - 
-                    { (users.find((user) => user.id === debitorId ) || {}).name } - 
-                    { amount }    
-                </span>
-                
-                <Button color="danger" onClick={() => onDestroy({ id })}>
-                    Delete
-                </Button>
-            </li>
+export default isPaginated({}, ({ 
+    items: moneyTransactions, 
+    users, 
+    onDestroy,
+    onPageChange,
+    pageCount, 
+}) => (
+    <React.Fragment>
+        <ul className={styles.wrapper}>
+            { moneyTransactions.map(({ id, creditorId, debitorId, amount }) => (
+                <li key={id} className={styles.row}>
+                    <span>
+                        { (users.find((user) => user.id === creditorId ) || {}).name } - 
+                        { (users.find((user) => user.id === debitorId ) || {}).name } - 
+                        { amount }    
+                    </span>
+                    
+                    <Button color="danger" onClick={() => onDestroy({ id })}>
+                        Delete
+                    </Button>
+                </li>
+            )) }
+        </ul>
+        
+        { console.log(pageCount)}
+        { Array.from({ length: pageCount }).map((_, index) => (
+            <span onClick={ () => onPageChange(index) } key={index}>
+                { index + 1 }
+            </span>
         )) }
-    </ul>
+    </React.Fragment>
+    
 ));

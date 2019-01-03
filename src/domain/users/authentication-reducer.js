@@ -1,5 +1,6 @@
 import jwtDecode from 'jwt-decode';
-import { unsetAuthorizationToken, setAuthorizationToken } from '../fetch';
+import { connection } from '../server-connection';
+import { setAuthentication, unsetAuthentication } from '../../lib/repository/adapters/postgrest';
 
 const parseToken = (token) => {
   if (!token) { return {}; }
@@ -14,16 +15,16 @@ export default (_, action) => {
   switch (action.type) {
     case '@USER/signedIn':
       global.localStorage.setItem('jwtToken', action.payload.token); 
-      setAuthorizationToken(action.payload.token);
+      setAuthentication(connection, action.payload.token);
       return parseToken(action.payload.token);
 
     case 'reset': 
       global.localStorage.removeItem('jwtToken');
-      unsetAuthorizationToken(); 
+      unsetAuthentication(connection); 
       return {};
 
     default: 
-      setAuthorizationToken(global.localStorage.getItem('jwtToken'));
+      setAuthentication(connection, global.localStorage.getItem('jwtToken'));
       return parseToken(global.localStorage.getItem('jwtToken'));
   }
 }; 
