@@ -25,6 +25,7 @@ describe('buildQueryParams', () => {
     { query: null, result: '' },
     { query: void 0, result: '' },
     { query: q(order(asc('property'))), result: '?order=property.asc' },
+    { query: q(order(asc('camelCase'))), result: '?order=camel_case.asc' },
     { query: q(where({ property: eq(1) })), result: '?property=eq.1' },
     { query: q(limit(1)), result: '?limit=1' },
     { query: q(offset(1)), result: '?offset=1' },
@@ -47,7 +48,7 @@ describe('buildQueryParamsForWhere', () => {
     { where: {}, result: '' },
     { where: { prop: eq(1)}, result: 'prop=eq.1' },
     { where: { prop: eq(null)}, result: 'prop=is.null' },
-    { where: { prop: eq(null)}, result: 'prop=is.null' },
+    { where: { camelCase: eq(1) }, result: 'camel_case=eq.1' },
 
     { where: { prop: oneOf()}, result: 'prop=in.()' },
     { where: { prop: oneOf(1, 2, 3)}, result: 'prop=in.(1,2,3)' },

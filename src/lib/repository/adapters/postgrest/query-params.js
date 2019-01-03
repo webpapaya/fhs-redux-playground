@@ -1,3 +1,5 @@
+import decamelize from 'decamelize';
+
 const isString = (value) => 
   Object.prototype.toString.call(value) === "[object String]";
 
@@ -24,13 +26,13 @@ const toValue = (property) =>
   (OPERATOR_LIST[property.operator] || defaultOperator)(property.value);
 
 const toQueryParam = (key, value) => !(value === void 0 || value === null || value === '')
-  ? `${key}=${value}`
+  ? `${decamelize(key)}=${value}`
   : '';
 
 export const buildQueryParamsForOrder = (order = []) => {
   const items = order
     .map(({ operator, value, options }) => {
-      const param = `${value}.${operator}`;
+      const param = decamelize(`${value}.${operator}`);
       if (options.nulls === 'first') { return `${param}.nullsfirst`; }
       if (options.nulls === 'last') { return `${param}.nullslast`; } 
       return param;
