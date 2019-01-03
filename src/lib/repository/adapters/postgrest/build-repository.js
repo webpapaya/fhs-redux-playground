@@ -26,10 +26,10 @@ const parseResponse = ({ data = [], headers = {} }) => ({
 }); 
 
 const buildRepository = ({
-  path = requiredParam('path'),
+  path: resource = requiredParam('path'),
   limit = 25,
 }) => {
-  const url = `${decamelize(path)}`;
+  const url = `${decamelize(resource)}`;
   
   const create = (connection, values) => Promise.resolve()
     .then(() => connection.post(url, decamelCaseKeys(values)))
