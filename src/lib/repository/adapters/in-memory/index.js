@@ -8,8 +8,14 @@ import {
   gte as rLte,
   includes as rIncludes,
   complement as rNot,
+  descend as rDescendent,
+  ascend as rAscendent,
+  sortWith as rSortWith,
+  slice as rSlice,
+
   flip,
   is,
+  isNil,
 } from 'ramda';
 
 const FILTERS = {
@@ -33,7 +39,7 @@ const definitionToRamda = (definition) => {
   }
 }
 
-const queryToRamda = ({ where }, records) => {
+const filterRecords = ({ where = {} } = {}, records) => {
   const filter = Object.keys(where).reduce((acc, propertyName) => {
     acc[propertyName] = definitionToRamda(where[propertyName]);
     return acc;
@@ -42,12 +48,43 @@ const queryToRamda = ({ where }, records) => {
   return rFilter(rWhere(filter), records);
 }
 
+const orderRecords = ({ order = [] } = {}, records) => {
+  if (order.length === 0) { return records; }
+
+  const sortDefinition = order.map((definition) => {
+    const direction = definition.operator === 'asc'
+      ? rAscendent
+      : rDescendent;
+
+    const fetchValueToSort = (object) => {
+      const valueToSort = object[definition.value];
+      if (valueToSort) { return valueToSort; }
+      else if (definition.options.nulls === 'first') {
+        return Number.NEGATIVE_INFINITY;
+      } else {
+        return Number.POSITIVE_INFINITY;
+      }
+    }
+    
+    return direction(fetchValueToSort);
+  });
+
+  return rSortWith(sortDefinition, records);
+}
+
+const paginateRecords = ({ limit, offset } = {}, records) => {
+  if (isNil(limit) && isNil(offset)) { return records; }
+  return slice(offset, limit, records);
+}
+
+
 
 export const buildRepository = ({ resource }) => {
   const where = (connection, query) => {
     const records = connection[resource];
-    if (!query) { return records; } 
-    return queryToRamda(query, records);
+    const filteredRecords = filterRecords(query, records);
+    const sortedRecords = orderRecords(query, filteredRecords);
+    return paginateRecords(query, sortedRecords);
   }
 
   return {
