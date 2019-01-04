@@ -8,7 +8,7 @@ const Component = ({
  pageCount,
  currentPage,
 }) => {
-  const pageArray = Array.from({ length: pageCount - 1 }).map((_, index) => index);
+  const pageArray = Array.from({ length: pageCount }).map((_, index) => index);
   
   return (
     <div className={className(styles.wrapper)}>
@@ -28,11 +28,11 @@ const Component = ({
             className={className(styles.item, currentPage === pageNumber && styles.active) } 
             key={pageNumber}
           >
-            {pageNumber}
+            {pageNumber + 1}
           </li>
         )) }
 
-        { currentPage < pageCount - 1 && (
+        { currentPage < pageCount  -1 && (
           <li 
             className={className(styles.item) }
             onClick={() => onPageClick(currentPage + 1) }

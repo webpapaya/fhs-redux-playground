@@ -2,6 +2,9 @@ import React from 'react';
 import { q, limit, offset } from './repository/query-builder';
 import { filterByQuery } from './repository/adapters/in-memory';
 
+const clampNumber = (min, max, number) => 
+    Math.min(Math.max(number, min), max);
+
 class PaginationWrapper extends React.Component {
     state = {
         currentPage: 0,
@@ -45,12 +48,14 @@ class PaginationWrapper extends React.Component {
         const currItemsLength = this.getItemsFromProps(this.props.parentProps).length;
         const prevItemsLength = this.getItemsFromProps(prevProps.parentProps).length;
 
+        this.onPageChange(clampNumber(0, this.pageCount - 1, this.state.currentPage));
         if (currItemsLength !== prevItemsLength) {
-            this.reload();
+            return this.reload();
         }
     }
 
     onPageChange = (currentPage) => {
+        if (this.state.currentPage === currentPage) { return; }
         this.setState((state) => ({ ...state, currentPage }), () => this.reload());
     }
 
