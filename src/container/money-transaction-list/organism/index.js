@@ -1,5 +1,7 @@
 import React from 'react';
 import Button from '../../../components/button';
+
+import PaginationBar from '../../../components/pagination-bar';
 import isPaginated from '../../../lib/is-paginated'
 import styles from './index.css';
 import { findByQuery } from '../../../lib/repository/adapters/in-memory';
@@ -13,6 +15,7 @@ export default isPaginated({ itemsPropName: 'moneyTransactions' }, ({
     onDestroy,
     onPageChange,
     pageCount, 
+    currentPage,
 }) => (
     <React.Fragment>
         <ul className={styles.wrapper}>
@@ -30,12 +33,12 @@ export default isPaginated({ itemsPropName: 'moneyTransactions' }, ({
                 </li>
             )) }
         </ul>
-        
-        { Array.from({ length: pageCount }).map((_, index) => (
-            <span onClick={ () => onPageChange(index) } key={index}>
-                { index + 1 }
-            </span>
-        )) }
+
+        <PaginationBar 
+            onPageClick={ onPageChange } 
+            currentPage={ currentPage } 
+            pageCount={ pageCount} 
+        />
     </React.Fragment>
     
 ));

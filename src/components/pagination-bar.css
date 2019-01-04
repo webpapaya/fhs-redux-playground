@@ -1,0 +1,36 @@
+:local(.wrapper) {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+:local(.list) {
+  background: #4C85FF;
+  display: inline-flex;
+  list-style: none;
+  margin: auto;
+  padding: 0;
+  border-radius: 99999px;
+}
+
+:local(.item) {
+  font-weight: 700;
+  font-family: 'Open Sans', sans-serif;
+  color: #ffffff;
+  border-radius: 999999px;
+  display: flex;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 300ms;
+}
+
+:local(.item:hover) {
+  background: #0A57FB;
+}
+
+:local(.item.active) {
+  background: #0A57FB;
+}
