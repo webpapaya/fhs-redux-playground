@@ -5,6 +5,9 @@ import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
 
+import { eq, desc } from '../../lib/repository/operators';
+import { q, where, order } from '../../lib/repository/query-builder';
+
 const mapStateToProps = (state, props) => ({
     users: state.users,
     items: state.moneyTransactions,
@@ -12,13 +15,14 @@ const mapStateToProps = (state, props) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-    onDestroy: (filter) => dispatch(MoneyTransactionActions.destroy(filter)),
+    onDestroy: ({ id }) => 
+        dispatch(MoneyTransactionActions.destroy(q(where({ id: eq(id) })))),
+
     sideEffect: () =>
         dispatch(UserActions.where()),
 
     onItemsLoad: (filter, meta = {}) =>
-        dispatch(MoneyTransactionActions.where({ }, { order: ['createdAt.desc'], offset: meta.offset })),
-    
+        dispatch(MoneyTransactionActions.where(q(order(desc('createdAt'))))),
 });
 
 export default pipe(

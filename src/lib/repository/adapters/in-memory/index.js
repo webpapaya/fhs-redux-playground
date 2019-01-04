@@ -77,8 +77,6 @@ const paginateRecords = ({ limit, offset } = {}, records) => {
   return slice(offset, limit, records);
 }
 
-
-
 export const buildRepository = ({ resource }) => {
   const where = (connection, query) => {
     const records = connection[resource];
