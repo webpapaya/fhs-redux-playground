@@ -71,15 +71,24 @@ const orderRecords = ({ order = [] } = {}, records) => {
 
 const paginateRecords = ({ limit, offset } = {}, records) => {
   if (isNil(limit) && isNil(offset)) { return records; }
-  return rSlice(offset, limit, records);
+  return rSlice(offset, offset + limit, records);
+}
+
+export const filterByQuery = (query, collection) => {
+  const filteredRecords = filterRecords(query, collection);
+  const sortedRecords = orderRecords(query, filteredRecords);
+  return paginateRecords(query, sortedRecords);
+}
+
+export const findByQuery = (query, collection, defaultValue = {}) => {
+  const filteredRecords = filterByQuery(query, collection);
+  return filteredRecords[0] || defaultValue;
 }
 
 export const buildRepository = ({ resource }) => {
   const where = (connection, query) => {
     const records = connection[resource];
-    const filteredRecords = filterRecords(query, records);
-    const sortedRecords = orderRecords(query, filteredRecords);
-    return paginateRecords(query, sortedRecords);
+    return filterByQuery(query, records);
   }
 
   const destroy = (connection, query) => {

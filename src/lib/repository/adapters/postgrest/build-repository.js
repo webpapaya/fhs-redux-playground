@@ -26,7 +26,7 @@ const parseResponse = ({ data = [], headers = {} }) => ({
 }); 
 
 const buildRepository = ({
-  path: resource = requiredParam('path'),
+  resource = requiredParam('path'),
   limit = 25,
 }) => {
   const url = `${decamelize(resource)}`;
