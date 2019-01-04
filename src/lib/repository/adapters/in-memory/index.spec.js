@@ -3,19 +3,6 @@ import { q, where, order } from '../../query-builder';
 import { eq, gt, gte, lt, lte, oneOf, like, not, asc, desc, and } from '../../operators';
 import { buildRepository } from './index';
 
-
-
-const createUser = (values) => {
-  return withinTransaction(async (connection) => {
-    reportRepository.destroy(connection, q({ filename: oneOf('1', '2')}))
-
-    const user = await reportRepository.create(connection, values);
-    await userRepository.update(connection, q({ id: eq(user.id) }), { enabled: true });
-    return user;
-  });
-}
- 
-
 describe('where', () => {
   const records = [
     { text: 'abc', property: 1 },

@@ -1,13 +1,12 @@
 import React from 'react';
-import Button from '../../../components/button';
+import Button from '../../components/button';
 
-import PaginationBar from '../../../components/pagination-bar';
-import isPaginated from '../../../lib/is-paginated'
+import PaginationBar from '../../components/pagination-bar';
+import isPaginated from '../../lib/is-paginated'
 import styles from './index.css';
-import { findByQuery } from '../../../lib/repository/adapters/in-memory';
-import { eq } from '../../../lib/repository/operators';
-import { q, where } from '../../../lib/repository/query-builder';
-
+import { findByQuery } from '../../lib/repository/adapters/in-memory';
+import { eq } from '../../lib/repository/operators';
+import { q, where } from '../../lib/repository/query-builder';
 
 export default isPaginated({ itemsPropName: 'moneyTransactions' }, ({ 
     moneyTransactions, 
