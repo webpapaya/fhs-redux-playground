@@ -3,7 +3,7 @@ import Button from '../../components/button';
 
 import PaginationBar from '../../components/pagination-bar';
 import isPaginated from '../../lib/is-paginated'
-import styles from './index.css';
+import styles from './organism.css';
 import { findByQuery } from '../../lib/repository/adapters/in-memory';
 import { eq } from '../../lib/repository/operators';
 import { q, where } from '../../lib/repository/query-builder';

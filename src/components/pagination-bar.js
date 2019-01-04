@@ -8,7 +8,7 @@ const Component = ({
  pageCount,
  currentPage,
 }) => {
-  const pageArray = Array.from({ length: pageCount }).map((_, index) => index);
+  const pageArray = Array.from({ length: pageCount - 1 }).map((_, index) => index);
   
   return (
     <div className={className(styles.wrapper)}>
