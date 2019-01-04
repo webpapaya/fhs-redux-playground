@@ -1,80 +1,14 @@
 import React from 'react';
 import Button from '../../../components/button';
+import isPaginated from '../../../lib/is-paginated'
 import styles from './index.css';
-
+import { findByQuery } from '../../../lib/repository/adapters/in-memory';
 import { eq } from '../../../lib/repository/operators';
-import { q, limit, offset, where } from '../../../lib/repository/query-builder';
-import { findByQuery, filterByQuery } from '../../../lib/repository/adapters/in-memory';
+import { q, where } from '../../../lib/repository/query-builder';
 
-class PaginationWrapper extends React.Component {
-    state = {
-        currentPage: 0,
-        totalItems: 0,
-    }
 
-    get config() {
-        return {
-            ...this.props.config,
-            pageSize: 25
-        }
-    }
-
-    get query () {
-        return q(
-            limit(this.config.pageSize),
-            offset(this.state.currentPage * this.config.pageSize),
-        );
-    }
-
-    reload() {
-        Promise.resolve()
-            .then(() => this.props.otherProps.onItemsLoad(this.query))
-            .then(({ meta }) => this.setState(() => {
-                return { totalItems: meta.contentRange.total };
-            }));
-    }
-
-    componentDidMount() {
-        this.reload()
-    }
-
-    componentDidUpdate(prevProps) {
-        const currItemsLength = this.props.items.length;
-        const prevItemsLength = prevProps.items.length;
-
-        if (currItemsLength !== prevItemsLength) {
-            this.reload();
-        }
-    }
-
-    onPageChange = (currentPage) => {
-        this.setState((state) => ({ ...state, currentPage }), () => this.reload());
-    }
-
-    render() {
-       return (
-            <this.props.Component 
-                { ...this.props.otherProps }
-                pageCount={ Math.ceil(this.state.totalItems / this.config.pageSize) }
-                currentPage={ this.state.currentPage } 
-                onPageChange={ this.onPageChange }
-                items={ filterByQuery(this.query, this.props.items) } 
-            />
-       ); 
-    }
-}
-
-const isPaginated = (config, Component) => ({ items, fetchData, ...props }) => (
-    <PaginationWrapper 
-        config={ config } 
-        Component={Component} 
-        items={ items } 
-        otherProps={ props } 
-    />
-);
-
-export default isPaginated({}, ({ 
-    items: moneyTransactions, 
+export default isPaginated({ itemsPropName: 'moneyTransactions' }, ({ 
+    moneyTransactions, 
     users, 
     onDestroy,
     onPageChange,

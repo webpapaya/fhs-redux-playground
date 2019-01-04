@@ -1,36 +1,34 @@
 import { connect } from 'react-redux';
 import MoneyTransactionReportsActions from '../../domain/money-transaction-reports/actions';
-import UserActions from '../../domain/users/actions';
 import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
-import { filter, find, where, whereEq, propEq } from 'ramda';
 
+import {eq} from '../../lib/repository/operators';
+import {q, where} from '../../lib/repository/query-builder';
+import {findByQuery} from '../../lib/repository/adapters/in-memory';
 
+const mapStateToProps = (state, props) => {
+    const reports = state.moneyTransactionReports;
+    const totalBalanceQuery = q(where({
+        granularity: eq('total'),
+        userId: eq(state.userAuthentication.userId)
+    }));
 
-const selectTotalBalanceForAuthenticatedUser = (state, { type }) => {
-    const transactionReport = find(whereEq({
-        granularity: 'total',
+    return ({
+        reloadMoneyTransactionReports: state.ui.reloadMoneyTransactionReports,
+        totalAmount: findByQuery(q(totalBalanceQuery, where({ type: eq('sum') })), reports).amount || 0,
+        debitAmount: findByQuery(q(totalBalanceQuery, where({ type: eq('debit') })), reports).amount || 0,
+        creditAmount: findByQuery(q(totalBalanceQuery, where({ type: eq('credit') })), reports).amount || 0,
         userId: state.userAuthentication.userId,
-        type
-    }), state.moneyTransactionReports) || {};
-
-    return transactionReport.amount || 0;
+    });
 }
 
-const mapStateToProps = (state, props) => ({
-    reloadMoneyTransactionReports: state.ui.reloadMoneyTransactionReports,
-    totalAmount: selectTotalBalanceForAuthenticatedUser(state, { type: 'sum' }),
-    debitAmount: selectTotalBalanceForAuthenticatedUser(state, { type: 'debit' }),
-    creditAmount: selectTotalBalanceForAuthenticatedUser(state, { type: 'credit' }),
-    userId: state.userAuthentication.userId,
-});
-
 const mapDispatchToProps = (dispatch) => ({
-    sideEffect: (props) => dispatch(MoneyTransactionReportsActions.where({ 
-        granularity: 'total', 
-        userId: props.userId
-    })),
+    sideEffect: (props) => dispatch(MoneyTransactionReportsActions.where(q(where({
+        granularity: eq('total'),
+        userId: eq(props.userId),
+    })))),
 });
 
 export default pipe(

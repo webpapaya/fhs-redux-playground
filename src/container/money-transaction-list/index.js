@@ -7,10 +7,9 @@ import hasSideEffect from '../../lib/has-side-effect';
 
 const mapStateToProps = (state, props) => ({
     users: state.users,
-    items: state.moneyTransactions,
+    moneyTransactions: state.moneyTransactions,
     userId: state.userAuthentication.userId,
 });
-
 
 const mapDispatchToProps = (dispatch) => ({
     onDestroy: (query) => 
