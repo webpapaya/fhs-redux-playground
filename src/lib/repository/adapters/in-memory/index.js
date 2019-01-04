@@ -31,6 +31,21 @@ const FILTERS = {
   }
 }
 
+const buildSortDirection = (definition) => {
+  const fetchValueToSort = (obj) => {
+    const value = obj[definition.value];
+    if (!isNil(value)) { return value; }
+    else if (definition.operator === 'asc') { 
+      return definition.options.nulls === 'first' ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY; 
+    } else  {
+      return definition.options.nulls === 'first' ? Number.POSITIVE_INFINITY : Number.NEGATIVE_INFINITY; 
+    }
+  }
+  return definition.operator === 'asc'
+    ? rAscendent(fetchValueToSort)
+    : rDescendent(fetchValueToSort);
+} 
+
 const definitionToRamda = (definition) => {
   if (definition.operator === 'not') {
     return rNot(definitionToRamda(definition.value))
@@ -50,31 +65,13 @@ const filterRecords = ({ where = {} } = {}, records) => {
 
 const orderRecords = ({ order = [] } = {}, records) => {
   if (order.length === 0) { return records; }
-
-  const sortDefinition = order.map((definition) => {
-    const direction = definition.operator === 'asc'
-      ? rAscendent
-      : rDescendent;
-
-    const fetchValueToSort = (object) => {
-      const valueToSort = object[definition.value];
-      if (valueToSort) { return valueToSort; }
-      else if (definition.options.nulls === 'first') {
-        return Number.NEGATIVE_INFINITY;
-      } else {
-        return Number.POSITIVE_INFINITY;
-      }
-    }
-    
-    return direction(fetchValueToSort);
-  });
-
+  const sortDefinition = order.map((definition) => buildSortDirection(definition));
   return rSortWith(sortDefinition, records);
 }
 
 const paginateRecords = ({ limit, offset } = {}, records) => {
   if (isNil(limit) && isNil(offset)) { return records; }
-  return slice(offset, limit, records);
+  return rSlice(offset, limit, records);
 }
 
 export const buildRepository = ({ resource }) => {
@@ -85,8 +82,20 @@ export const buildRepository = ({ resource }) => {
     return paginateRecords(query, sortedRecords);
   }
 
+  const destroy = (connection, query) => {
+    const destroyedRecords = where(connection, query);
+
+    // There is room for performance improvements here =)
+    connection[resource] = connection[resource].filter((record) => {
+      return !connection[resource].includes(record);
+    });
+    
+    return destroyedRecords;
+  }
+
   return {
-    where
+    where,
+    destroy
   };
 }
 

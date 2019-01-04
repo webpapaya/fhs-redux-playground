@@ -9,7 +9,7 @@ const ignoreReturnFor = (fn) => (value) => Promise.resolve()
     .then(() => value);
 
 const buildRestActions = ({ resource, only }) => {
-    const repository = buildRepository({ baseURL: 'http://localhost:3000', path: resource });
+    const repository = buildRepository({ baseURL: 'http://localhost:3000', resource });
 
     const where = memoize({}, (filter) => (dispatch) => Promise.resolve()
         .then(() => repository.where(connection, filter))

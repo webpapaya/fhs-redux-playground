@@ -1,8 +1,20 @@
 import { assertThat, equalTo, not as negate, hasItem, hasItems, contains } from 'hamjest';
-
 import { q, where, order } from '../../query-builder';
-import { eq, gt, gte, lt, lte, oneOf, like, not, asc, desc } from '../../operators';
+import { eq, gt, gte, lt, lte, oneOf, like, not, asc, desc, and } from '../../operators';
 import { buildRepository } from './index';
+
+
+
+const createUser = (values) => {
+  return withinTransaction(async (connection) => {
+    reportRepository.destroy(connection, q({ filename: oneOf('1', '2')}))
+
+    const user = await reportRepository.create(connection, values);
+    await userRepository.update(connection, q({ id: eq(user.id) }), { enabled: true });
+    return user;
+  });
+}
+ 
 
 describe('where', () => {
   const records = [
@@ -61,14 +73,61 @@ describe('where', () => {
   });
 
   describe('order', () => {
-    it('asc nulls last', () => {
-      assertThat(repository.where(connection, q(order(asc('property')))),
-        contains(records[0], records[1], records[2]));
+    describe('asc', () => {
+      it('nulls are last by default', () => {
+        assertThat(repository.where(connection, q(order(asc('property')))),
+          contains(records[0], records[1], records[2]));
+      });
+  
+      it('with nulls first option', () => {
+        assertThat(repository.where(connection, q(order(asc('property', { nulls: 'first' })))),
+          contains(records[2], records[0], records[1]));
+      });
+  
+      it('with nulls nulls last option', () => {
+        assertThat(repository.where(connection, q(order(asc('property', { nulls: 'last' })))),
+          contains(records[0], records[1], records[2]));
+      });
+    });
+    
+    describe('desc', () => {
+      it('nulls are first by default', () => {
+        assertThat(repository.where(connection, q(order(desc('property')))),
+          contains(records[1], records[0], records[2]));
+      });
+
+      it('with nulls first option', () => {
+        assertThat(repository.where(connection, q(order(desc('property', { nulls: 'first' })))),
+          contains(records[2], records[1], records[0]));
+      });
+  
+      it('with nulls nulls last option', () => {
+        assertThat(repository.where(connection, q(order(desc('property', { nulls: 'last' })))),
+          contains(records[1], records[0], records[2]));
+      });
     });
 
-    it('desc nulls last', () => {
-      assertThat(repository.where(connection, q(order(desc('property')))),
-        contains(records[2], records[1], records[0]));
-    });
+  });
+});
+
+describe('destroy', () => {
+  const records = [
+    { text: 'abc', property: 1 },
+    { text: 'def', property: 2 },
+    { text: 'ghi', property: null },
+  ];
+
+  const repository = buildRepository({ resource: 'user' });
+
+  it('removes record from connection', () => {
+    const connection = { user: records };
+    repository.destroy(connection, q(where({ property: eq(1) })));
+    assertThat(connection.user, negate(hasItem(records[0])));
+  });
+
+  it('returns removed record', () => {
+    const connection = { user: records };
+    const removedRecords = repository.destroy(connection, q(where({ property: eq(1) })));
+    assertThat(removedRecords, hasItem(records[0]));
   });
 });

@@ -7,8 +7,8 @@ export const gte = buildOperator('gte');
 export const lt = buildOperator('lt');
 export const lte = buildOperator('lte');
 export const not = buildOperator('not');
+export const and = (...value) => ({ operator: 'and', value, options: {} });
 export const like = buildOperator('like');
-
 export const oneOf = (...value) => ({ operator: 'oneOf', value, options: {} });
 
 /* Possible options

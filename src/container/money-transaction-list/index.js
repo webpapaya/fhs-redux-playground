@@ -22,7 +22,8 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(UserActions.where()),
 
     onItemsLoad: (filter, meta = {}) =>
-        dispatch(MoneyTransactionActions.where(q(order(desc('createdAt'))))),
+        dispatch(MoneyTransactionActions.where(q(
+            order(desc('createdAt'))))),
 });
 
 export default pipe(

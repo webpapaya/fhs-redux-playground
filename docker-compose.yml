@@ -30,6 +30,8 @@ services:
       - ./migrations:/flyway/sql
     depends_on:
       - db
+
+      
   swagger:
     image: swaggerapi/swagger-ui
     ports:

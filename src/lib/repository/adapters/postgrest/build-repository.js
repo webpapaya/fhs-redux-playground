@@ -60,9 +60,10 @@ const buildRepository = ({
   return {
     create,
     where,
-    destroy,
     update,
+    destroy,
   }
 }
 
 export default buildRepository;
+

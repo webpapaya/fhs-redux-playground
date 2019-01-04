@@ -19,4 +19,5 @@ CREATE VIEW money_transaction_reports as
 
 
 
-
+select user.name, money_transaction_reports.amount from user, money_transaction_reports
+where user.id = money_transaction_reports.user_id
