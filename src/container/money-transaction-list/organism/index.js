@@ -22,8 +22,8 @@ export default isPaginated({ itemsPropName: 'moneyTransactions' }, ({
             { moneyTransactions.map(({ id, creditorId, debitorId, amount }) => (
                 <li key={id} className={styles.row}>
                     <span>
-                        { findByQuery(where(q({ id: eq(debitorId) })), users).name }
-                        { findByQuery(where(q({ id: eq(creditorId) })), users).name } 
+                        { findByQuery(q(where({ id: eq(debitorId) })), users).name }
+                        { findByQuery(q(where({ id: eq(creditorId) })), users).name } 
                         { amount }    
                     </span>
                     
