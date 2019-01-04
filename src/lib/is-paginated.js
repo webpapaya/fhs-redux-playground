@@ -55,7 +55,7 @@ class PaginationWrapper extends React.Component {
     }
 
     onPageChange = (currentPage) => {
-        if (this.state.currentPage === currentPage) { return; }
+        if (currentPage < 0 || this.state.currentPage === currentPage) { return; }
         this.setState((state) => ({ ...state, currentPage }), () => this.reload());
     }
 

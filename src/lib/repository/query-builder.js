@@ -5,9 +5,9 @@ const appendOperator = (result, definition) => {
     const nextOrderProps = definition.value.map((v) => v.value);
     const order = result.order.filter((order) => !nextOrderProps.includes(order.value));
     result.order = [ ...order, ...definition.value ];
-  } else if (definition.operator === 'limit') {
+  } else if (definition.operator === 'limit' && definition.value !== void 0) {
     result.limit = definition.value;
-  } else if (definition.operator === 'offset') {
+  } else if (definition.operator === 'offset' && definition.value !== void 0) {
     result.offset = definition.value;
   } else if (definition.operator === 'query') {
     Object.keys(definition).forEach((key) => {
