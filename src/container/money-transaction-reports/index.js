@@ -3,10 +3,7 @@ import MoneyTransactionReportsActions from '../../domain/money-transaction-repor
 import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
-
-import {eq} from '../../lib/repository/operators';
-import {q, where} from '../../lib/repository/query-builder';
-import {findByQuery} from '../../lib/repository/adapters/in-memory';
+import { q, where, eq, findByQuery } from '../../lib/repository';
 
 const mapStateToProps = (state, props) => {
     const reports = state.moneyTransactionReports;

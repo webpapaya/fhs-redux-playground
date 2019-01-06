@@ -1,6 +1,5 @@
 import React from 'react';
-import { q, limit, offset } from './repository/query-builder';
-import { filterByQuery } from './repository/adapters/in-memory';
+import { q, limit, offset, filterByQuery } from './repository';
 
 const clampNumber = (min, max, number) => 
     Math.min(Math.max(number, min), max);

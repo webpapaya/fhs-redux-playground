@@ -4,9 +4,7 @@ import UserActions from '../../domain/users/actions';
 import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
-import { filterByQuery } from '../../lib/repository/adapters/in-memory';
-import { desc } from '../../lib/repository/operators';
-import { q, order } from '../../lib/repository/query-builder';
+import { desc, q, order, filterByQuery } from '../../lib/repository';
 
 const transactionQuery = q(order(desc('createdAt')));
 
