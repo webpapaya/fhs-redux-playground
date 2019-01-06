@@ -16,8 +16,3 @@ CREATE VIEW money_transaction_reports as
 
   select amount * -1, date, user_id, granularity, type from money_transaction_debits
 ;
-
-
-
-select user.name, money_transaction_reports.amount from user, money_transaction_reports
-where user.id = money_transaction_reports.user_id
