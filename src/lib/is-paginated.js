@@ -66,13 +66,15 @@ class PaginationWrapper extends React.Component {
     }
 
     get items() {
+        // This prevents a flickering screen when an item gets removed from the list
+        // and the next item in the list is already cached on the client
         const allItems = this.getItemsFromProps(this.props.parentProps);
         const selectedItems = filterByQuery(this.state.itemQuery, allItems);
-        const otherItems = allItems.filter((item) => {
-            return !selectedItems.includes(item)
+        const indexIfFirst = allItems.indexOf(selectedItems[0]);
+        const otherItems = allItems.filter((item, index) => {
+            return indexIfFirst < index && !selectedItems.includes(item)
         });
 
-        // This prevents a flickering screen when an item gets removed from the list
         return [...selectedItems, ...otherItems].slice(0, this.config.pageSize);
     }
 
