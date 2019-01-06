@@ -93,17 +93,28 @@ export const buildRepository = ({ resource }) => {
 
   const destroy = (connection, query) => {
     const destroyedRecords = where(connection, query);
-
+    
     // There is room for performance improvements here =)
     connection[resource] = connection[resource].filter((record) => {
-      return !connection[resource].includes(record);
+      return !destroyedRecords.includes(record);
     });
     
     return destroyedRecords;
   }
 
+  const create = (connection, record) => {
+    connection[resource] = [...connection[resource], record];
+    return  record;
+  }
+
+  const count = (connection, query) => {
+    return where(connection, query).length;
+  }
+
   return {
+    count,
     where,
+    create,
     destroy
   };
 }

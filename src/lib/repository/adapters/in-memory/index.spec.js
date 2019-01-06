@@ -1,7 +1,14 @@
-import { assertThat, equalTo, not as negate, hasItem, hasItems, contains } from 'hamjest';
+import { assertThat, equalTo, not as negate, hasItem, hasItems, contains, Matcher } from 'hamjest';
+
 import { q, where, order } from '../../query-builder';
-import { eq, gt, gte, lt, lte, oneOf, like, not, asc, desc, and } from '../../operators';
+import { eq, gt, gte, lt, lte, oneOf, like, not, asc, desc } from '../../operators';
 import { buildRepository } from './index';
+
+const assertDifference = (fn, countFn, difference) => {
+  const before = countFn();
+  fn();
+  assertThat(countFn(), equalTo(before + difference));
+};
 
 describe('where', () => {
   const records = [
@@ -109,7 +116,19 @@ describe('destroy', () => {
   it('removes record from connection', () => {
     const connection = { user: records };
     repository.destroy(connection, q(where({ property: eq(1) })));
-    assertThat(connection.user, negate(hasItem(records[0])));
+
+    const remainingRecords = repository.where(connection);
+    assertThat(remainingRecords, negate(hasItem(records[0])));
+  });
+
+  it('removes one record from connection', () => {
+    const connection = { user: records };
+
+    assertDifference(
+      () => repository.destroy(connection, q(where({ property: eq(1) }))),
+      () => repository.count(connection),
+      -1
+    );
   });
 
   it('returns removed record', () => {
@@ -118,3 +137,45 @@ describe('destroy', () => {
     assertThat(removedRecords, hasItem(records[0]));
   });
 });
+
+describe('create', () => {
+  const records = [];
+  const recordToCreate = { property: 1 };
+  const repository = buildRepository({ resource: 'user' });
+
+  it('returns record', () => {
+    const connection = { user: records };
+    assertThat(repository.create(connection, recordToCreate), 
+      equalTo(recordToCreate));
+  });
+
+  it('adds a new record', () => {
+    const connection = { user: records };
+
+    assertDifference(
+      () => repository.create(connection, recordToCreate),
+      () => repository.count(connection),
+      1
+    );
+  });
+});
+
+describe('count', () => {
+  const records = [
+    { text: 'abc', property: 1 },
+    { text: 'def', property: 2 },
+    { text: 'ghi', property: null },
+  ];
+  const repository = buildRepository({ resource: 'user' });
+
+  it('returns number of records without a filter', () => {
+    const connection = { user: records };
+    assertThat(repository.count(connection), equalTo(records.length));
+  });
+
+  it('returns number of records when query given', () => {
+    const connection = { user: records };
+    assertThat(repository.count(connection, q(where({ property: eq(1) }))), equalTo(1));
+  });
+});
+
