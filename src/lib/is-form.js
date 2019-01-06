@@ -15,7 +15,6 @@ const isForm = (render) => {
             new Promise((resolve) => this.setState(...args, resolve));
 
         onSubmit = (evt) => {
-            console.log(this.props.onSubmit)
             evt.preventDefault();
             if (!this.props.onSubmit) { return; }
             

@@ -35,11 +35,10 @@ class PaginationWrapper extends React.Component {
             offset(this.state.currentPage * this.config.pageSize),
         );
 
-        Promise.resolve()
+        return Promise.resolve()
             .then(() => this.props.parentProps[this.config.itemsLoadingFnName](query))
             .then(({ payload, meta }) => new Promise((resolve) => {
                 const recordIds = payload.map((record) => record[this.config.uniqueKey]);
-                console.log(recordIds);
                 this.setState(() => ({ 
                     itemQuery: q(where({ [this.config.uniqueKey]: oneOf(...recordIds) })),
                     totalItems: meta.contentRange.total 
