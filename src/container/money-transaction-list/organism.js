@@ -6,7 +6,11 @@ import isPaginated from '../../lib/is-paginated'
 import styles from './organism.css';
 import { q, findByQuery, eq, where } from '../../lib/repository';
 
-export default isPaginated({ itemsPropName: 'moneyTransactions' }, ({ 
+export default isPaginated({
+    pageSize: 3,
+    itemsLoadingFnName: 'onMoneyTransactionsLoad', 
+    itemsPropName: 'moneyTransactions' 
+}, ({ 
     moneyTransactions, 
     users, 
     onDestroy,
@@ -19,6 +23,7 @@ export default isPaginated({ itemsPropName: 'moneyTransactions' }, ({
             { moneyTransactions.map(({ id, creditorId, debitorId, amount }) => (
                 <li key={id} className={styles.row}>
                     <span>
+                        { id }
                         { findByQuery(q(where({ id: eq(debitorId) })), users).name }
                         { findByQuery(q(where({ id: eq(creditorId) })), users).name } 
                         { amount }    

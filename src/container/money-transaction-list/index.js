@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => ({
     sideEffect: () =>
         dispatch(UserActions.where()),
 
-    onItemsLoad: (paginationQuery) => 
+    onMoneyTransactionsLoad: (paginationQuery) => 
         dispatch(MoneyTransactionActions.where(q(paginationQuery, transactionQuery))),
 });
 
