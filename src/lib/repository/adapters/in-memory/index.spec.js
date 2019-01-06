@@ -1,4 +1,13 @@
-import { assertThat, equalTo, not as negate, hasItem, hasItems, contains, Matcher } from 'hamjest';
+import { 
+  assertThat, 
+  equalTo, 
+  not as negate, 
+  hasItem, 
+  hasItems, 
+  contains, 
+  hasProperty,
+  everyItem, 
+} from 'hamjest';
 
 import { q, where, order } from '../../query-builder';
 import { eq, gt, gte, lt, lte, oneOf, like, not, asc, desc } from '../../operators';
@@ -179,3 +188,34 @@ describe('count', () => {
   });
 });
 
+describe('update', () => {
+  const records = [
+    { text: 'abc', property: 1 },
+    { text: 'def', property: 2 },
+    { text: 'ghi', property: null },
+  ];
+  const repository = buildRepository({ resource: 'user' });
+
+  it('does NOT change the record count', () => {  
+    const connection = { user: records };
+    assertDifference(
+      () => repository.update(connection, q(where({ property: eq(1) }))),
+      () => repository.count(connection),
+      0
+    );
+  });
+
+  it('changes updates all values without query given', () => {
+    const connection = { user: records };
+    const updatedRecords = repository.update(connection, null, { text: 'updated' });
+    assertThat(updatedRecords, everyItem(hasProperty('text', 'updated')));
+  });
+
+  it('with query given updates only updates filtered values', () => {
+    const connection = { user: records };
+    repository.update(connection, q(where({ property: eq(1) })), { text: 'updated' });
+    
+    assertThat(repository.where(connection, q(where({ property: not(eq(1)) }))), 
+      everyItem(negate(hasProperty('text', 'updated'))));
+  });
+});

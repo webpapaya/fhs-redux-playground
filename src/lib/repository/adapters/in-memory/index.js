@@ -54,7 +54,8 @@ const definitionToRamda = (definition) => {
   }
 }
 
-const filterRecords = ({ where = {} } = {}, records) => {
+const filterRecords = (query, records) => {
+  const { where = {} } = query || {};
   const filter = Object.keys(where).reduce((acc, propertyName) => {
     acc[propertyName] = definitionToRamda(where[propertyName]);
     return acc;
@@ -63,13 +64,15 @@ const filterRecords = ({ where = {} } = {}, records) => {
   return rFilter(rWhere(filter), records);
 }
 
-const orderRecords = ({ order = [] } = {}, records) => {
+const orderRecords = (query, records) => {
+  const { order = [] } = query || {};
   if (order.length === 0) { return records; }
   const sortDefinition = order.map((definition) => buildSortDirection(definition));
   return rSortWith(sortDefinition, records);
 }
 
-const paginateRecords = ({ limit, offset } = {}, records) => {
+const paginateRecords = (query, records) => {
+  const { limit, offset } = query || {};
   if (isNil(limit) && isNil(offset)) { return records; }
   return rSlice(offset, offset + limit, records);
 }
@@ -107,6 +110,21 @@ export const buildRepository = ({ resource }) => {
     return  record;
   }
 
+  const update = (connection, query, values) => {
+    const recordsToUpdate = where(connection, query);
+    const recordsToReturn = [];
+
+    // There is room for performance improvements here =)
+    connection[resource] = connection[resource].map((record) => {
+      if (!recordsToUpdate.includes(record)) { return record; }
+      const updatedRecord = { ...record, ...values };
+      recordsToReturn.push(updatedRecord);
+      return updatedRecord;
+    });
+
+    return recordsToReturn;
+  }
+
   const count = (connection, query) => {
     return where(connection, query).length;
   }
@@ -115,7 +133,8 @@ export const buildRepository = ({ resource }) => {
     count,
     where,
     create,
-    destroy
+    destroy,
+    update,
   };
 }
 
