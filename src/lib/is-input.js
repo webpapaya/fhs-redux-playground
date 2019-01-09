@@ -51,17 +51,19 @@ const HTMLElements = {
 
 const defaultReducer = v => v;
 const buildInput = ({ reducer = defaultReducer }, InputComponent) => class InputState extends React.Component {
-		propTypes = {
-			parentProps: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
+		static propTypes = {
+			parentProps: PropTypes.any, // eslint-disable-line react/forbid-prop-types
 			values: PropTypes.object.isRequired, // eslint-disable-line react/forbid-prop-types
-			value: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
-			initialValue: PropTypes.oneOfType([String, Number]).isRequired,
+			value: PropTypes.any, // eslint-disable-line react/forbid-prop-types
+			initialValue: PropTypes.oneOfType([String, Number]),
 			name: PropTypes.string.isRequired,
 			disabled: PropTypes.bool,
 		}
 
 		static defaultProps = {
 			disabled: false,
+			value: undefined,
+			initialValue: undefined,
 		}
 
 		state = {
@@ -83,13 +85,16 @@ const buildInput = ({ reducer = defaultReducer }, InputComponent) => class Input
 			return this._domElements;
 		}
 
-		setState(stateFn) {
-			return new Promise(resolve => this.setState(stateFn, resolve));
+		promiseSetState(stateFn) {
+			return new Promise(resolve => {
+				if (this.isUnmounted) { return; }
+				this.setState(stateFn, resolve)
+			});
 		}
 
 		handleEvent = (evt, eventName, stateFn) => {
 			if (this.props.disabled) { return Promise.resolve(); }
-			return this.setState(stateFn)
+			return this.promiseSetState(stateFn)
 				.then(ignoreReturnFor(() => this.props[eventName] && this.props[eventName](evt)));
 		}
 
@@ -127,6 +132,7 @@ const buildInput = ({ reducer = defaultReducer }, InputComponent) => class Input
 				excludeProps: [
 					...Object.keys(this.state),
 					...Object.keys(HTMLElements),
+					'initialValue',
 					'getWrapperProp',
 					'getValue',
 					'reducer',

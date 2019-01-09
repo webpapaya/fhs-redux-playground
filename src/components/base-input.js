@@ -30,8 +30,8 @@ const Molecule = ({
 );
 
 Molecule.propTypes = {
-	Input: ProptTypes.node.isRequired,
-	Label: ProptTypes.node.isRequired,
+	Input: ProptTypes.func.isRequired,
+	Label: ProptTypes.func.isRequired,
 	label: ProptTypes.string.isRequired,
 	icon: ProptTypes.string,
 	showProps: ProptTypes.bool,

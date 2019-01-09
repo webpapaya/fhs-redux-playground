@@ -6,8 +6,9 @@ const Component = ({ items }) => {
 	const sum = items.reduce((result, item) => result + item.value, 0);
 	return (
 		<div className={styles.wrapper}>
-			{ items.map(item => (
+			{ items.map((item) => (
 				<div
+					key={ item.label }
 					className={styles.lineWrapper}
 					style={{ width: `${100 / sum * item.value}%` }}
 				>

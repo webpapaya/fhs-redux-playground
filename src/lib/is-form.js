@@ -4,7 +4,7 @@ import { ignoreReturnFor, rethrowError } from 'promise-frites';
 import { setValue, removeValue } from './is-form.utils';
 
 const isForm = render => class extends React.Component {
-		propTypes = {
+		static propTypes = {
 			onSubmit: PropTypes.func.isRequired,
 		}
 

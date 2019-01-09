@@ -8,7 +8,7 @@ import {
 const clampNumber = (min, max, number) => Math.min(Math.max(number, min), max);
 
 class PaginationWrapper extends React.Component {
-	propTypes = {
+	static propTypes = {
 		parentProps: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
 		config: PropTypes.shape({
 			uniqueKey: PropTypes.string,

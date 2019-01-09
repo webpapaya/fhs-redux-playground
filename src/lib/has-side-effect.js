@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class SideEffectLoader extends React.Component {
-	propTypes = {
+	static propTypes = {
 		config: PropTypes.shape({
 			props: PropTypes.arrayOf(String),
 			fnName: PropTypes.string,
