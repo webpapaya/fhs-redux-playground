@@ -7,7 +7,7 @@ import styles from './organism.css';
 import { q, findByQuery, eq, where } from '../../lib/repository';
 
 export default isPaginated({
-    pageSize: 3,
+    pageSize: 10,
     itemsLoadingFnName: 'onMoneyTransactionsLoad', 
     itemsPropName: 'moneyTransactions' 
 }, ({ 
