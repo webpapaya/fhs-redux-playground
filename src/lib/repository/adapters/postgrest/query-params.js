@@ -9,7 +9,13 @@ const OPERATOR_LIST = {
   lt: (value) => `lt.${value}`,
   lte: (value) => `lte.${value}`,
   not: (value) => `not.${toValue(value)}`,
-  like: (value) => `like.${value.replace(/%/g, '*')}`,
+  like: (value, options) => {
+    const operator = options.caseSensitive
+      ? 'like'
+      : 'ilike';
+
+    return `${operator}.${value.replace(/%/g, '*')}`
+  },
   oneOf: (values) => {    const parsedValues = values
       .map((value) => isString(value) ? `"${value}"` : value)
       .join(',');
@@ -23,7 +29,7 @@ const OPERATOR_LIST = {
 
 const defaultOperator = () => '';
 const toValue = (property) =>
-  (OPERATOR_LIST[property.operator] || defaultOperator)(property.value);
+  (OPERATOR_LIST[property.operator] || defaultOperator)(property.value, property.options);
 
 const toQueryParam = (key, value) => !(value === void 0 || value === null || value === '')
   ? `${decamelize(key)}=${value}`

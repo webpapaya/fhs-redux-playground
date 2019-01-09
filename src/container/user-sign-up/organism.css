@@ -1,0 +1,14 @@
+:local(.navigation) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px auto 0;
+}
+
+:local(.navigation > *) {
+  margin-bottom: 15px;
+}
+
+:local(.navigation > *:last-child) {
+  margin-bottom: 0px;
+}

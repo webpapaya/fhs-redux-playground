@@ -56,7 +56,10 @@ describe('buildQueryParamsForWhere', () => {
     { where: { prop: gt(1)}, result: 'prop=gt.1' },
     { where: { prop: gte(1)}, result: 'prop=gte.1' },
     { where: { prop: like('%first%last')}, result: 'prop=like.*first*last' },
-  
+    
+    { where: { prop: like('%first%last', { caseSensitive: false })}, result: 'prop=ilike.*first*last' },
+    { where: { prop: like('%first%last', { caseSensitive: true })}, result: 'prop=like.*first*last' },
+
     { where: { prop: lt(1)}, result: 'prop=lt.1' },
     { where: { prop: lte(1)}, result: 'prop=lte.1' },
     { where: { prop: not(eq(1))}, result: 'prop=not.eq.1'},

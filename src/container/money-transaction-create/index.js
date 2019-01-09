@@ -11,7 +11,8 @@ const mapStateToProps = (state, props) => ({
 
 const mapDispatchToProps = (dispatch) => ({
     onSubmit: (props) => dispatch(MoneyTransactionActions.create(props)),
-    sideEffect: () => dispatch(UserActions.where()).catch((x) => console.error(x))
+    sideEffect: () => dispatch(UserActions.where()).catch((x) => console.error(x)),
+    onUserLoad: (filter) => dispatch(UserActions.where(filter)).catch((x) => console.error(x))
 });
 
 export default pipe(

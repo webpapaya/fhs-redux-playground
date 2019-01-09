@@ -8,6 +8,7 @@ import MoneyTransactionReports from './container/money-transaction-reports';
 
 import Navigation from './container/navigation';
 import WhenUserAuthentication from './container/when-user-authenticated';
+import CenteredPanel from './components/centered-panel';
 
 export default () => (
     <React.Fragment>
@@ -26,11 +27,13 @@ export default () => (
         </WhenUserAuthentication>
 
         <WhenUserAuthentication authenticated={false}>
-            <Switch>
-                <Route path='/user-sign-up' component={ UserSignUp } />
-                <Route path='/user-sign-in' component={ UserSignIn } />
-                <Redirect to='/user-sign-in' />
-            </Switch>
+            <CenteredPanel>
+                <Switch>
+                    <Route path='/user-sign-up' component={ UserSignUp } />
+                    <Route path='/user-sign-in' component={ UserSignIn } />
+                    <Redirect to='/user-sign-in' />
+                </Switch>
+            </CenteredPanel>
         </WhenUserAuthentication>
     </React.Fragment>
 );

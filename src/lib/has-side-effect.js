@@ -12,6 +12,7 @@ class SideEffectLoader extends React.Component {
             fnName: 'sideEffect',
             wasLoadedName: 'wasLoaded',
             isLoadingName: 'isLoading',
+            loadInitially: true,
             ...this.props.config,
         }; 
     }
@@ -31,7 +32,9 @@ class SideEffectLoader extends React.Component {
     }
 
     componentDidMount() {
-        this.reload();
+        if (this.config.loadInitially) {
+            this.reload();
+        }
     }
 
     componentDidUpdate(prevProps) {
