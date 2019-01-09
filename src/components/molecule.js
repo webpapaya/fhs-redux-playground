@@ -9,7 +9,8 @@ const labelStyles = {
 const inputStyles = {
     border: 'none',
     paddingTop: '10px',
-    borderBottom: '2px solid orange'
+    borderBottom: '2px solid orange',
+    background: 'transparent',
 };
 
 const Molecule = ({ Input, Label, label, icon, showProps, ...props }) => (

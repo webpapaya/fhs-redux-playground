@@ -1,0 +1,17 @@
+:local(.link) {
+  text-decoration: none;
+  color: #4C85FF;
+  font-family: 'Open Sans', sans-serif;
+  position: relative;
+  transition: all 200ms;
+  transform: scale(1);
+  display: inline-block;
+}
+
+:local(.link:hover) {
+  color: #0A57FB;
+}
+
+:local(.link:active) {
+  transform: scale(0.97);
+}

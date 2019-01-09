@@ -9,6 +9,7 @@ const Component = ({
   disabled, 
   children, 
   onClick,
+  block,
 }) => (
   <button 
     type={type} 
@@ -17,6 +18,8 @@ const Component = ({
     className={className(
       styles.button, 
       styles[`color-${color}`],
+      block && styles.block,
+      disabled && styles.disabled
     )}
   >
     { children }
@@ -29,6 +32,7 @@ Component.propTypes = {
   disabled: PropTypes.bool,
   children: PropTypes.node,
   onClick: PropTypes.func,
+  block: PropTypes.bool,
 };
 
 export default Component;
