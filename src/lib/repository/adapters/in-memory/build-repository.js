@@ -1,53 +1,50 @@
 import { filterByQuery } from '../../selectors';
 
 const buildRepository = ({ resource }) => {
-  const where = (connection, query) => {
-    const records = connection[resource];
-    return filterByQuery(query, records);
-  }
+	const persist = (connection, records) => {
+		connection[resource] = records; // eslint-disable-line no-param-reassign
+	};
 
-  const destroy = (connection, query) => {
-    const destroyedRecords = where(connection, query);
-    
-    // There is room for performance improvements here =)
-    connection[resource] = connection[resource].filter((record) => {
-      return !destroyedRecords.includes(record);
-    });
-    
-    return destroyedRecords;
-  }
+	const where = (connection, query) => {
+		const records = connection[resource];
+		return filterByQuery(query, records);
+	};
 
-  const create = (connection, record) => {
-    connection[resource] = [...connection[resource], record];
-    return  record;
-  }
+	const destroy = (connection, query) => {
+		const destroyedRecords = where(connection, query);
+		persist(connection, connection[resource].filter(record => !destroyedRecords.includes(record)));
+		return destroyedRecords;
+	};
 
-  const update = (connection, query, values) => {
-    const recordsToUpdate = where(connection, query);
-    const recordsToReturn = [];
+	const create = (connection, record) => {
+		persist(connection, [...connection[resource], record]);
+		return record;
+	};
 
-    // There is room for performance improvements here =)
-    connection[resource] = connection[resource].map((record) => {
-      if (!recordsToUpdate.includes(record)) { return record; }
-      const updatedRecord = { ...record, ...values };
-      recordsToReturn.push(updatedRecord);
-      return updatedRecord;
-    });
+	const update = (connection, query, values) => {
+		const recordsToUpdate = where(connection, query);
+		const recordsToReturn = [];
 
-    return recordsToReturn;
-  }
+		// There is room for performance improvements here =)
+		const nextRecords = connection[resource].map((record) => {
+			if (!recordsToUpdate.includes(record)) { return record; }
+			const updatedRecord = { ...record, ...values };
+			recordsToReturn.push(updatedRecord);
+			return updatedRecord;
+		});
+		persist(connection, nextRecords);
+		return recordsToReturn;
+	};
 
-  const count = (connection, query) => {
-    return where(connection, query).length;
-  }
+	const count = (connection, query) => where(connection, query).length;
 
-  return {
-    count,
-    where,
-    create,
-    destroy,
-    update,
-  };
-}
+	return {
+		count,
+		where,
+		create,
+		destroy,
+		update,
+	};
+};
 
 export default buildRepository;

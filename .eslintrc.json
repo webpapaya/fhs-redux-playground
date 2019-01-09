@@ -1,3 +1,12 @@
 {
-  "extends": "eslint-config-react-trigo"
+  "extends": "eslint-config-react-trigo",
+  "rules": {
+    "react/jsx-filename-extension": 0,
+    "compat/compat": 0,
+    "react/destructuring-assignment": 0,
+    "react/jsx-handler-names": 0,
+    "implicit-arrow-linebreak": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
+    "jsx-a11y/click-events-have-key-events": 0
+  }
 }

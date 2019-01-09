@@ -1,21 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './bar-chart.css';
 
-export default ({ items }) => {
-    const sum = items.reduce((sum, item) => sum + item.value, 0);
-    return (
-        <div className={styles.wrapper}>
-            { items.map((item) => (
-                <div 
-                  className={styles.lineWrapper} 
-                  style={{ width: `${100/ sum * item.value}%` }}
-                >
-                  <span className={`${styles.label}`}>
-                    {item.label}
-                  </span>
-                  <span className={`${styles.line} ${item.className}`} />
-                </div>
-            )) }
-        </div>
-    );
+const Component = ({ items }) => {
+	const sum = items.reduce((result, item) => result + item.value, 0);
+	return (
+		<div className={styles.wrapper}>
+			{ items.map(item => (
+				<div
+					className={styles.lineWrapper}
+					style={{ width: `${100 / sum * item.value}%` }}
+				>
+					<span className={`${styles.label}`}>
+						{item.label}
+					</span>
+					<span className={`${styles.line} ${item.className}`} />
+				</div>
+			)) }
+		</div>
+	);
 };
+
+Component.propTypes = {
+	items: PropTypes.arrayOf(PropTypes.shape({
+		value: PropTypes.number.isRequired,
+		className: PropTypes.string,
+		label: PropTypes.string,
+	})).isRequired,
+};
+
+export default Component;

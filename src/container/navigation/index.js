@@ -5,12 +5,12 @@ import Organism from './organism';
 import pipe from '../../lib/pipe';
 
 const mapDispatchToProps = (dispatch, props) => ({
-    onUserSignOut: () => Promise.resolve()
-        .then(() => dispatch(UserActions.signOut()))
-        .then(() => props.history.push('/')),
+	onUserSignOut: () => Promise.resolve()
+		.then(() => dispatch(UserActions.signOut()))
+		.then(() => props.history.push('/')),
 });
 
 export default pipe(
-    withRouter,
-    connect(null, mapDispatchToProps),
+	withRouter,
+	connect(null, mapDispatchToProps),
 )(Organism);

@@ -1,5 +1,7 @@
-const buildOperator = (operator, defaultOptions = {}) => (value, options = {}) => 
-  ({ operator, value, options: { ...defaultOptions, ...options } });
+const buildOperator = (operator, defaultOptions = {}) => (value, operatorOptions = {}) => {
+	const options = { ...defaultOptions, ...operatorOptions };
+	return { operator, value, options };
+};
 
 export const eq = buildOperator('eq');
 export const gt = buildOperator('gt');

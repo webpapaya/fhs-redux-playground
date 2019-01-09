@@ -5,17 +5,17 @@ import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
 
-const mapStateToProps = (state, props) => ({
-    users: state.users,
+const mapStateToProps = state => ({
+	users: state.users,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    onSubmit: (props) => dispatch(MoneyTransactionActions.create(props)),
-    sideEffect: () => dispatch(UserActions.where()).catch((x) => console.error(x)),
-    onUserLoad: (filter) => dispatch(UserActions.where(filter)).catch((x) => console.error(x))
+const mapDispatchToProps = dispatch => ({
+	onSubmit: props => dispatch(MoneyTransactionActions.create(props)),
+	sideEffect: () => dispatch(UserActions.where()),
+	onUserLoad: filter => dispatch(UserActions.where(filter)),
 });
 
 export default pipe(
-    connect(mapStateToProps, mapDispatchToProps),
-    hasSideEffect(),
+	connect(mapStateToProps, mapDispatchToProps),
+	hasSideEffect(),
 )(Organism);

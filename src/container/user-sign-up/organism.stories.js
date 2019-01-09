@@ -4,4 +4,4 @@ import { action } from '@storybook/addon-actions';
 import Organism from './organism';
 
 storiesOf('UserSignUp', module)
-  .add('default', () =>  <Organism onSubmit={ action('onSubmit') } />);
+	.add('default', () => <Organism onSubmit={action('onSubmit')} />);

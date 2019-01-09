@@ -4,30 +4,30 @@ import UserActions from '../../domain/users/actions';
 import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
-import { desc, q, order, filterByQuery } from '../../lib/repository';
+import {
+	desc, q, order, filterByQuery,
+} from '../../lib/repository';
 
 const transactionQuery = q(order(desc('createdAt')));
 
-const mapStateToProps = (state, props) => ({
-    users: state.users,
-    moneyTransactions: filterByQuery(transactionQuery, state.moneyTransactions),
-    userId: state.userAuthentication.userId,
+const mapStateToProps = state => ({
+	users: state.users,
+	moneyTransactions: filterByQuery(transactionQuery, state.moneyTransactions),
+	userId: state.userAuthentication.userId,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    onDestroy: (query) => 
-        dispatch(MoneyTransactionActions.destroy(query)),
+const mapDispatchToProps = dispatch => ({
+	onDestroy: query =>
+		dispatch(MoneyTransactionActions.destroy(query)),
 
-    sideEffect: () =>
-        dispatch(UserActions.where()),
+	sideEffect: () =>
+		dispatch(UserActions.where()),
 
-    onMoneyTransactionsLoad: (paginationQuery) => 
-        dispatch(MoneyTransactionActions.where(q(paginationQuery, transactionQuery))),
+	onMoneyTransactionsLoad: paginationQuery =>
+		dispatch(MoneyTransactionActions.where(q(paginationQuery, transactionQuery))),
 });
 
 export default pipe(
-    connect(mapStateToProps, mapDispatchToProps),
-    hasSideEffect(),
+	connect(mapStateToProps, mapDispatchToProps),
+	hasSideEffect(),
 )(Organism);
-
-

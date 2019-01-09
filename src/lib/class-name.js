@@ -1,3 +1,3 @@
-const className = (...args) => args.filter(className => className).join(' ');
+const className = (...args) => args.filter(name => name).join(' ');
 
 export default className;

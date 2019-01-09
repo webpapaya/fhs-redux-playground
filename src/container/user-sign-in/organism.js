@@ -7,15 +7,15 @@ import Button from '../../components/button';
 import styles from './organism.css';
 
 export default isForm(({ form }) => (
-    <Form { ...form }>
-        <TextInput name="email" label="Email" { ...form }  />
-        <TextInput name="password" label="Password" { ...form }  />
-        
-        <nav className={ styles.navigation }>
-            <Button type="submit" block disabled={ form.isSubmitting }>
-                Sign in
-            </Button>
-            <Link to="user-sign-up">Sign up</Link>
-        </nav>
-    </Form>
+	<Form {...form}>
+		<TextInput name="email" label="Email" {...form} />
+		<TextInput name="password" label="Password" {...form} />
+
+		<nav className={styles.navigation}>
+			<Button type="submit" block disabled={form.isSubmitting}>
+				{'Sign in'}
+			</Button>
+			<Link to="user-sign-up">Sign up</Link>
+		</nav>
+	</Form>
 ));

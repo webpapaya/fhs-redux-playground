@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect } from 'react-router-dom';
 import UserSignUp from './container/user-sign-up';
 import UserSignIn from './container/user-sign-in';
 import MoneyTransferCreate from './container/money-transaction-create';
@@ -11,29 +11,32 @@ import WhenUserAuthentication from './container/when-user-authenticated';
 import CenteredPanel from './components/centered-panel';
 
 export default () => (
-    <React.Fragment>
-        <WhenUserAuthentication authenticated={true}>
-            <Switch>
-                <Route path='/money-transactions' component={ () => (
-                    <React.Fragment>
-                        <Navigation />       
-                        <MoneyTransactionReports />
-                        <MoneyTransferCreate />
-                        <MoneyTransactionList />
-                    </React.Fragment>
-                ) } />
-                <Redirect to='/money-transactions' />
-            </Switch>
-        </WhenUserAuthentication>
+	<React.Fragment>
+		<WhenUserAuthentication authenticated>
+			<Switch>
+				<Route
+					path="/money-transactions"
+					component={() => (
+						<React.Fragment>
+							<Navigation />
+							<MoneyTransactionReports />
+							<MoneyTransferCreate />
+							<MoneyTransactionList />
+						</React.Fragment>
+					)}
+				/>
+				<Redirect to="/money-transactions" />
+			</Switch>
+		</WhenUserAuthentication>
 
-        <WhenUserAuthentication authenticated={false}>
-            <CenteredPanel>
-                <Switch>
-                    <Route path='/user-sign-up' component={ UserSignUp } />
-                    <Route path='/user-sign-in' component={ UserSignIn } />
-                    <Redirect to='/user-sign-in' />
-                </Switch>
-            </CenteredPanel>
-        </WhenUserAuthentication>
-    </React.Fragment>
+		<WhenUserAuthentication authenticated={false}>
+			<CenteredPanel>
+				<Switch>
+					<Route path="/user-sign-up" component={UserSignUp} />
+					<Route path="/user-sign-in" component={UserSignIn} />
+					<Redirect to="/user-sign-in" />
+				</Switch>
+			</CenteredPanel>
+		</WhenUserAuthentication>
+	</React.Fragment>
 );

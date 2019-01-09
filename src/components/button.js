@@ -3,36 +3,44 @@ import PropTypes from 'prop-types';
 import styles from './button.css';
 import className from '../lib/class-name';
 
-const Component = ({ 
-  type = 'button',
-  color='primary', 
-  disabled, 
-  children, 
-  onClick,
-  block,
+const Component = ({
+	type,
+	color,
+	disabled,
+	children,
+	onClick,
+	block,
 }) => (
-  <button 
-    type={type} 
-    disabled={disabled} 
-    onClick={onClick}
-    className={className(
-      styles.button, 
-      styles[`color-${color}`],
-      block && styles.block,
-      disabled && styles.disabled
-    )}
-  >
-    { children }
-  </ button> 
+	<button // eslint-disable-line react/button-has-type
+		type={type}
+		disabled={disabled}
+		onClick={onClick}
+		className={className(
+			styles.button,
+			styles[`color-${color}`],
+			block && styles.block,
+			disabled && styles.disabled,
+		)}
+	>
+		{ children }
+	</button>
 );
 
 Component.propTypes = {
-  type: PropTypes.oneOf(['button', 'submit']),
-  color: PropTypes.oneOf(['primary', 'success', 'danger']),
-  disabled: PropTypes.bool,
-  children: PropTypes.node,
-  onClick: PropTypes.func,
-  block: PropTypes.bool,
+	type: PropTypes.oneOf(['button', 'submit']),
+	color: PropTypes.oneOf(['primary', 'success', 'danger']),
+	disabled: PropTypes.bool,
+	children: PropTypes.node.isRequired,
+	onClick: PropTypes.func,
+	block: PropTypes.bool,
+};
+
+Component.defaultProps = {
+	type: 'button',
+	color: 'primary',
+	disabled: false,
+	block: false,
+	onClick: undefined,
 };
 
 export default Component;

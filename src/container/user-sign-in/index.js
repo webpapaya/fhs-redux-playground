@@ -5,13 +5,13 @@ import Organism from './organism';
 import pipe from '../../lib/pipe';
 
 const mapDispatchToProps = (dispatch, props) => ({
-    onSubmit: (payload) => Promise.resolve()
-        .then(() => dispatch(UserActions.signIn(payload)))
-        // add history actions
-        .then(() => props.history.push('/money-transactions')),
+	onSubmit: payload => Promise.resolve()
+		.then(() => dispatch(UserActions.signIn(payload)))
+	// add history actions
+		.then(() => props.history.push('/money-transactions')),
 });
 
 export default pipe(
-    withRouter,
-    connect(null, mapDispatchToProps),
+	withRouter,
+	connect(null, mapDispatchToProps),
 )(Organism);

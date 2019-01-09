@@ -3,12 +3,12 @@ create schema if not exists setup;
 create or replace function
 setup.create_role(role text, options text) returns VOID as $$
 begin
-    IF NOT EXISTS (
-      SELECT                       -- SELECT list can stay empty for this
-      FROM   pg_catalog.pg_roles
-      WHERE  rolname = role) THEN
+	IF NOT EXISTS (
+	  SELECT					   -- SELECT list can stay empty for this
+	  FROM   pg_catalog.pg_roles
+	  WHERE  rolname = role) THEN
 
-    EXECUTE 'CREATE role ' || role;
+	EXECUTE 'CREATE role ' || role;
    END IF;
 end;
 $$ language plpgsql SECURITY DEFINER;
