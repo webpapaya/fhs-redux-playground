@@ -5,6 +5,7 @@ Having different types of components helps to structure applications better and 
 - Core Components, Atoms or Design System
 - Organism Components
 - Container Component
+- Higher-Order-Components (HOCs)
 
 ## Core Components
 Are the smallest building blocks of the UI. They define the basic look and feel and shouldn't have any domain knowledge of the application they're used in. It should be possible to reuse core components in other applications as well. A collection of core components is a design system. (example of a design system https://material-ui.com/) 
@@ -30,3 +31,20 @@ Container components glue business logic and UI together, that means they are aw
 ### Examples
 - A user registration form connected to the backend
 - ....
+
+
+## Higher Order Components (HOCs)
+
+A higher order component is a component which returns another component. HOCs wrap other components and enhance those with additional behaviour. Reduxs connection function is one example of a Higher order component. 
+
+```js
+const UnconnectedComponent = ({ user }) => <div>{ user.name }</div>;
+
+const mapStateToProps = (state) => ({ user: state.user });
+const ContainerComponent = connect(mapStateToProps)(UnconnectedComponent);
+```
+
+On Line 4 we build a HOC which provides the user as property to the UnconnectedComponent.
+
+
+
