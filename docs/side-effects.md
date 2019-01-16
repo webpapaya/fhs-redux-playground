@@ -1,6 +1,6 @@
 # Side effects
 
-React Redux is promoting a functional way of building UIs. In a purly functional language state can't be modified and everything which changes the state is considered a side-effect. This includes printing some text on a screen, reading a file from the file system or storing some value in a database. Redux solves side-effects by dispatching actions. For every global state change an action needs to be dispatched, but not every dispatched action changes the state. In order to reuse actions accross different parts of the application `action creators` can be extracted. Using `redux-thunk` action creators can dispatch other actions. This is best illustrated in the following example:
+React Redux is promoting a functional way of building UIs. In a purly functional language state can't be modified and everything which changes the state is considered a side-effect. This includes printing some text on a screen, reading a file from a file system or storing a value in tp a database. Redux solves side-effects by dispatching actions. For every global state change an action needs to be dispatched, but not every dispatched action changes the state. In order to reuse actions accross different parts of the application `action creators` can be extracted. Using `redux-thunk` action creators can dispatch other actions. This is best illustrated in the following example:
 
 ```js
 // action creator
@@ -25,7 +25,7 @@ export const destroyUser = ({ id }) => { /* ADD IMPLEMENTATION HERE */ }
 
 ```
 
-The above action creator users from a remote API and if they could be fetched the action `user_fetch_success` is dispatched. In case of an error an action with the type `user_fetch_error` will be dispatched. Dispatching actions itself doesn't change the global state. It only tells that an event had happened and if anybody wants to do anything with this event they're free to do so. Changing the global state can be done in a reducer. I won't cover them here but refere to the official documentation (https://redux.js.org/basics/reducers).
+The above action creator fetches users from a remote API. On success the action `user_fetch_success` is dispatched including all users from the API. In case of an error an action with the type `user_fetch_error` will be dispatched. Dispatching actions itself doesn't change the global state. It only tells that an event had happened. If anybody wants to do anything with this event they're free to do so. Changing the global state can be done in a reducer. I won't cover them here but refere to the official documentation (https://redux.js.org/basics/reducers).
 
 ## When/How are side effects triggered
 
@@ -41,7 +41,7 @@ There are multiple ways to trigger a side effect:
 ### When something changes in the application
 
 Loading the right data for the right container at the right time from the backend is a challenging task. Having no data-dependencies between container components makes it possible to freely arrange them. A data dependency is any kind of state in the global redux store which was loaded by one container A and is reused by another container B. That means that container B can't render any data without container A beeing loaded before B. Having every container specify which data it requires enables completly independent components which can be arranged anywhere in the application. To make data loading needs of a container easier there is a HOC called 'hasSideEffect'. This HOC serves 2 different purposes:
-- Load data when a container when the container is rendered initially
+- Load data when the container is rendered initially
 - Load data when certain props change 
 
 Given the following scenario.
@@ -71,7 +71,8 @@ import UserDetail from './UserDetail';
 
 /**
  * UserNavigation and UserDetail are synced via the userId prop.
- * If they are rendered right next to each other or the property
+ * It doesn't matter if the components are rendered next to each
+ * other as long as the userId is passed correctly to the containers.
  * userId is coming from somewhere else doesn't matter. They're
  * completely independent.
  */ 

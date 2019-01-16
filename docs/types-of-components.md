@@ -1,6 +1,6 @@
 
 # Types of components
-Having different types of components helps to structure applications better and makes it easier to reuse components in other applications as well. There are 3 main categories of components:
+Having different types of components helps to structure applications better and makes it easier to reuse components in other applications as well. There are 4 main categories of components:
 
 - Core Components, Atoms or Design System
 - Organism Components
@@ -18,7 +18,7 @@ Are the smallest building blocks of the UI. They define the basic look and feel 
 - ...
 
 ## Organism Components
-An organism is a composition of one or many core components which have knowledge of the application domain. Organisms are used to form concrete interfaces for an application. They don't contain any business logic (eg. execute the actual HTTP request on a form submittion). They only receive data and provide callbacks. They can't be used in other applications.
+An organism is a composition of one or many core components which have knowledge of the application domain. Organisms are used to form concrete interfaces for an application. They don't contain any business logic (eg. execute the actual HTTP request on a form submittion). They only receive data and provide callbacks. They can't be used in other applications and should not have any information about the state management library. (eg. it should be possible to migrate from redux to mobx without changing any organisms)
 
 ### Examples
 - A user registration form
@@ -35,7 +35,7 @@ Container components glue business logic and UI together, that means they are aw
 
 ## Higher Order Components (HOCs)
 
-A higher order component is a component which returns another component. HOCs wrap other components and enhance those with additional behaviour. Reduxs connection function is one example of a Higher order component. 
+A higher order component is a component which returns another component. HOCs wrap other components and enhance those with additional behaviour. Reduxs connection function is one example of a HOC. 
 
 ```js
 const UnconnectedComponent = ({ user }) => <div>{ user.name }</div>;

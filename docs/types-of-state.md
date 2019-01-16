@@ -1,14 +1,14 @@
 # Types of state
 
 ## Global state 
-The global state is shared across the whole application and can be seen as a cached version of the database. All domain objects (eg. Users) should be stored here. Because of reduxes nature of rerendering the whole applicationon every state change two completly independent container components can be kept in sync even though they don't knowanything of each other. This results in a loose coupling between distant parts of the UI.
+The global state is shared across the whole application and can be seen as a cached version of the database. All domain objects (eg. Users) should be stored here. Storing domain objects in a global store allows distant components to be kept in sync without knowing anything about each other. This results in a loose coupling between distant parts of the UI. 
 
 ### Example 
 Given the following container components:
 - <Navigation /> - which shows the name of the signed in user
 - <UserList /> - which shows the names of all users in the system
 - <UserSettings /> - which is used to change the name of the signed in user
-Each of the containers receive the user from a global state. Whenever somebody submitts changes to the name of the user the newly changed name is automatically distributed to the other components without them knowing anything about each other. 
+Each of the containers receive the user from a global state. Whenever somebody submits changes to the name of the user the newly changed name is automatically distributed to the other components without knowing anything about each other. 
 
 ### What belongs in global state
 - A domain object (eg. User)
@@ -23,7 +23,7 @@ UI state is mostly irrelevant to the core functionality of the app. Form states 
 - ...
 
 ## URL state
-URL state or the browsers URL is the entry point to every to web applications. It is used to define which parts of the application need to be rendered. If one reloads the page the components should stay the same except for UI state to be lost. This allows users to bookmark URLs and share them with others.
+URL state or the browsers URL is the entry point to web applications. The URL defines which collection of UI elements needs to be rendered. Reloading the page should not result in a context switch (eg. editing the user profile > reload > display user profile). This allows users to bookmark URLs and share them with others.
 
 ### What belongs in URL state
 - The current location
