@@ -1,7 +1,7 @@
 
 import { memoize } from 'redux-memoize';
 import { cache } from '../lib/memoize-actions';
-import { buildRepository } from '../lib/repository/adapters/postgrest';
+import { buildRepository } from 'datenkrake/src/adapters/postgrest';
 import { connection } from './server-connection';
 
 const ignoreReturnFor = fn => value => Promise.resolve()

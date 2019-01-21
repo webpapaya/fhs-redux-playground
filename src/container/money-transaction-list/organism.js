@@ -6,7 +6,7 @@ import isPaginated from '../../lib/is-paginated';
 import styles from './organism.css';
 import {
 	q, findByQuery, eq, where,
-} from '../../lib/repository';
+} from 'datenkrake';
 
 export default isPaginated({
 	pageSize: 10,

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
 	q, limit, offset, filterByQuery, where, oneOf,
-} from './repository';
+} from 'datenkrake';
 
 
 const clampNumber = (min, max, number) => Math.min(Math.max(number, min), max);

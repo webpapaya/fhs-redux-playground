@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { connection } from '../server-connection';
-import { setAuthentication, unsetAuthentication } from '../../lib/repository/adapters/postgrest';
+import { setAuthentication, unsetAuthentication } from 'datenkrake/src/adapters/postgrest';
 
 const parseToken = (token) => {
 	if (!token) { return {}; }

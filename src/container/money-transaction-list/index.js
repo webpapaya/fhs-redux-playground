@@ -6,7 +6,7 @@ import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
 import {
 	desc, q, order, filterByQuery,
-} from '../../lib/repository';
+} from 'datenkrake';
 
 const transactionQuery = q(order(desc('createdAt')));
 

@@ -1,7 +1,7 @@
 import React from 'react';
+import { q, where, like } from 'datenkrake';
 import isForm from '../../lib/is-form';
 import Form from '../../components/form';
-import { q, where, like } from '../../lib/repository';
 
 import TextInput from '../../components/text-input';
 import NumberInput from '../../components/number-input';

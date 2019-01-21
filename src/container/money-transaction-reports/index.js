@@ -5,7 +5,7 @@ import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
 import {
 	q, where, eq, findByQuery,
-} from '../../lib/repository';
+} from 'datenkrake';
 
 const mapStateToProps = (state) => {
 	const reports = state.moneyTransactionReports;
