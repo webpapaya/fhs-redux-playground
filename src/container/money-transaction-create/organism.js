@@ -15,12 +15,6 @@ export default isForm(({ form, users, onUserLoad }) => (
 			label="Amount"
 			{...form}
 		/>
-		<TextInput
-			label="Debitor"
-			name="debitorId"
-			onChange={evt => onUserLoad(q(where({ name: like(`%${evt.target.value}%`, { caseSensitive: false }) })))}
-			{...form}
-		/>
 		<SelectInput
 			label="Debitor"
 			name="debitorId"

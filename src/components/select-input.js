@@ -13,7 +13,7 @@ export default isInput({}, ({
 	<div>
 		<Label>{ label }</Label>
 		<Select {...props}>
-			<Option>{ noSelectionText || 'Please select' }</Option>
+			<Option value="">{ noSelectionText || 'Please select' }</Option>
 			{ options.map(({ value, label: l }) => (<Option key={value} value={value}>{ l }</Option>))}
 		</Select>
 	</div>
