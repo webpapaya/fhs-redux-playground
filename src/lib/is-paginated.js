@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router';
 import {
 	q, limit, offset, filterByQuery, where, oneOf,
 } from 'datenkrake';
 
-
 const clampNumber = (min, max, number) => Math.min(Math.max(number, min), max);
 
-class PaginationWrapper extends React.Component {
+const PaginationWrapper = withRouter(class extends React.Component {
 	static propTypes = {
 		parentProps: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
 		config: PropTypes.shape({
@@ -25,7 +25,12 @@ class PaginationWrapper extends React.Component {
 	}
 
 	componentDidMount() {
+		this.historyUnlisten = this.props.history.listen(() => this.reload());
 		this.reload();
+	}
+
+	componentWillUnmount() {
+		this.historyUnlisten();
 	}
 
 	componentDidUpdate(prevProps) {
@@ -67,7 +72,6 @@ class PaginationWrapper extends React.Component {
 		return props[this.config.itemsPropName] || [];
 	}
 
-
 	onPageChange = (currentPage) => {
 		if (currentPage < 0 || this.state.currentPage === currentPage) { return; }
 		this.setState(state => ({ ...state, currentPage }), () => this.reload());
@@ -82,12 +86,22 @@ class PaginationWrapper extends React.Component {
 		return Promise.resolve()
 			.then(() => this.props.parentProps[this.config.itemsLoadingFnName](query))
 			.then(({ payload, meta }) => new Promise((resolve) => {
+				const totalItems = meta.contentRange.total;
+				const pageCount =  Math.ceil(totalItems / this.config.pageSize);
+				const currentPage = clampNumber(0, pageCount - 1, this.state.currentPage);
+
 				const recordIds = payload.map(record => record[this.config.uniqueKey]);
 				this.setState(() => ({
 					itemQuery: q(where({ [this.config.uniqueKey]: oneOf(...recordIds) })),
-					totalItems: meta.contentRange.total,
+					totalItems,
+					currentPage
 				}), resolve);
-			}));
+			})).catch(() => {
+				// This a hack for the case that the contant-range
+				// can't be setisfied by postgrest. This should be
+				// handled on the repository itself.
+				return this.onPageChange(0);
+			});
 	}
 
 
@@ -103,7 +117,7 @@ class PaginationWrapper extends React.Component {
 			/>
 		);
 	}
-}
+});
 
 const isPaginated = (config, Component) => props => (
 	<PaginationWrapper

@@ -7,6 +7,13 @@
 }
 
 :local(.input) {
+	border:none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	-ms-appearance: none; /* get rid of default appearance for IE8, 9 and 10*/
+	background: transparent;
+	
 	color: rgb(92, 92, 92);
 	font-size: 18px;
 	width: 100%;
