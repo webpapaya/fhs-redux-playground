@@ -1,14 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { uniq, omit } from 'ramda';
 import { ignoreReturnFor, rethrowError } from 'promise-frites';
 import { setValue, removeValue } from './is-form.utils';
 
 const isForm = render => class extends React.Component {
 		static propTypes = {
 			onSubmit: PropTypes.func.isRequired,
+			defaultValues: PropTypes.any,
+		}
+
+		static defaultProps = {
+			defaultValues: {}
 		}
 
 		state = {
+			touched: [],
 			values: {},
 			errors: {},
 			isSubmitting: false,
@@ -16,6 +23,11 @@ const isForm = render => class extends React.Component {
 		};
 
 		safeSetState = (...args) => new Promise(resolve => this.setState(...args, resolve));
+
+		static getDerivedStateFromProps(props, state) {
+			const values = { ...state.values, ...omit(state.touched, props.defaultValues) };
+			return { ...state, values };
+		}
 
 		onSubmit = (evt) => {
 			evt.preventDefault();
@@ -29,7 +41,16 @@ const isForm = render => class extends React.Component {
 		}
 
 		setFormValue = (name, value) => {
-			this.setState((state => ({ values: setValue(name, value, state.values) })));
+			this.setState(state => {
+				const touched = name in state.values
+					? uniq([...state.touched, name])
+					: state.touched;
+
+				return ({ 
+					values: setValue(name, value, state.values),
+					touched,
+				});
+			});
 		};
 
 		removeFormField = (name) => {

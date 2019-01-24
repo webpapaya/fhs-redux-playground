@@ -6,6 +6,7 @@ import MoneyTransferCreate from './container/money-transaction-create';
 import MoneyTransactionList from './container/money-transaction-list';
 import MoneyTransactionReports from './container/money-transaction-reports';
 import MoneyTransactionFilter from './container/money-transaction-filter';
+import UserUpdate from './container/user-update';
 
 import Navigation from './container/navigation';
 import WhenUserAuthentication from './container/when-user-authenticated';
@@ -13,7 +14,6 @@ import CenteredPanel from './components/centered-panel';
 
 const MoneyTransactionPage = () => (
 	<React.Fragment>
-		<Navigation />
 		<MoneyTransactionReports />
 		<MoneyTransferCreate />
 		<MoneyTransactionFilter />
@@ -24,13 +24,20 @@ const MoneyTransactionPage = () => (
 export default () => (
 	<React.Fragment>
 		<WhenUserAuthentication authenticated>
-			<Switch>
-				<Route
-					path="/money-transactions"
-					component={MoneyTransactionPage}
-				/>
-				<Redirect to="/money-transactions" />
-			</Switch>
+			<React.Fragment>
+				<Navigation />
+				<Switch>
+					<Route
+						path="/money-transactions"
+						component={MoneyTransactionPage}
+					/>
+					<Route
+						path="/settings"
+						component={UserUpdate}
+					/>
+					<Redirect to="/money-transactions" />
+				</Switch>
+			</React.Fragment>
 		</WhenUserAuthentication>
 
 		<WhenUserAuthentication authenticated={false}>

@@ -87,8 +87,8 @@ const PaginationWrapper = withRouter(class extends React.Component {
 			.then(() => this.props.parentProps[this.config.itemsLoadingFnName](query))
 			.then(({ payload, meta }) => new Promise((resolve) => {
 				const totalItems = meta.contentRange.total;
-				const pageCount =  Math.ceil(totalItems / this.config.pageSize);
-				const currentPage = clampNumber(0, pageCount - 1, this.state.currentPage);
+				const pageCount =  Math.floor(totalItems / this.config.pageSize);
+				const currentPage = clampNumber(0, pageCount, this.state.currentPage);
 
 				const recordIds = payload.map(record => record[this.config.uniqueKey]);
 				this.setState(() => ({
