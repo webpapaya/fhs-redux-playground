@@ -18,7 +18,7 @@ const mapDispatchToProps = (_, props) => ({
 		const sorting = !params.order ? undefined : order(parseOrder(params.order));
 	
 		return props.history.replace({ search: `?${toQueryParams(q(amount,sorting))}` });
-	},
+	}
 });
 
 export default pipe(

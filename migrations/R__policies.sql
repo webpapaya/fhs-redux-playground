@@ -18,5 +18,6 @@ ON public.users;
 CREATE POLICY user_policy
 ON public.users
 FOR ALL
-USING (role = current_user);
+USING (true)
+WITH CHECK (role = current_user);
 

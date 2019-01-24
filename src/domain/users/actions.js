@@ -14,7 +14,8 @@ const signUpAndIn = ({ name, email, password }) => dispatch => Promise.resolve()
 	.then(() => connection.post('rpc/user_sign_up', { email, pass: password }))
 	.then(() => dispatch({ type: '@USER/signedUp' }))
 	.then(() => dispatch(signIn({ email, password })))
-	.then(() => dispatch(REST_ACTIONS.create({ name })));
+	.then(() => dispatch(REST_ACTIONS.create({ name })))
+	.then(() => dispatch(signIn({ email, password })));
 
 export default {
 	...REST_ACTIONS,
