@@ -6,7 +6,7 @@ const parseToken = (token) => {
 	if (!token) { return {}; }
 	const parsedToken = jwtDecode(token);
 	return {
-		userId: parseInt(parsedToken.role.replace('user', ''), 10),
+		id: parsedToken.id,
 		expiryDate: new Date(parsedToken.exp * 1000),
 	};
 };

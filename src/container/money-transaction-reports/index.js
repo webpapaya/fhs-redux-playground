@@ -11,7 +11,7 @@ const mapStateToProps = (state) => {
 	const reports = state.moneyTransactionReports;
 	const totalBalanceQuery = q(where({
 		granularity: eq('total'),
-		userId: eq(state.userAuthentication.userId),
+		userId: eq(state.userAuthentication.id),
 	}));
 
 	return ({
@@ -19,7 +19,7 @@ const mapStateToProps = (state) => {
 		totalAmount: findByQuery(q(totalBalanceQuery, where({ type: eq('sum') })), reports).amount || 0,
 		debitAmount: findByQuery(q(totalBalanceQuery, where({ type: eq('debit') })), reports).amount || 0,
 		creditAmount: findByQuery(q(totalBalanceQuery, where({ type: eq('credit') })), reports).amount || 0,
-		userId: state.userAuthentication.userId,
+		userId: state.userAuthentication.id,
 	});
 };
 

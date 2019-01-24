@@ -13,7 +13,7 @@ const mapStateToProps = (state, props) => ({
 	moneyTransactions: filterByQuery(q(
 		fromQueryParams(props.history.location.search),
 	), state.moneyTransactions),
-	userId: state.userAuthentication.userId,
+	userId: state.userAuthentication.id,
 });
 
 const mapDispatchToProps = (dispatch, props) => ({
