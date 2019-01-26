@@ -2,7 +2,6 @@ import React from 'react';
 import isForm from '../../lib/is-form';
 import Form from '../../components/form';
 import NumberInput from '../../components/number-input';
-import Button from '../../components/button';
 import Select from '../../components/select-input';
 
 const OPTIONS = [
@@ -14,15 +13,18 @@ const OPTIONS = [
 
 export default isForm(({ form }) => (
 	<Form {...form}>
-		<NumberInput name="amount" label="Amount gte" {...form} />
-		<Select 
+		<NumberInput
+			name="amount"
+			label="Amount gte"
+			onChange={form.onSubmit}
+			{...form}
+		/>
+		<Select
 			options={OPTIONS}
 			name="order"
 			label="Order"
+			onChange={form.onSubmit}
 			{...form}
 		/>
-		<Button type="submit" block disabled={form.isSubmitting}>
-			{'Filter'}
-		</Button>
 	</Form>
 ));

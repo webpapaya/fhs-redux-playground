@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
+import {
+	q, where, eq, findByQuery,
+} from 'datenkrake';
 import MoneyTransactionReportsActions from '../../domain/money-transaction-reports/actions';
 import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
-import {
-	q, where, eq, findByQuery,
-} from 'datenkrake';
 
 const mapStateToProps = (state) => {
 	const reports = state.moneyTransactionReports;

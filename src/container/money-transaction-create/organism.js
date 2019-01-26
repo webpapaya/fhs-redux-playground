@@ -1,5 +1,4 @@
 import React from 'react';
-import { q, where, like } from 'datenkrake';
 import isForm from '../../lib/is-form';
 import Form from '../../components/form';
 import NumberInput from '../../components/number-input';

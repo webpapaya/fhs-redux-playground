@@ -7,11 +7,11 @@ import { setValue, removeValue } from './is-form.utils';
 const isForm = render => class extends React.Component {
 		static propTypes = {
 			onSubmit: PropTypes.func.isRequired,
-			defaultValues: PropTypes.any,
+			defaultValues: PropTypes.any, // eslint-disable-line react/forbid-prop-types, react/no-unused-prop-types
 		}
 
 		static defaultProps = {
-			defaultValues: {}
+			defaultValues: {},
 		}
 
 		state = {
@@ -22,12 +22,12 @@ const isForm = render => class extends React.Component {
 			wasSubmitted: false,
 		};
 
-		safeSetState = (...args) => new Promise(resolve => this.setState(...args, resolve));
-
 		static getDerivedStateFromProps(props, state) {
 			const values = { ...state.values, ...omit(state.touched, props.defaultValues) };
 			return { ...state, values };
 		}
+
+		safeSetState = (...args) => new Promise(resolve => this.setState(...args, resolve));
 
 		onSubmit = (evt) => {
 			evt.preventDefault();
@@ -41,12 +41,12 @@ const isForm = render => class extends React.Component {
 		}
 
 		setFormValue = (name, value) => {
-			this.setState(state => {
+			this.setState((state) => {
 				const touched = name in state.values
 					? uniq([...state.touched, name])
 					: state.touched;
 
-				return ({ 
+				return ({
 					values: setValue(name, value, state.values),
 					touched,
 				});

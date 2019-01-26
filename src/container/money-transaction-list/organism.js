@@ -1,12 +1,12 @@
 import React from 'react';
+import {
+	q, findByQuery, eq, where,
+} from 'datenkrake';
 import Button from '../../components/button';
 
 import PaginationBar from '../../components/pagination-bar';
 import isPaginated from '../../lib/is-paginated';
 import styles from './organism.css';
-import {
-	q, findByQuery, eq, where,
-} from 'datenkrake';
 
 export default isPaginated({
 	pageSize: 10,

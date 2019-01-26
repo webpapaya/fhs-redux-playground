@@ -14,10 +14,13 @@ export default isInput({}, ({
 }) => (
 	<div>
 		<Label className={styles.label}>{ label }</Label>
-		<Select {...props} className={className(
-			styles.input,
-			props.focused && styles.focused,
-		)}>
+		<Select
+			{...props}
+			className={className(
+				styles.input,
+				props.focused && styles.focused,
+			)}
+		>
 			<Option value="">{ noSelectionText || 'Please select' }</Option>
 			{ options.map(({ value, label: l }) => (<Option key={value} value={value}>{ l }</Option>))}
 		</Select>

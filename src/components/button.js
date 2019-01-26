@@ -20,6 +20,7 @@ const Component = ({
 			styles[`color-${color}`],
 			block && styles.block,
 			disabled && styles.disabled,
+			disabled && styles['not-allowed'],
 		)}
 	>
 		{ children }

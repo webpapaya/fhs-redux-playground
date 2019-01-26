@@ -5,6 +5,7 @@
   padding: 0;
   width: auto;
   overflow: visible;
+  text-decoration: none;
 
   background: transparent;
 
@@ -28,15 +29,19 @@
   transition: all 200ms;
 
   border-radius: 9999px;
-  padding: 5px 20px;
+  padding: 5px 15px;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 
 :local(.button.block) {
-  display: block;
+  display: flex;
   width: 100%;
 }
 
-:local(.disabled) {
+:local(.not-allowed) {
   cursor: not-allowed;
 }
 
@@ -59,7 +64,7 @@
 }
 
 :local(.color-primary.disabled) {
-  background: rgb(195, 233, 243);
+  background: rgba(35, 104, 255, 0.4)
 }
 
 /* success color */ 

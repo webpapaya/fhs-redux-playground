@@ -9,6 +9,9 @@ const clampNumber = (min, max, number) => Math.min(Math.max(number, min), max);
 
 const PaginationWrapper = withRouter(class extends React.Component {
 	static propTypes = {
+		history: PropTypes.shape({
+			listen: PropTypes.func,
+		}).isRequired,
 		parentProps: PropTypes.any.isRequired, // eslint-disable-line react/forbid-prop-types
 		config: PropTypes.shape({
 			uniqueKey: PropTypes.string,
@@ -29,10 +32,6 @@ const PaginationWrapper = withRouter(class extends React.Component {
 		this.reload();
 	}
 
-	componentWillUnmount() {
-		this.historyUnlisten();
-	}
-
 	componentDidUpdate(prevProps) {
 		const currItemsLength = this.getItemsFromProps(this.props.parentProps).length;
 		const prevItemsLength = this.getItemsFromProps(prevProps.parentProps).length;
@@ -41,6 +40,10 @@ const PaginationWrapper = withRouter(class extends React.Component {
 		if (currItemsLength !== prevItemsLength) {
 			this.reload();
 		}
+	}
+
+	componentWillUnmount() {
+		this.historyUnlisten();
 	}
 
 	get config() {
@@ -87,21 +90,20 @@ const PaginationWrapper = withRouter(class extends React.Component {
 			.then(() => this.props.parentProps[this.config.itemsLoadingFnName](query))
 			.then(({ payload, meta }) => new Promise((resolve) => {
 				const totalItems = meta.contentRange.total;
-				const pageCount =  Math.floor(totalItems / this.config.pageSize);
+				const pageCount = Math.floor(totalItems / this.config.pageSize);
 				const currentPage = clampNumber(0, pageCount, this.state.currentPage);
 
 				const recordIds = payload.map(record => record[this.config.uniqueKey]);
 				this.setState(() => ({
 					itemQuery: q(where({ [this.config.uniqueKey]: oneOf(...recordIds) })),
 					totalItems,
-					currentPage
+					currentPage,
 				}), resolve);
-			})).catch(() => {
+			})).catch(() =>
 				// This a hack for the case that the contant-range
 				// can't be setisfied by postgrest. This should be
 				// handled on the repository itself.
-				return this.onPageChange(0);
-			});
+				this.onPageChange(0));
 	}
 
 

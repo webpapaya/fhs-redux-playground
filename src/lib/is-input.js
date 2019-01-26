@@ -61,6 +61,7 @@ const buildInput = ({ reducer = defaultReducer }, InputComponent) => class Input
 		}
 
 		static defaultProps = {
+			parentProps: {},
 			disabled: false,
 			value: undefined,
 			initialValue: undefined,
@@ -83,13 +84,6 @@ const buildInput = ({ reducer = defaultReducer }, InputComponent) => class Input
 		get domElements() {
 			if (!this._domElements) { this.createDomElements(); }
 			return this._domElements;
-		}
-
-		promiseSetState(stateFn) {
-			return new Promise(resolve => {
-				if (this.isUnmounted) { return; }
-				this.setState(stateFn, resolve)
-			});
 		}
 
 		handleEvent = (evt, eventName, stateFn) => {
@@ -120,6 +114,13 @@ const buildInput = ({ reducer = defaultReducer }, InputComponent) => class Input
 		onFocus = evt => this.handleEvent(evt, 'onFocus', state => ({ ...state, focused: true }));
 
 		onBlur = evt => this.handleEvent(evt, 'onBlur', state => ({ ...state, focused: false }));
+
+		promiseSetState(stateFn) {
+			return new Promise((resolve) => {
+				if (this.isUnmounted) { return; }
+				this.setState(stateFn, resolve);
+			});
+		}
 
 		safeCallProp(name, ...args) {
 			if (this.props[name]) {
