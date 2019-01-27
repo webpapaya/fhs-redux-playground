@@ -1,5 +1,6 @@
 import React from 'react';
-import {Tabs, Tab} from '../../../components/tabs';
+import PropTypes from 'prop-types';
+import { Tabs, Tab } from '../../../components/tabs';
 import Form from './form';
 
 const Organism = props => (
@@ -12,5 +13,10 @@ const Organism = props => (
 		</Tab>
 	</Tabs>
 );
+
+Organism.propTypes = {
+	onCreditCreate: PropTypes.func.isRequired,
+	onDebtCreate: PropTypes.func.isRequired,
+};
 
 export default Organism;

@@ -3,6 +3,7 @@ import isForm from '../../lib/is-form';
 import Form from '../../components/form';
 import NumberInput from '../../components/number-input';
 import Select from '../../components/select-input';
+import styles from './organism.css';
 
 const OPTIONS = [
 	{ value: 'createdAt.asc', label: 'Date asc' },
@@ -12,7 +13,7 @@ const OPTIONS = [
 ];
 
 export default isForm(({ form }) => (
-	<Form {...form}>
+	<Form {...form} className={styles['form-wrapper']}>
 		<NumberInput
 			name="amount"
 			label="Amount gte"
