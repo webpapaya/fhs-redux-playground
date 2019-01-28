@@ -1,0 +1,32 @@
+:local(.row) {
+	padding: 0 16px;
+	font-family: 'Open Sans';
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 8px;
+}
+
+:local(.row:nth-child(2n+1)) {
+	background: #efefef;
+}
+
+:local(.row.clickable) {
+	cursor: pointer;
+}
+
+:local(.row.clickable:hover), :local(.row.open) {
+	background: #fdfdfd;
+	border-radius: 3px;
+	box-shadow: 0px 3px 5px 0px rgba(226, 226, 226, 0.75);
+	position: relative;
+	margin: 0;
+	padding: 0 24px;
+}
+
+:local(.header) {
+	padding: 16px 0;
+}
+
+:local(.body) {
+	padding: 16px 0;
+}

@@ -1,11 +1,7 @@
-:local(.wrapper) > li:nth-child(2n+1) {
-	background: #efefef;
+:local(.debt) {
+	border-left: 3px solid #FF7D09;
 }
 
-:local(.row) {
-	padding: 10px;
-	font-family: 'Open Sans';
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+:local(.credit) {
+	border-left: 3px solid #00BF4D;
 }
