@@ -1,7 +1,16 @@
+:local(.name) {
+	flex-grow: 1;
+}
+
+:local(.amount) {
+	font-weight: 700;
+	padding: 8px;
+}
+
 :local(.debt) {
-	border-left: 3px solid #FF7D09;
+	color: #FF7D09;
 }
 
 :local(.credit) {
-	border-left: 3px solid #00BF4D;
+	color: #2268FF;
 }

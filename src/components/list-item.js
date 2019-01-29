@@ -9,7 +9,7 @@ class ListItem extends React.Component {
 		body: PropTypes.node,
 	};
 
-	defaultProps = {
+	static defaultProps = {
 		body: undefined,
 	};
 
