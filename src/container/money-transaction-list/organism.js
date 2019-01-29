@@ -4,12 +4,14 @@ import {
 } from 'datenkrake';
 import Button from '../../components/button';
 import ListItem from '../../components/list-item';
+import CheckboxInput from '../../components/checkbox-input';
 import className from '../../lib/class-name';
 
 import PaginationBar from '../../components/pagination-bar';
 import isPaginated from '../../lib/is-paginated';
 import formatCurrency from '../../helper/format-currency';
 import styles from './organism.css';
+
 
 export default isPaginated({
 	pageSize: 10,
@@ -23,27 +25,45 @@ export default isPaginated({
 	onPageChange,
 	pageCount,
 	currentPage,
+	onMoneyTransactionSubmit,
 }) => (
 	<React.Fragment>
 		<ul className={styles.wrapper}>
 			{ moneyTransactions.map(({
-				id, creditorId, debitorId, amount,
+				id, creditorId, debitorId, amount, paidAt,
 			}) => {
 				const isDebt = userId === debitorId;
 				const otherUserId = isDebt ? creditorId : debitorId;
 				const otherUser = findByQuery(q(where({ id: eq(otherUserId) })), users);
 				const signedAmount = isDebt ? amount * -1 : amount;
+				const updateFn = (evt) => {
+					return onMoneyTransactionSubmit(q(where({ id: eq(id) })), {
+						paidAt: evt.target.checked ? (new Date()).toISOString() : null,
+					});
+				}
 
 				return (
 				<ListItem
 					key={id}
 					header={(
 						<>
-							<span className={styles.name}>{ otherUser.name }</span>
+							<CheckboxInput 
+								onChange={ updateFn }
+								defaultChecked={!!paidAt}
+							/>
+							<span 
+								className={className(
+									styles.name,
+									paidAt && styles.paid,
+								)}
+							>
+								{ otherUser.name }
+							</span>
 							<span 
 								className={className(
 									styles.amount,
-									isDebt ? styles.debt : styles.credit
+									isDebt ? styles.debt : styles.credit,
+									paidAt && styles.paid,
 								)}
 							>
 								{ formatCurrency(signedAmount) }

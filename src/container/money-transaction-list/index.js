@@ -27,9 +27,8 @@ const mapDispatchToProps = (dispatch, props) => ({
 		paginationQuery,
 		fromQueryParams(props.history.location.search),
 	))),
-	onMoneyTransactionSubmit: () => {
-		console.log('test')
-	}
+	onMoneyTransactionSubmit: (query, record) => 
+		dispatch(MoneyTransactionActions.update(query, record)),
 });
 
 export default pipe(
