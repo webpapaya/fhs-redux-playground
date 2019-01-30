@@ -15,7 +15,7 @@
 	"dependencies": {
 		"axios": "^0.18.0",
 		"camelcase-keys-deep": "^0.1.0",
-		"datenkrake": "^0.0.2-alpha",
+		"datenkrake": "^0.0.3",
 		"decamelize": "^2.0.0",
 		"decamelize-keys-deep": "^0.1.1",
 		"jwt-decode": "^2.2.0",
