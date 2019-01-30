@@ -10,8 +10,8 @@ import hasSideEffect from '../../lib/has-side-effect';
 const mapStateToProps = (state) => {
 	const reports = state.moneyTransactionReports;
 	const totalBalanceQuery = q(where({
-		granularity: eq('total'),
 		userId: eq(state.userAuthentication.id),
+		otherUserId: eq(null),
 	}));
 
 	return ({
@@ -25,8 +25,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
 	sideEffect: props => dispatch(MoneyTransactionReportsActions.where(q(where({
-		granularity: eq('total'),
 		userId: eq(props.userId),
+		otherUserId: eq(null),
 	})))),
 });
 

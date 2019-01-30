@@ -42,9 +42,9 @@
 }
 
 :local(.debitLine) {
-	background: #4C85FF;
+	background: #FF9638;
 }
 
 :local(.creditLine) {
-	background: #FF9638;
+	background: #4C85FF;
 }
