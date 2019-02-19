@@ -10,14 +10,14 @@ const toCurrencty = amount => `${toFixed(amount)} €`;
 const Organism = ({ totalAmount, debitAmount, creditAmount }) => (
 	<section className={styles.wrapper}>
 		<BarChart items={[
-			{ 
-				value: Math.abs(debitAmount), 
-				className: styles.debitLine, 
-				label: `${toCurrencty(debitAmount)} debt` 
-			}, { 
-				value: Math.abs(creditAmount), 
-				className: styles.creditLine, 
-				label: `${toCurrencty(creditAmount)} credit` 
+			{
+				value: Math.abs(debitAmount),
+				className: styles.debitLine,
+				label: `${toCurrencty(debitAmount)} debt`,
+			}, {
+				value: Math.abs(creditAmount),
+				className: styles.creditLine,
+				label: `${toCurrencty(creditAmount)} credit`,
 			},
 		]}
 		/>

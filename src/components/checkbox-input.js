@@ -13,17 +13,17 @@ const Molecule = isInput({}, ({
 	showProps,
 	...props
 }) => (
-    <Label className={className(styles.label)}>
-        <Input
-            className={className(
-                styles.input,
-                props.focused && styles.focused,
-            )}
-            {...props}
-            type="checkbox"
-        />
-        <span class={className(styles.slider)}></span>
-    </Label>
+	<Label className={className(styles.label)}>
+		<Input
+			className={className(
+				styles.input,
+				props.focused && styles.focused,
+			)}
+			{...props}
+			type="checkbox"
+		/>
+		<span className={className(styles.slider)} />
+	</Label>
 ));
 
 Molecule.propTypes = {
@@ -35,7 +35,7 @@ Molecule.propTypes = {
 };
 
 Molecule.defaultProps = {
-    label: undefined,
+	label: undefined,
 	icon: undefined,
 	showProps: false,
 	focused: false,

@@ -36,45 +36,44 @@ export default isPaginated({
 				const otherUserId = isDebt ? creditorId : debitorId;
 				const otherUser = findByQuery(q(where({ id: eq(otherUserId) })), users);
 				const signedAmount = isDebt ? amount * -1 : amount;
-				const updateFn = (evt) => {
-					return onMoneyTransactionSubmit(q(where({ id: eq(id) })), {
-						paidAt: evt.target.checked ? (new Date()).toISOString() : null,
-					});
-				}
+				const updateFn = evt => onMoneyTransactionSubmit(q(where({ id: eq(id) })), {
+					paidAt: evt.target.checked ? (new Date()).toISOString() : null,
+				});
 
 				return (
-				<ListItem
-					key={id}
-					header={(
-						<>
-							<CheckboxInput 
-								onChange={ updateFn }
-								defaultChecked={!!paidAt}
-							/>
-							<span 
-								className={className(
-									styles.name,
-									paidAt && styles.paid,
-								)}
-							>
-								{ otherUser.name }
-							</span>
-							<span 
-								className={className(
-									styles.amount,
-									isDebt ? styles.debt : styles.credit,
-									paidAt && styles.paid,
-								)}
-							>
-								{ formatCurrency(signedAmount) }
-							</span>
-							<Button color="danger" onClick={() => onDestroy(q(where({ id: eq(id) })))}>
-								{'Delete'}
-							</Button>
-						</>
-					)}
-				/>
-			)}) }
+					<ListItem
+						key={id}
+						header={(
+							<>
+								<CheckboxInput
+									onChange={updateFn}
+									defaultChecked={!!paidAt}
+								/>
+								<span
+									className={className(
+										styles.name,
+										paidAt && styles.paid,
+									)}
+								>
+									{ otherUser.name }
+								</span>
+								<span
+									className={className(
+										styles.amount,
+										isDebt ? styles.debt : styles.credit,
+										paidAt && styles.paid,
+									)}
+								>
+									{ formatCurrency(signedAmount) }
+								</span>
+								<Button color="danger" onClick={() => onDestroy(q(where({ id: eq(id) })))}>
+									{'Delete'}
+								</Button>
+							</>
+						)}
+					/>
+				);
+			}) }
 		</ul>
 
 		<PaginationBar
