@@ -1,4 +1,4 @@
 import { buildConnection } from 'datenkrake/src/adapters/postgrest';
 
-export const connection = buildConnection({ baseURL: 'http://localhost:3000' });
+export const connection = buildConnection({ baseURL: process.env.BACKEND_API });
 global.api = connection;

@@ -5,9 +5,11 @@
 	"main": "index.js",
 	"scripts": {
 		"test": "jest",
-		"start": "docker-compose up -d && concurrently -n webpack,storybook 'webpack-dev-server --mode development' 'start-storybook'",
+		"start": "concurrently -n webpack,storybook 'npm run start:development' 'npm run start:storybook'",
+		"start:development": "ENV_FILE='./.env.development' webpack-dev-server --mode development",
+		"start:storybook": "start-storybook",
 		"lint": "eslint src",
-		"build": "webpack --mode production",
+		"build": "ENV_FILE='./.env.production' webpack --mode production",
 		"build-storybook": "build-storybook"
 	},
 	"author": "",

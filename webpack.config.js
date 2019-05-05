@@ -1,3 +1,4 @@
+const Dotenv = require('dotenv-webpack');
 const HtmlWebPackPlugin = require("html-webpack-plugin");
 const htmlPlugin = new HtmlWebPackPlugin({
 	template: "./src/index.html",
@@ -31,5 +32,8 @@ module.exports = {
 	devServer: {
 	  historyApiFallback: true,
 	},
-	plugins: [htmlPlugin]
-  };
+	plugins: [
+		new Dotenv({ path: process.env.ENV_FILE, systemvars: true }),
+		htmlPlugin,
+	]
+};
