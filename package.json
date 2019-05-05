@@ -10,7 +10,8 @@
 		"start:storybook": "start-storybook",
 		"lint": "eslint src",
 		"build": "ENV_FILE='./.env.production' webpack --mode production",
-		"build-storybook": "build-storybook"
+		"build-storybook": "build-storybook",
+		"deploy": "npm run build && gh-pages --dotfiles -d dist && rm -rf dist"
 	},
 	"author": "",
 	"license": "ISC",
@@ -20,6 +21,7 @@
 		"datenkrake": "^0.0.3",
 		"decamelize": "^2.0.0",
 		"decamelize-keys-deep": "^0.1.1",
+		"gh-pages": "^2.0.1",
 		"jwt-decode": "^2.2.0",
 		"promise-frites": "^0.10.0",
 		"prop-types": "^15.6.2",
