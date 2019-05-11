@@ -5,13 +5,15 @@ const MESSAGES = {
 		password: 'Password',
 		email: 'Email',
 		signIn: 'Sign in',
-		signUp: 'Sign up',
+    signUp: 'Sign up',
+    name: 'Name',
 	},
 	de: {
 		password: 'Passwort',
 		email: 'E-Mail',
 		signIn: 'Anmelden',
-		signUp: 'Registrieren',
+    signUp: 'Registrieren',
+    name: 'Name',
 	},
 };
 

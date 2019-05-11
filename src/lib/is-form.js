@@ -64,13 +64,11 @@ class Form extends React.Component {
 				addFormField: this.setFormValue,
 				removeFormField: this.removeFormField,
 				onSubmit: this.onSubmit,
-			}
+			};
 
 			return <this.props.Component {...this.props} form={form} />;
 		}
-};
-const isForm = (Component) => (props) => {
-	return <Form {...props} Component={Component} />
 }
+const isForm = Component => props => <Form {...props} Component={Component} />;
 
 export default isForm;

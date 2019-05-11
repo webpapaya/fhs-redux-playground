@@ -9,7 +9,7 @@ import styles from './organism.css';
 import { useTranslation } from './translations';
 
 export default isForm(({ form }) => {
-	const {t} = useTranslation();
+	const { t } = useTranslation();
 	return (
 		<Form {...form}>
 			<TextInput name="email" label={t('email')} {...form} />
