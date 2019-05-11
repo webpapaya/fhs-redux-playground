@@ -4,7 +4,7 @@ import { uniq, omit } from 'ramda';
 import { ignoreReturnFor, rethrowError } from 'promise-frites';
 import { setValue, removeValue } from './is-form.utils';
 
-const isForm = render => class extends React.Component {
+class Form extends React.Component {
 		static propTypes = {
 			onSubmit: PropTypes.func.isRequired,
 			defaultValues: PropTypes.any, // eslint-disable-line react/forbid-prop-types, react/no-unused-prop-types
@@ -58,16 +58,19 @@ const isForm = render => class extends React.Component {
 		}
 
 		render() {
-			return render({
-				...this.props,
-				form: {
-					...this.state,
-					setFormValue: this.setFormValue,
-					addFormField: this.setFormValue,
-					removeFormField: this.removeFormField,
-					onSubmit: this.onSubmit,
-				},
-			});
+			const form = {
+				...this.state,
+				setFormValue: this.setFormValue,
+				addFormField: this.setFormValue,
+				removeFormField: this.removeFormField,
+				onSubmit: this.onSubmit,
+			}
+
+			return <this.props.Component {...this.props} form={form} />;
 		}
 };
+const isForm = (Component) => (props) => {
+	return <Form {...props} Component={Component} />
+}
+
 export default isForm;

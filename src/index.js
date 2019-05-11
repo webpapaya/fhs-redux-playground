@@ -7,6 +7,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { createMemoizeMiddleware } from './lib/memoize-actions';
 import App from './app';
+import { Locale } from './lib/i18n';
 
 const rootReducer = combineReducers({
 	/* eslint-disable global-require */
@@ -30,7 +31,9 @@ const store = createStore(
 render(
 	<Provider store={store}>
 		<Router>
-			<App />
+			<Locale>
+				<App />
+			</Locale>
 		</Router>
 	</Provider>,
 	document.getElementById('app'),
