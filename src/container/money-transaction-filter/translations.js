@@ -1,21 +1,22 @@
+/* eslint sort-keys: "error" */
 import { buildUseTranslations } from '../../lib/i18n';
 
 const MESSAGES = {
-	en: {
-		amountFilter: 'Amount bigger than',
-		sortBy: 'Sort by',
-		dateAsc: 'Date asc',
-		dateDesc: 'Date desc',
-		amountAsc: 'Amound asc',
-		amountDesc: 'Amount desc',
-	},
 	de: {
-		amountFilter: 'Betrag höher als',
-		sortBy: 'Sortierung',
-		dateAsc: 'Datum aufsteigend',
-		dateDesc: 'Datum absteigend',
 		amountAsc: 'Betrag aufsteigend',
 		amountDesc: 'Betrag absteigend',
+		amountFilter: 'Betrag höher als',
+		dateAsc: 'Datum aufsteigend',
+		dateDesc: 'Datum absteigend',
+		sortBy: 'Sortierung',
+	},
+	en: {
+		amountAsc: 'Amound asc',
+		amountDesc: 'Amount desc',
+		amountFilter: 'Amount bigger than',
+		dateAsc: 'Date asc',
+		dateDesc: 'Date desc',
+		sortBy: 'Sort by',
 	},
 };
 

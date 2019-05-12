@@ -1,19 +1,20 @@
+/* eslint sort-keys: "error" */
 import { buildUseTranslations } from '../../lib/i18n';
 
 const MESSAGES = {
-	en: {
-		password: 'Password',
-		email: 'Email',
-		signIn: 'Sign in',
-		signUp: 'Sign up',
-		name: 'Name',
-	},
 	de: {
-		password: 'Passwort',
 		email: 'E-Mail',
+		name: 'Name',
+		password: 'Passwort',
 		signIn: 'Anmelden',
 		signUp: 'Registrieren',
+	},
+	en: {
+		email: 'Email',
 		name: 'Name',
+		password: 'Password',
+		signIn: 'Sign in',
+		signUp: 'Sign up',
 	},
 };
 

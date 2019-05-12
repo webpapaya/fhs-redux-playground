@@ -1,13 +1,14 @@
+/* eslint sort-keys: "error" */
 import { buildUseTranslations } from '../../lib/i18n';
 
 const MESSAGES = {
-	en: {
-		name: 'Name',
-		save: 'Update user',
-	},
 	de: {
 		name: 'Name',
 		save: 'Speichern',
+	},
+	en: {
+		name: 'Name',
+		save: 'Update user',
 	},
 };
 

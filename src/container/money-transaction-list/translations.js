@@ -1,11 +1,12 @@
+/* eslint sort-keys: "error" */
 import { buildUseTranslations } from '../../lib/i18n';
 
 const MESSAGES = {
-	en: {
-		delete: 'Delete',
-	},
 	de: {
 		delete: 'Löschen',
+	},
+	en: {
+		delete: 'Delete',
 	},
 };
 
