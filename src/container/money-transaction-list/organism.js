@@ -32,7 +32,7 @@ export default isPaginated({
 			{ moneyTransactions.map(({
 				id, creditorId, debitorId, amount, paidAt,
 			}) => {
-				const {t} = useTranslation();
+				const { t } = useTranslation();
 				const isDebt = userId === debitorId;
 				const otherUserId = isDebt ? creditorId : debitorId;
 				const otherUser = findByQuery(q(where({ id: eq(otherUserId) })), users);
@@ -68,7 +68,7 @@ export default isPaginated({
 									{ t('eur', { value: signedAmount }) }
 								</span>
 								<Button color="danger" onClick={() => onDestroy(q(where({ id: eq(id) })))}>
-									{'Delete'}
+									{ t('delete') }
 								</Button>
 							</>
 						)}

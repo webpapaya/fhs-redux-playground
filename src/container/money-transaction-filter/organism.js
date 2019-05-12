@@ -4,28 +4,32 @@ import Form from '../../components/form';
 import NumberInput from '../../components/number-input';
 import Select from '../../components/select-input';
 import styles from './organism.css';
+import { useTranslation } from './translations';
 
-const OPTIONS = [
-	{ value: 'createdAt.asc', label: 'Date asc' },
-	{ value: 'createdAt.desc', label: 'Date desc' },
-	{ value: 'amount.asc', label: 'Amount asc' },
-	{ value: 'amount.desc', label: 'Amount desc' },
-];
+export default isForm(({ form }) => {
+	const { t } = useTranslation();
+	const options = [
+		{ value: 'createdAt.asc', label: t('dateAsc') },
+		{ value: 'createdAt.desc', label: t('dateDesc') },
+		{ value: 'amount.asc', label: t('amountAsc') },
+		{ value: 'amount.desc', label: t('amountDesc') },
+	];
 
-export default isForm(({ form }) => (
-	<Form {...form} className={styles['form-wrapper']}>
-		<NumberInput
-			name="amount"
-			label="Amount gte"
-			onChange={form.onSubmit}
-			{...form}
-		/>
-		<Select
-			options={OPTIONS}
-			name="order"
-			label="Order"
-			onChange={form.onSubmit}
-			{...form}
-		/>
-	</Form>
-));
+	return (
+		<Form {...form} className={styles['form-wrapper']}>
+			<NumberInput
+				name="amount"
+				label={t('amountFilter')}
+				onChange={form.onSubmit}
+				{...form}
+			/>
+			<Select
+				options={options}
+				name="order"
+				label={t('sortBy')}
+				onChange={form.onSubmit}
+				{...form}
+			/>
+		</Form>
+	);
+});

@@ -7,24 +7,24 @@ const defaultLocales = {
 };
 
 const path = (p, object) => p.reduce((value, chunk) => {
-	if (chunk in value) { return value[chunk]; }
+	if (value && chunk in value) { return value[chunk]; }
 	return undefined;
 }, object || {});
 
 const t = (message, locale, options = {}) => {
-	const msg = new IntlMessageFormat(message, { ...defaultLocales, ...locale}, {
+	const msg = new IntlMessageFormat(message, locale, {
 		number: {
 			USD: {
-					style   : 'currency',
-					currency: 'USD',
-					minimumFractionDigits: 2,
+				style: 'currency',
+				currency: 'USD',
+				minimumFractionDigits: 2,
 			},
 			EUR: {
-				style   : 'currency',
+				style: 'currency',
 				currency: 'EUR',
 				minimumFractionDigits: 2,
-			}
-		}
+			},
+		},
 	});
 	return msg.format(options);
 };
@@ -45,7 +45,7 @@ export const buildUseTranslations = messages => () => {
 	return {
 		setLocale,
 		t: (id, options = {}) => {
-			const message = path([languageCode, id], messages) || path([locale, id], messages);
+			const message = path([languageCode, id], messages) || path([locale, id], messages) || path([id], defaultLocales);
 			return t(message, locale, options);
 		},
 	};
