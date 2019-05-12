@@ -4,8 +4,8 @@ import { Tabs, Tab } from '../../../components/tabs';
 import Form from './form';
 import { useTranslation } from '../translations';
 
-const Organism = props => {
-	const {t} = useTranslation();
+const Organism = (props) => {
+	const { t } = useTranslation();
 	return (
 		<Tabs>
 			<Tab title={t('somebodyOwesMe')}>
@@ -15,7 +15,7 @@ const Organism = props => {
 				<Form {...props} onSubmit={props.onDebtCreate} />
 			</Tab>
 		</Tabs>
-	)
+	);
 };
 
 Organism.propTypes = {

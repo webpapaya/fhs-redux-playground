@@ -8,7 +8,7 @@ import Button from '../../../components/button';
 import { useTranslation } from '../translations';
 
 export default isForm(({ form, users }) => {
-	const {t} = useTranslation();
+	const { t } = useTranslation();
 	return (
 		<Form {...form} className={styles['input-wrapper']}>
 			<SelectInput
@@ -26,5 +26,5 @@ export default isForm(({ form, users }) => {
 				{ t('submit') }
 			</Button>
 		</Form>
-	)
+	);
 });

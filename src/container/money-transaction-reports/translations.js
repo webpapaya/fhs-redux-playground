@@ -3,14 +3,14 @@ import { buildUseTranslations } from '../../lib/i18n';
 
 const MESSAGES = {
 	de: {
-		'total': 'Summe',
-		'credit': '{value, number, EUR} Schulden',
-		'debit': '{value, number, EUR} Guthaben',
+		credit: '{value, number, EUR} Schulden',
+		debit: '{value, number, EUR} Guthaben',
+		total: 'Summe',
 	},
 	en: {
-		'total': 'Total',
-		'credit': '{value, number, EUR} Credit',
-		'debit': '{value, number, EUR} Debit',
+		credit: '{value, number, EUR} Credit',
+		debit: '{value, number, EUR} Debit',
+		total: 'Total',
 	},
 };
 

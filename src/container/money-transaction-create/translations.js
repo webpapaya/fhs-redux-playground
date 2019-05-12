@@ -3,18 +3,18 @@ import { buildUseTranslations } from '../../lib/i18n';
 
 const MESSAGES = {
 	de: {
-		'somebodyOwesMe': 'Jemand schuldet mir',
-		'iOweSomebody': 'Ich schulde jemanden',
-		'amount': 'Betrag',
-		'user': 'Nutzer',
-		'submit': 'Speichern',
+		amount: 'Betrag',
+		iOweSomebody: 'Ich schulde jemanden',
+		somebodyOwesMe: 'Jemand schuldet mir',
+		submit: 'Speichern',
+		user: 'Nutzer',
 	},
 	en: {
-		'somebodyOwesMe': 'Sombody owes me',
-		'iOweSomebody': 'I owe somebody',
-		'amount': 'Amount',
-		'user': 'User',
-		'submit': 'Submit',
+		amount: 'Amount',
+		iOweSomebody: 'I owe somebody',
+		somebodyOwesMe: 'Sombody owes me',
+		submit: 'Submit',
+		user: 'User',
 	},
 };
 
