@@ -9,8 +9,8 @@ import className from '../../lib/class-name';
 
 import PaginationBar from '../../components/pagination-bar';
 import isPaginated from '../../lib/is-paginated';
-import formatCurrency from '../../helper/format-currency';
 import styles from './organism.css';
+import { useTranslation } from './translations';
 
 
 export default isPaginated({
@@ -32,6 +32,7 @@ export default isPaginated({
 			{ moneyTransactions.map(({
 				id, creditorId, debitorId, amount, paidAt,
 			}) => {
+				const {t} = useTranslation();
 				const isDebt = userId === debitorId;
 				const otherUserId = isDebt ? creditorId : debitorId;
 				const otherUser = findByQuery(q(where({ id: eq(otherUserId) })), users);
@@ -64,7 +65,7 @@ export default isPaginated({
 										paidAt && styles.paid,
 									)}
 								>
-									{ formatCurrency(signedAmount) }
+									{ t('eur', { value: signedAmount }) }
 								</span>
 								<Button color="danger" onClick={() => onDestroy(q(where({ id: eq(id) })))}>
 									{'Delete'}

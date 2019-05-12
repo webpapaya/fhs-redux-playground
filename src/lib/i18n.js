@@ -1,13 +1,31 @@
 import React, { useContext, useState } from 'react';
 import IntlMessageFormat from 'intl-messageformat';
 
+const defaultLocales = {
+	usd: '{value, number, USD}',
+	eur: '{value, number, EUR}',
+};
+
 const path = (p, object) => p.reduce((value, chunk) => {
 	if (chunk in value) { return value[chunk]; }
 	return undefined;
 }, object || {});
 
 const t = (message, locale, options = {}) => {
-	const msg = new IntlMessageFormat(message, locale);
+	const msg = new IntlMessageFormat(message, { ...defaultLocales, ...locale}, {
+		number: {
+			USD: {
+					style   : 'currency',
+					currency: 'USD',
+					minimumFractionDigits: 2,
+			},
+			EUR: {
+				style   : 'currency',
+				currency: 'EUR',
+				minimumFractionDigits: 2,
+			}
+		}
+	});
 	return msg.format(options);
 };
 
