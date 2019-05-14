@@ -1,15 +1,18 @@
 import { connect } from 'react-redux';
-import { q, where, eq, not } from 'datenkrake';
+import {
+	q, where, eq, not,
+} from 'datenkrake';
 import MoneyTransactionActions from '../../domain/money-transactions/actions';
 import UserActions from '../../domain/users/actions';
 import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
-import UserSelectors from '../../domain/users/selectors'
+import UserSelectors from '../../domain/users/selectors';
 
 const mapStateToProps = state => ({
 	users: UserSelectors.filterByQuery(
-			q(where({ id: not(eq(state.userAuthentication.id)) })), state),
+		q(where({ id: not(eq(state.userAuthentication.id)) })), state,
+	),
 	authenticatedUserId: state.userAuthentication.id,
 });
 
