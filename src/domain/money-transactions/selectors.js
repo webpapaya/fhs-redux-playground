@@ -1,7 +1,3 @@
-import { createFilterByQuery, createFindByQuery } from 'datenkrake/src/selectors';
+import buildSelectors from '../build-selectors';
 
-export const filterByQuery =
-  createFilterByQuery({ path: ['moneyTransactions'] });
-
-export const findByQuery =
-  createFindByQuery({ path: ['moneyTransactions'] });
+export default buildSelectors({ path: ['moneyTransactions'] });
