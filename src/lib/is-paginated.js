@@ -7,7 +7,7 @@ import {
 
 const clampNumber = (min, max, number) => Math.min(Math.max(number, min), max);
 
-const PaginationWrapper = withRouter(class extends React.Component {
+const PaginationWrapper = withRouter(React.memo(class extends React.Component {
 	static propTypes = {
 		history: PropTypes.shape({
 			listen: PropTypes.func,
@@ -119,7 +119,7 @@ const PaginationWrapper = withRouter(class extends React.Component {
 			/>
 		);
 	}
-});
+}));
 
 const isPaginated = (config, Component) => props => (
 	<PaginationWrapper

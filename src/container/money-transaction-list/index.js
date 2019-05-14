@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { q, filterByQuery } from 'datenkrake';
+import { q } from 'datenkrake';
 import { fromQueryParams } from 'datenkrake/src/adapters/postgrest';
 import MoneyTransactionActions from '../../domain/money-transactions/actions';
 import UserActions from '../../domain/users/actions';
+import { filterByQuery } from '../../domain/money-transactions/selectors';
 import Organism from './organism';
 import pipe from '../../lib/pipe';
 import hasSideEffect from '../../lib/has-side-effect';
@@ -12,7 +13,7 @@ const mapStateToProps = (state, props) => ({
 	users: state.users,
 	moneyTransactions: filterByQuery(q(
 		fromQueryParams(props.history.location.search),
-	), state.moneyTransactions),
+	), state),
 	userId: state.userAuthentication.id,
 });
 
