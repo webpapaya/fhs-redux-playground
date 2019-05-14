@@ -13,10 +13,9 @@ const buildRestActions = ({ resource, only }) => {
 
 	const where = memoize({}, filter => dispatch => Promise.resolve()
 		.then(() => repository.where(connection, filter))
-		.then(({ payload, meta }) => dispatch({
+		.then((payload) => dispatch({
 			type: `${resource}/where/success`,
 			payload,
-			meta,
 		})));
 
 	const invalidateCache = () => cache.delete(where.unmemoized);
@@ -24,17 +23,17 @@ const buildRestActions = ({ resource, only }) => {
 	const create = record => dispatch => Promise.resolve()
 		.then(() => repository.create(connection, record))
 		.then(ignoreReturnFor(invalidateCache))
-		.then(({ payload }) => dispatch({ type: `${resource}/create/success`, payload, meta: {} }));
+		.then((payload) => dispatch({ type: `${resource}/create/success`, payload, meta: {} }));
 
 	const update = (filter, record) => dispatch => Promise.resolve()
 		.then(() => repository.update(connection, filter, record))
 		.then(ignoreReturnFor(invalidateCache))
-		.then(({ payload }) => dispatch({ type: `${resource}/update/success`, payload, meta: {} }));
+		.then((payload) => dispatch({ type: `${resource}/update/success`, payload, meta: {} }));
 
 	const destroy = filter => dispatch => Promise.resolve()
 		.then(() => repository.destroy(connection, filter))
 		.then(ignoreReturnFor(invalidateCache))
-		.then(({ payload }) => dispatch({ type: `${resource}/destroy/success`, payload, meta: {} }));
+		.then((payload) => dispatch({ type: `${resource}/destroy/success`, payload, meta: {} }));
 
 	const actions = {
 		where, create, update, destroy,

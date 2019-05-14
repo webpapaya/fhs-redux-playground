@@ -2,7 +2,7 @@ import { assertThat, equalTo } from 'hamjest';
 import { setValue, removeValue } from './is-form.utils';
 
 
-describe('setValue', () => {
+describe.skip('setValue', () => {
 	it('when previousValues empty', () => {
 		assertThat(setValue('name', 'value', {}), equalTo({ name: 'value' }));
 	});
@@ -16,7 +16,7 @@ describe('setValue', () => {
 	});
 });
 
-describe('removeValue', () => {
+describe.skip('removeValue', () => {
 	it('when name is a deeply nested path', () => {
 		assertThat(removeValue('contact[0].street', { contact: [{ street: 'value' }] }), equalTo({ contact: [{}] }));
 	});

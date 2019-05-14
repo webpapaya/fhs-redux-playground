@@ -4261,10 +4261,10 @@ date-now@^0.1.4:
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
   integrity sha1-6vQ5/U1ISK105cx9vvIAZyueNFs=
 
-datenkrake@^0.0.3:
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/datenkrake/-/datenkrake-0.0.3.tgz#2e453282f435f60860a01027ddd6750479b7f2eb"
-  integrity sha512-WKxNrtzgc5FuEpsMCQU+qU6Mr2cYoAxAGdR0SHOMhLC90TayoOguUpN5st+eX8IXpIKc9NyqUn3qv45wd/L0WA==
+datenkrake@0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/datenkrake/-/datenkrake-0.0.4.tgz#b34ad36b95b9860997f8ddfc892002d221ba80b5"
+  integrity sha512-8l2as/FTN/aqaqHEwohNAQuYdQfj5KBAtpmqIs20oeWDKDkTeb32k86UFwNmsa4qKZx+P9ALb1SFdDiNKNtrgQ==
   dependencies:
     axios "^0.18.0"
     camelcase "^5.0.0"
@@ -4272,6 +4272,7 @@ datenkrake@^0.0.3:
     common-tags "^1.8.0"
     decamelize "^2.0.0"
     decamelize-keys-deep "^0.1.1"
+    fast-memoize "^2.5.1"
     pg "^7.8.0"
     promise-frites "^0.10.0"
     qs "^6.6.0"
@@ -5342,6 +5343,11 @@ fast-levenshtein@~2.0.4:
   version "2.0.6"
   resolved "https://registry.yarnpkg.com/fast-levenshtein/-/fast-levenshtein-2.0.6.tgz#3d8a5c66883a16a30ca8643e851f19baa7797917"
   integrity sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=
+
+fast-memoize@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/fast-memoize/-/fast-memoize-2.5.1.tgz#c3519241e80552ce395e1a32dcdde8d1fd680f5d"
+  integrity sha512-xdmw296PCL01tMOXx9mdJSmWY29jQgxyuZdq0rEHMu+Tpe1eOEtCycoG6chzlcrWsNgpZP7oL8RiQr7+G6Bl6g==
 
 fastparse@^1.1.1:
   version "1.1.2"

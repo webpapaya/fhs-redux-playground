@@ -21,8 +21,9 @@ const remove = (state, except) => {
 const INITIAL_STATE = [];
 const buildRestReducer = ({ resource, uniqueKeys = ['id'] }) => (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case `${resource}/update/success`:
 		case `${resource}/create/success`:
+			return merge(uniqueKeys, [...state, action.payload]);
+		case `${resource}/update/success`:
 		case `${resource}/where/success`:
 			return merge(uniqueKeys, [...state, ...action.payload]);
 		case `${resource}/destroy/success`:
