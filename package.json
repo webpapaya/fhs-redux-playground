@@ -16,7 +16,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"datenkrake": "0.0.4",
+		"datenkrake": "0.0.5",
 		"intl-messageformat": "^2.2.0",
 		"jwt-decode": "^2.2.0",
 		"promise-frites": "^0.10.0",

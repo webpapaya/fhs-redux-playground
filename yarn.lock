@@ -4261,10 +4261,10 @@ date-now@^0.1.4:
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
   integrity sha1-6vQ5/U1ISK105cx9vvIAZyueNFs=
 
-datenkrake@0.0.4:
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/datenkrake/-/datenkrake-0.0.4.tgz#b34ad36b95b9860997f8ddfc892002d221ba80b5"
-  integrity sha512-8l2as/FTN/aqaqHEwohNAQuYdQfj5KBAtpmqIs20oeWDKDkTeb32k86UFwNmsa4qKZx+P9ALb1SFdDiNKNtrgQ==
+datenkrake@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/datenkrake/-/datenkrake-0.0.5.tgz#1061d2c8b6857639ac10886c39f626b2d63e1cdc"
+  integrity sha512-Y0NKasg4Mbe1C+AugiB7Lp5kY8ZnhIgMfHVamVWX+f/p05r/Pa5dWf0UXxED2iRHKnCsJ29gn8PgKy3TusaGrw==
   dependencies:
     axios "^0.18.0"
     camelcase "^5.0.0"
@@ -10475,11 +10475,6 @@ shallow-clone@^0.1.2:
     kind-of "^2.0.1"
     lazy-cache "^0.2.3"
     mixin-object "^2.0.1"
-
-shallow-equal@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/shallow-equal/-/shallow-equal-1.1.0.tgz#cc022f030dcba0d1c198abf658a3c6c744e171ca"
-  integrity sha512-0SW1nWo1hnabO62SEeHsl8nmTVVEzguVWZCj5gaQrgWAxz/BaCja4OWdJBWLVPDxdtE/WU7c98uUCCXyPHSCvw==
 
 shallowequal@^1.1.0:
   version "1.1.0"
