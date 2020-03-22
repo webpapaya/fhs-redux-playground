@@ -9,6 +9,8 @@ import { createMemoizeMiddleware } from './lib/memoize-actions';
 import App from './app';
 import { Locale } from './lib/i18n';
 
+global.__compup__baseUrl = process.env['BACKEND_API']
+
 
 const rootReducer = combineReducers({
 });
