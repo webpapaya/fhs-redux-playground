@@ -17,7 +17,7 @@ create or replace function
 setup.grant_privilege(privileges text, on_whom text) returns VOID as $$
 begin
   EXECUTE 'ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ' || privileges || ' ON ' || on_whom || ' to anon';
-  EXECUTE 'GRANT ' || privileges || ' ON ALL ' || on_whom || ' IN SCHEMA public to anon'; 
+  EXECUTE 'GRANT ' || privileges || ' ON ALL ' || on_whom || ' IN SCHEMA public to anon';
 end;
 $$ language plpgsql SECURITY DEFINER;
 
