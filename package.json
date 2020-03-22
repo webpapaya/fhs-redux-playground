@@ -16,6 +16,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
+		"compup-api-wrapper": "^0.3.0",
 		"datenkrake": "0.0.5",
 		"intl-messageformat": "^8.2.3",
 		"jwt-decode": "^2.2.0",
